@@ -1,6 +1,6 @@
 /* Authority.java
  *
- * Copyright (C) 2016 Universidad de Sevilla
+ * Copyright (C) 2017 Universidad de Sevilla
  * 
  * The use of this project is hereby constrained to the conditions of the 
  * TDG Licence, a copy of which you may download from 
@@ -36,14 +36,16 @@ public class Authority implements GrantedAuthority {
 	// Values -----------------------------------------------------------------
 
 	public static final String ADMIN = "ADMIN";
-	public static final String CUSTOMER = "CUSTOMER";
+	public static final String TENANT = "TENANT";
+	public static final String LESSOR = "LESSOR";
+	public static final String AUDITOR = "AUDITOR";
 
 	// Attributes -------------------------------------------------------------
 
 	private String authority;
 
 	@NotBlank
-	@Pattern(regexp = "^" + ADMIN + "|" + CUSTOMER + "$")
+	@Pattern(regexp = "^" + ADMIN + "|" + TENANT + "|" + LESSOR + "|" + AUDITOR + "$")
 	@Override
 	public String getAuthority() {
 		return authority;
@@ -64,7 +66,15 @@ public class Authority implements GrantedAuthority {
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(CUSTOMER);
+		authority.setAuthority(TENANT);
+		result.add(authority);
+		
+		authority = new Authority();
+		authority.setAuthority(LESSOR);
+		result.add(authority);
+		
+		authority = new Authority();
+		authority.setAuthority(AUDITOR);
 		result.add(authority);
 
 		return result;
@@ -88,7 +98,8 @@ public class Authority implements GrantedAuthority {
 		else if (!this.getClass().isInstance(other))
 			result = false;
 		else
-			result = (this.getAuthority().equals(((Authority) other).getAuthority()));
+			result = (this.getAuthority().equals(((Authority) other)
+					.getAuthority()));
 
 		return result;
 	}
