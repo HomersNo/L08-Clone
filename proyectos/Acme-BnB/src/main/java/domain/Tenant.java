@@ -34,23 +34,12 @@ public class Tenant extends SocialUser {
 	
 	// Attributes -------------------------------------------------------------
 	
-	private CreditCard creditCard;
-	
-	
-	@Valid
-	public CreditCard getCreditCard() {
-		return creditCard;
-	}
-	public void setCreditCard(CreditCard creditCard) {
-		this.creditCard = creditCard;
-	}
 	
 	
 	// Relationships ----------------------------------------------------------
 	
 	private Collection<Request> requests;
 	private Finder finder;
-	private Invoice invoice;
 	
 	@Valid
 	@OneToMany(mappedBy = "tenant")
@@ -70,14 +59,7 @@ public class Tenant extends SocialUser {
 		this.finder = finder;
 	}
 	
-	@Valid
-	@OneToOne(optional = false)
-	public Invoice getInvoice() {
-		return invoice;
-	}
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
-	}
+	
 	
 	
 

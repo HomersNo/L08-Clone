@@ -63,7 +63,7 @@ public abstract class Actor extends DomainEntity {
 	}
 	@NotBlank
 	
-	@Pattern(regexp = "^([+]([1-9]|[1-9][0-9]|[1-9][0-9][0-9]))?\\s?([(](00[1-9]|0[1-9][0-9]|[1-9][0-9][0-9])[)])?\\s?\\w\\s?[-]?\\w\\s?[-]?\\w\\s?[-]?\\w$")			
+	@Pattern(regexp = "^([+]([1-9]|[1-9][0-9]{1,2}))?\\s?([(](00[1-9]|0[1-9][0-9]|[1-9][0-9]{2})[)])?\\s?((\\w\\s?[-]?){3,8}\\w)$")			
 	public String getPhone() {
 		return phone;
 	}
