@@ -10,48 +10,32 @@
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<img src="images/logo.png" alt="ACME, Inc.  Your certification Company" />
+	<img src="images/logo.png" alt="Sample Co., Inc." />
 </div>
 
 <div>
-	<ul id="jMenu">		
-
+	<ul id="jMenu">
+		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="actor/administrator/list.do"><spring:message code="master.page.administrator.actors" /></a></li>
-					<li><a href="announcement/administrator/list.do"><spring:message code="master.page.administrator.announcements" /></a></li>
-					<li><a href="certification/administrator/list.do"><spring:message code="master.page.administrator.certifications" /></a></li>
+					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
+					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
 				</ul>
 			</li>
-		</security:authorize>		
-
+		</security:authorize>
+		
 		<security:authorize access="hasRole('CUSTOMER')">
 			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="announcement/customer/list.do"><spring:message code="master.page.customer.announcements" /></a></li>										
-					<li><a href="certification/customer/list.do"><spring:message code="master.page.customer.certifications" /></a></li>
-				</ul>
-			</li>
-		</security:authorize>
-
-		<security:authorize access="hasRole('REVIEWER')">
-			<li><a class="fNiv"><spring:message	code="master.page.reviewer" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="announcement/reviewer/list-to-review.do"><spring:message code="master.page.customer.list-to-review" /></a></li>
-					<li><a href="announcement/reviewer/list-reviewed.do"><spring:message code="master.page.customer.list-reviewed" /></a></li>
+					<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
+					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>
@@ -68,11 +52,13 @@
 				</a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="j_spring_security_logout"><spring:message code="master.page.profile.logout" /> </a></li>
+					<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
+					<li><a href="profile/action-2.do"><spring:message code="master.page.profile.action.2" /></a></li>
+					<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>					
+					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>
 		</security:authorize>
-		
 	</ul>
 </div>
 

@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -93,7 +92,6 @@ public class Request extends DomainEntity {
 	
 	private Tenant tenant;
 	private Property property;
-	private Invoice invoice;
 
 
 	@Valid
@@ -112,15 +110,6 @@ public class Request extends DomainEntity {
 	}
 	public void setProperty(Property property) {
 		this.property = property;
-	}
-	
-	@Valid
-	@OneToOne(optional = false)
-	public Invoice getInvoice() {
-		return invoice;
-	}
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
 	}
 	
 	
