@@ -2,6 +2,6 @@ package utilities;
 
 public interface DatabaseConfig {
 
-	public final String PersistenceUnit = "Acme-Certifications";
+	public final String PersistenceUnit = "Sample";
 	
 }
