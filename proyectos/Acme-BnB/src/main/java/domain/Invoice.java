@@ -97,16 +97,16 @@ public class Invoice extends DomainEntity {
 	
 	//Relationships
 	
-	private Request request;
+	private Tenant tenant;
 
 
 	@Valid
 	@OneToOne(optional = false)
-	public Request getRequest() {
-		return request;
+	public Tenant getTenant() {
+		return tenant;
 	}
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setTenant(Tenant tenant) {
+		this.tenant = tenant;
 	}
 	
 	
