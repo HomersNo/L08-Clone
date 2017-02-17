@@ -1,11 +1,11 @@
-/* AbstractTest.java
- *
- * Copyright (C) 2016 Universidad de Sevilla
+/*
+ * AbstractTest.java
  * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the
+ * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
- * 
  */
 
 package utilities;
@@ -20,23 +20,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import security.LoginService;
 
-public abstract class AbstractTest {
+public class AbstractTest {
 
 	// Supporting services --------------------------------
 
 	@Autowired
-	private LoginService loginService;
-	
+	private LoginService	loginService;
+
+
 	// Set up and tear down -------------------------------
-	
+
 	@Before
 	public void setUp() {
-		// Uncomment the following line if you wish your database to be re-populated on every test.
-		// PopulateDatabase.main(null);
+		;
 	}
-	
+
 	@After
 	public void tearDown() {
+		;
 	}
 
 	// Supporting methods ---------------------------------
@@ -45,20 +46,20 @@ public abstract class AbstractTest {
 		UserDetails userDetails;
 		TestingAuthenticationToken authenticationToken;
 		SecurityContext context;
-	
+
 		if (username == null)
 			authenticationToken = null;
 		else {
 			userDetails = loginService.loadUserByUsername(username);
-			authenticationToken = new TestingAuthenticationToken(userDetails, null);		    
+			authenticationToken = new TestingAuthenticationToken(userDetails, null);
 		}
-		
+
 		context = SecurityContextHolder.getContext();
 		context.setAuthentication(authenticationToken);
 	}
-	
+
 	public void unauthenticate() {
 		authenticate(null);
 	}
-	
+
 }
