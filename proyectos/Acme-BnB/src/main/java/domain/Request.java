@@ -1,24 +1,14 @@
 package domain;
 
 import java.util.Date;
-import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PostLoad;
-import javax.persistence.Transient;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,7 +40,6 @@ public class Request extends DomainEntity {
 		this.status = status;
 	}
 	
-	@Past
 	@NotNull
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
 	public Date getCheckInDate() {
@@ -60,7 +49,6 @@ public class Request extends DomainEntity {
 		this.checkInDate = checkInDate;
 	}
 	
-	@Past
 	@NotNull
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
 	public Date getCheckOutDate() {
@@ -69,7 +57,6 @@ public class Request extends DomainEntity {
 	public void setCheckOutDate(Date checkOutDate) {
 		this.checkOutDate = checkOutDate;
 	}
-	
 	
 	@NotNull
 	public boolean getSmoker() {
@@ -92,6 +79,7 @@ public class Request extends DomainEntity {
 	
 	private Tenant tenant;
 	private Property property;
+	private Invoice invoice;
 
 
 	@Valid
@@ -110,6 +98,15 @@ public class Request extends DomainEntity {
 	}
 	public void setProperty(Property property) {
 		this.property = property;
+	}
+	
+	@Valid
+	@OneToOne(optional = true)
+	public Invoice getInvoice() {
+		return invoice;
+	}
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 	
 	

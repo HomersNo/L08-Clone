@@ -10,19 +10,14 @@
 
 package domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.security.core.GrantedAuthority;
 
 @Embeddable
 @Access(AccessType.PROPERTY)
