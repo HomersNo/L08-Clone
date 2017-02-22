@@ -7,7 +7,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -67,30 +66,30 @@ public class Comment extends DomainEntity{
 			this.date = date;
 		}
 		
-		//relations
+		//relationships
 		
-		private SocialUser sender;
-		private SocialUser recipient;
+		private Commentable commentable;
+		private Actor actor;
 
 		@Valid
-		@NotNull
-		@ManyToOne(optional = false)
-		public SocialUser getSender() {
-			return sender;
+		@ManyToOne(optional=false)
+		public Commentable getCommentable() {
+			return commentable;
 		}
-		public void setSender(SocialUser sender) {
-			this.sender = sender;
+		public void setCommentable(Commentable commentable) {
+			this.commentable = commentable;
 		}
 		
 		@Valid
-		@NotNull
-		@ManyToOne(optional = false)
-		public SocialUser getRecipient() {
-			return recipient;
+		@ManyToOne(optional=false)
+		public Actor getActor() {
+			return actor;
 		}
-		public void setRecipient(SocialUser recipient) {
-			this.recipient = recipient;
+		public void setActor(Actor actor) {
+			this.actor = actor;
 		}
+		
+		
 		
 		
 }

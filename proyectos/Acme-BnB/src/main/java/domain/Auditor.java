@@ -17,7 +17,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -33,14 +32,24 @@ public class Auditor extends Actor {
 	
 	// Attributes -------------------------------------------------------------
 	
+	private String companyName;
+	
+	@NotBlank
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 	
 	
 	// Relationships ----------------------------------------------------------
 	
+
 	private Collection<Audit> audits;
 	
 	@Valid
-	@OneToMany(mappedBy = "lessor")
+	@OneToMany(mappedBy = "auditor")
 	public Collection<Audit> getAudits() {
 		return audits;
 	}

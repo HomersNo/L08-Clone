@@ -1,1 +1,15 @@
 *.properties
+
+*.class
+
+.classpath
+
+.metadata/
+
+.metadata
+
+.project
+
+.settings/
+
+target/
