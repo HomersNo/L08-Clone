@@ -18,13 +18,10 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Tenant extends SocialUser {
+public class Tenant extends Actor {
 
 	// Constructors -----------------------------------------------------------
 
@@ -34,6 +31,16 @@ public class Tenant extends SocialUser {
 	
 	// Attributes -------------------------------------------------------------
 	
+	private CreditCard creditCard;
+	
+	
+	@Valid
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
 	
 	
 	// Relationships ----------------------------------------------------------
@@ -58,8 +65,6 @@ public class Tenant extends SocialUser {
 	public void setFinder(Finder finder) {
 		this.finder = finder;
 	}
-	
-	
 	
 	
 

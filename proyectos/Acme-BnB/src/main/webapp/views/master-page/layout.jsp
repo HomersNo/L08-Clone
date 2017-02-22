@@ -8,16 +8,11 @@
  * http://www.tdg-seville.info/License.html
  --%>
 
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -40,21 +35,16 @@
 	type="text/css" />
 <link rel="stylesheet" href="styles/displaytag.css" type="text/css">
 
-<title><tiles:insertAttribute name="title" /></title>
+<title><tiles:insertAttribute name="title" ignore="true" /></title>
 
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#jMenu").jMenu();
 	});
 
-	function relativeRedir(loc) {	
-		var b = document.getElementsByTagName('base');
-		if (b && b[0] && b[0].href) {
-	  		if (b[0].href.substr(b[0].href.length - 1) == '/' && loc.charAt(0) == '/')
-	    	loc = loc.substr(1);
-	  		loc = b[0].href + loc;
-		}
-		window.location.replace(loc);
+	function askSubmission(msg, form) {
+		if (confirm(msg))
+			form.submit();
 	}
 </script>
 
@@ -72,7 +62,7 @@
 		<tiles:insertAttribute name="body" />	
 		<jstl:if test="${message != null}">
 			<br />
-			<span class="error"><spring:message code="${message}" /></span>
+			<span class="message"><spring:message code="${message}" /></span>
 		</jstl:if>	
 	</div>
 	<div>

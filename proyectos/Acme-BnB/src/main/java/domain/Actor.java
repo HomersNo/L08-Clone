@@ -6,7 +6,6 @@ import javax.persistence.Access;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.AccessType;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -21,7 +20,7 @@ import security.UserAccount;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public abstract class Actor extends DomainEntity {
+public abstract class Actor extends Commentable {
 	
 	// Constructors -----------------------------------------------------------
 
@@ -63,7 +62,7 @@ public abstract class Actor extends DomainEntity {
 	}
 	@NotBlank
 	
-	@Pattern(regexp = "^([+]([1-9]|[1-9][0-9]{1,2}))?\\s?([(](00[1-9]|0[1-9][0-9]|[1-9][0-9]{2})[)])?\\s?((\\w\\s?[-]?){3,8}\\w)$")			
+	@Pattern(regexp = "^([+]([1-9]|[1-9][0-9]|[1-9][0-9][0-9]))?\\s?([(](00[1-9]|0[1-9][0-9]|[1-9][0-9][0-9])[)])?\\s?\\w\\s?[-]?\\w\\s?[-]?\\w\\s?[-]?\\w$")			
 	public String getPhone() {
 		return phone;
 	}

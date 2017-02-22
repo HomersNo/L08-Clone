@@ -1,27 +1,14 @@
 package domain;
 
-import java.util.Date;
 import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PostLoad;
-import javax.persistence.Transient;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -36,7 +23,6 @@ public class Attribute extends DomainEntity {
 	// Attributes
 	
 	private String attributeName;
-	private String content;
 	
 
 	@NotBlank
@@ -47,29 +33,17 @@ public class Attribute extends DomainEntity {
 		this.attributeName = attributeName;
 	}
 	
-	@NotBlank
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	
-	
 	//Relationships
 	
-	private Property property;
+	private Collection<Value> values;
 	
 	@Valid
-	@ManyToOne(optional = false)
-	public Property getProperty() {
-		return property;
+	@OneToMany(mappedBy = "attribute")
+	public Collection<Value> getValues() {
+		return values;
 	}
-	public void setProperty(Property property) {
-		this.property = property;
+	public void setValues(Collection<Value> values) {
+		this.values = values;
 	}
-	
-	
 
 }

@@ -36,8 +36,8 @@ public class Authority implements GrantedAuthority {
 	// Values -----------------------------------------------------------------
 
 	public static final String ADMIN = "ADMIN";
-	public static final String TENANT = "TENANT";
 	public static final String LESSOR = "LESSOR";
+	public static final String TENANT = "TENANT";
 	public static final String AUDITOR = "AUDITOR";
 
 	// Attributes -------------------------------------------------------------
@@ -45,7 +45,7 @@ public class Authority implements GrantedAuthority {
 	private String authority;
 
 	@NotBlank
-	@Pattern(regexp = "^" + ADMIN + "|" + TENANT + "|" + LESSOR + "|" + AUDITOR + "$")
+	@Pattern(regexp = "^" + ADMIN + "|" + LESSOR + "|" + TENANT + "|" + AUDITOR + "$")
 	@Override
 	public String getAuthority() {
 		return authority;
@@ -66,13 +66,13 @@ public class Authority implements GrantedAuthority {
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(TENANT);
-		result.add(authority);
-		
-		authority = new Authority();
 		authority.setAuthority(LESSOR);
 		result.add(authority);
-		
+
+		authority = new Authority();
+		authority.setAuthority(TENANT);
+		result.add(authority);
+
 		authority = new Authority();
 		authority.setAuthority(AUDITOR);
 		result.add(authority);
@@ -98,8 +98,7 @@ public class Authority implements GrantedAuthority {
 		else if (!this.getClass().isInstance(other))
 			result = false;
 		else
-			result = (this.getAuthority().equals(((Authority) other)
-					.getAuthority()));
+			result = (this.getAuthority().equals(((Authority) other).getAuthority()));
 
 		return result;
 	}
