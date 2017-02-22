@@ -11,15 +11,11 @@
 package repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Actor;
+import domain.SocialIdentity;
 
 @Repository
-public interface ActorRepository extends JpaRepository<Actor, Integer> {
-
-	@Query("select min(a.socialIdentities.size), avg(a.socialIdentities.size), max(a.socialIdentities.size) from Actor a")
-	Double[] selectMinAvgMaxSocialIdentitiesPerActor();
+public interface SocialIdentityRepository extends JpaRepository<SocialIdentity, Integer> {
 
 }
