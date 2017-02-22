@@ -6,7 +6,6 @@ import javax.persistence.Access;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.AccessType;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -21,7 +20,7 @@ import security.UserAccount;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public abstract class Actor extends DomainEntity {
+public abstract class Actor extends Commentable {
 	
 	// Constructors -----------------------------------------------------------
 
