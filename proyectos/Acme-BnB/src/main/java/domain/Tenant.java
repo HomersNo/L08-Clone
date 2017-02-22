@@ -18,13 +18,10 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Tenant extends SocialUser {
+public class Tenant extends Actor {
 
 	// Constructors -----------------------------------------------------------
 
@@ -50,7 +47,6 @@ public class Tenant extends SocialUser {
 	
 	private Collection<Request> requests;
 	private Finder finder;
-	private Invoice invoice;
 	
 	@Valid
 	@OneToMany(mappedBy = "tenant")
@@ -68,15 +64,6 @@ public class Tenant extends SocialUser {
 	}
 	public void setFinder(Finder finder) {
 		this.finder = finder;
-	}
-	
-	@Valid
-	@OneToOne(optional = false)
-	public Invoice getInvoice() {
-		return invoice;
-	}
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
 	}
 	
 	
