@@ -1,8 +1,13 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.persistence.Cache;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -28,6 +33,7 @@ public class FinderService {
 		
 		
 		//Basic CRUD methods-------------------
+		private Map<Finder, Long> timesCreated = new HashMap<Finder, Long>();
 		
 		public Finder create(){
 			
@@ -36,7 +42,9 @@ public class FinderService {
 			Tenant principal = tenantService.findByPrincipal();
 			Assert.notNull(principal);
 			Assert.isTrue(principal.getId() != 0);
-			created.setTenant(principal);
+			created.setTenant(principal);	
+			timesCreated.put(created, System.currentTimeMillis());
+			
 			return created;
 		}
 		
@@ -53,10 +61,16 @@ public class FinderService {
 			
 			Assert.notNull(finder);
 			Assert.isTrue(checkPrincipal(finder));
+			Tenant principal = tenantService.findByPrincipal();
+			if(principal.equals(finder.getTenant()) && timesCreated.get(finder) - System.currentTimeMillis() <= 3600000){
+				return this.findByTenant(principal);
+			}
+			else{
 			Finder saved = finderRepository.save(finder);
-			
-			
 			return saved;
+			}
+			
+		
 			
 		}
 		
@@ -93,9 +107,9 @@ public class FinderService {
 			return finderRepository.findAll();
 		}
 		
-		public Collection<Finder> findAllByTenant(Tenant t){
+		public Finder findByTenant(Tenant t){
 			
-			return	finderRepository.findAllByTenantId(t.getId());
+			return	finderRepository.findByTenantId(t.getId());
 		}
 
 		
