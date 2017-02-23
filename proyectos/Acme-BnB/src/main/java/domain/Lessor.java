@@ -19,11 +19,9 @@ import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 @Entity
 @Access(AccessType.PROPERTY)
-public class Lessor extends SocialUser {
+public class Lessor extends Actor {
 
 	// Constructors -----------------------------------------------------------
 
