@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +34,6 @@ public class FinderService {
 		
 		
 		//Basic CRUD methods-------------------
-		private Map<Finder, Long> timesCreated = new HashMap<Finder, Long>();
 		
 		public Finder create(){
 			
@@ -43,7 +43,8 @@ public class FinderService {
 			Assert.notNull(principal);
 			Assert.isTrue(principal.getId() != 0);
 			created.setTenant(principal);	
-			timesCreated.put(created, System.currentTimeMillis());
+			Date lastUpdate = new Date(System.currentTimeMillis() - 1);
+			created.setLastUpdate(lastUpdate);
 			
 			return created;
 		}
@@ -59,16 +60,20 @@ public class FinderService {
 
 		public Finder save(Finder finder){
 			
+			Finder saved;
 			Assert.notNull(finder);
 			Assert.isTrue(checkPrincipal(finder));
 			Tenant principal = tenantService.findByPrincipal();
-			if(principal.equals(finder.getTenant()) && timesCreated.get(finder) - System.currentTimeMillis() <= 3600000){
-				return this.findByTenant(principal);
+			if(principal.equals(finder.getTenant()) && finder.getLastUpdate().getTime() - System.currentTimeMillis() <= 3600000){
+				saved = this.findByTenant(principal);
+				saved.setLastUpdate(new Date(System.currentTimeMillis() - 1));
+				return saved;
 			}
 			else{
-			Finder saved = finderRepository.save(finder);
+			saved = finderRepository.save(finder);
 			return saved;
 			}
+			
 			
 		
 			
