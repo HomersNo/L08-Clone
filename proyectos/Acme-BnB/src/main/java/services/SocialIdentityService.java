@@ -43,7 +43,7 @@ public class SocialIdentityService {
 	public SocialIdentity findOneToEdit(int id) {
 		SocialIdentity result;
 		result = socialIdentityRepository.findOne(id);
-		Assert.notNull(result, "Dear user, that social identity does not exist, sorry for the disturbance");
+		Assert.notNull(result, "Dear user, that social identity does not exist, sorry for the disturbance.");
 		checkPrincipal(result);
 		return result;
 	}
