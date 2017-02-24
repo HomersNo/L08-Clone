@@ -1,12 +1,17 @@
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -24,6 +29,7 @@ public class Finder extends DomainEntity {
 	private Double minimumPrice;
 	private Double maximumPrice;
 	private String keyWord;
+	private Date lastUpdate;
 	
 
 	@NotBlank
@@ -57,6 +63,15 @@ public class Finder extends DomainEntity {
 	public void setKeyWord(String keyWord){
 		
 		this.keyWord = keyWord;
+	}
+	
+	@Past
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
 	
