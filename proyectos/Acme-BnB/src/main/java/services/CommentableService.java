@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import repositories.CommentableRepository;
 import domain.Commentable;
@@ -32,24 +33,18 @@ public class CommentableService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
-	public Commentable create() {
-
-	}
-
 	public Commentable findOne(int commentableId) {
-
+		Assert.isTrue(commentableId != 0);
+		Commentable result;
+		result = commentableRepository.findOne(commentableId);
+		Assert.notNull(result);
+		return result;
 	}
 
 	public Collection<Commentable> findAll() {
-
-	}
-
-	public Commentable save(Commentable commentable) {
-
-	}
-
-	public void delete(Commentable commentable) {
-
+		Collection<Commentable> result;
+		result = commentableRepository.findAll();
+		return result;
 	}
 
 	//Auxiliary methods ------------------------------------------------------
