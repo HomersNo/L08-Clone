@@ -10,6 +10,8 @@
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="date" class="java.util.Date" />
@@ -17,3 +19,5 @@
 <hr />
 
 <b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Sample Co., Inc.</b>
+
+<p><spring:message code="footer.terms.1" /><a href="../terms/terms.jsp"><spring:message code="footer.terms.2" /></a><spring:message code="footer.terms.3" /><a href="../terms/cookies.jsp"><spring:message code="footer.terms.4" /></a></p>
