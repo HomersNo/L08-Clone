@@ -31,8 +31,8 @@ name="tenant" requestURI="${requestURI}" id="row">
 	<spring:message code="tenant.postalAddress" var="postalAddressHeader"/>
 	<display:column property="postalAddress" title="${postalAddressHeader}"/>
 	
-	<spring:message code="tenant.postalAddress" var="postalAddressHeader"/>
-	<display:column property="postalAddress" title="${postalAddressHeader}"/>
+	<spring:message code="tenant.picture" var="pictureHeader"/>
+	<display:column property="picture" title="${pictureHeader}"/>
 	
 	<jstl:if test="${loggedactor == row.userAccount }">
 		<display:column>

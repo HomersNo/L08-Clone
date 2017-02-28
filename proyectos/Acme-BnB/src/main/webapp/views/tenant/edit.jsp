@@ -46,15 +46,17 @@
     
 	</jstl:if>
 	
-	<acme:textbox code="tenant.name" path="userAccount.name"/>
+	<acme:textbox code="tenant.name" path="tenant.name"/>
 	
-	<acme:textbox code="tenant.surname" path="userAccount.surname"/>
+	<acme:textbox code="tenant.surname" path="tenant.surname"/>
 	
-	<acme:textbox code="tenant.email" path="userAccount.email"/>
+	<acme:textbox code="tenant.email" path="tenant.email"/>
 	
-	<acme:textarea code="tenant.postalAddress" path="userAccount.postalAddress"/>
+	<acme:textarea code="tenant.postalAddress" path="tenant.postalAddress"/>
 	
-	<acme:textbox code="tenant.phone" path="userAccount.phone"/>
+	<acme:textbox code="tenant.phone" path="tenant.phone"/>
+	
+	<acme:textbox code="tenant.picture" path="tenant.picture"/>
 	
 	<br>
 	<input type="submit" name="save"
