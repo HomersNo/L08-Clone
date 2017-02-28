@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AttributeRepository;
 import domain.Attribute;
@@ -22,8 +24,11 @@ public class AttributeService {
 	@Autowired
 	private AttributeRepository	attributeRepository;
 
-
 	// Auxiliary Services -------------------------------------
+
+	@Autowired
+	private Validator			validator;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -81,5 +86,21 @@ public class AttributeService {
 	}
 
 	//Business Rules
+
+	public Attribute reconstruct(Attribute attribute, BindingResult binding) {
+		Attribute result;
+
+		if (attribute.getId() == 0) {
+			result = attribute;
+		} else {
+			result = attributeRepository.findOne(attribute.getId());
+
+			result.setAttributeName(attribute.getAttributeName());
+
+			validator.validate(result, binding);
+		}
+
+		return result;
+	}
 
 }

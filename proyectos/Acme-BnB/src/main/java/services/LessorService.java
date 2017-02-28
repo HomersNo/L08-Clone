@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.LessorRepository;
 import security.Authority;
@@ -27,8 +29,11 @@ public class LessorService {
 	@Autowired
 	private LessorRepository	lessorRepository;
 
-
 	// Auxiliary Services -------------------------------------
+
+	@Autowired
+	private Validator			validator;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -110,5 +115,25 @@ public class LessorService {
 	}
 
 	// Other business methods -------------------------------------------------
+
+	public Lessor reconstruct(Lessor lessor, BindingResult binding) {
+		Lessor result;
+
+		if (lessor.getId() == 0) {
+			result = lessor;
+		} else {
+			result = lessorRepository.findOne(lessor.getId());
+
+			result.setEmail(lessor.getEmail());
+			result.setName(lessor.getName());
+			result.setPhone(lessor.getPhone());
+			result.setPicture(lessor.getPicture());
+			result.setSurname(lessor.getSurname());
+
+			validator.validate(result, binding);
+		}
+
+		return result;
+	}
 
 }

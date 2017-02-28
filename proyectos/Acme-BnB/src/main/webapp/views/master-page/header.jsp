@@ -95,6 +95,7 @@
 								<li class="arrow"></li>
 								<li><a href="lessor/display.do"><spring:message code="master.page.lessor.display" /></a></li>
 								<li><a href="lessor/lessor/edit.do"><spring:message code="master.page.lessor.edit" /></a></li>
+								<li><a href="creditcard/lessor/edit.do"><spring:message code="master.page.creditcard.edit" /></a></li>
 							</ul>
 						</li>
 					</security:authorize>	
@@ -104,6 +105,7 @@
 								<li class="arrow"></li>
 								<li><a href="tenant/display.do"><spring:message code="master.page.tenant.display" /></a></li>
 								<li><a href="tenant/tenant/edit.do"><spring:message code="master.page.tenant.edit" /></a></li>
+								<li><a href="creditcard/lessor/edit.do"><spring:message code="master.page.creditcard.edit" /></a></li>
 							</ul>
 						</li>
 					</security:authorize>		

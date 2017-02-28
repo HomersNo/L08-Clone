@@ -18,21 +18,14 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="${requestURI}" modelAttribute="lessor">
+<form:form action="${requestURI}" modelAttribute="RegisterLessor">
 
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="userAccount"/>
 	
-	<jstl:if test="${lessor.id==0}">
 	
 	<acme:textbox code="lessor.useraccount.username" path="userAccount.username"/>
 	
     <acme:password code="lessor.useraccount.password" path="userAccount.password"/>
     
-	</jstl:if>
-	
-	
 	<acme:textbox code="lessor.name" path="name"/>
 	
 	<acme:textbox code="lessor.surname" path="surname"/>
@@ -43,18 +36,30 @@
 	
 	<acme:textbox code="lessor.picture" path="picture"/>
 	
-	<acme:submit name="save" code="lessor.save"/>
+	<form:label path="accept" >
+		<spring:message code="lessor.terms" />
+	</form:label>
+	<form:radiobutton path="accept" id="terms" onchange="javascript: toggleSubmit()"/>
+	<form:errors path="accept" cssClass="error" />
+	
+	
+	<button type="submit" name="save" class="btn btn-primary" id="save" disabled>
+		<spring:message code="lessor.save" />
+	</button>
+
 		
-		
-	<jstl:if test="${user.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="lessor.delete" />"
-			onclick="return confirm('<spring:message code="lessor.confirm.delete" />')" />&nbsp;
-	</jstl:if>
 	
 	<acme:cancel url="index.do" code="lessor.cancel"/>
 	
 	
-	
+	<script type="text/javascript">
+		function toggleSubmit() {
+			var accepted = document.getElementById("terms");
+			var toggled = document.getElementById("save").disabled;
+			if(accepted.checked){
+				toggled = !toggled;
+			}		
+		}
+	</script>
 	
 </form:form>

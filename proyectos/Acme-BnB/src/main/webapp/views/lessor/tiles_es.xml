@@ -26,4 +26,9 @@
 		<put-attribute name="body" value="/views/lessor/edit.jsp" />
 	</definition>
 	
+	<definition name="lessor/register" extends="master.page">	
+		<put-attribute name="title" value="Registrarse como un arrendador" />
+		<put-attribute name="body" value="/views/lessor/register.jsp" />
+	</definition>
+	
 </tiles-definitions>
