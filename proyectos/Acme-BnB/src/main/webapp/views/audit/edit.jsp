@@ -20,7 +20,7 @@
 <form:form action="${requestURI}" modelAttribute="audit">
 	<form:hidden path="moment" />
 	<form:hidden path="auditor"/>
-	<form:hidden path="properties"/>
+	<form:hidden path="property"/>
 	
 	
 	<acme:textbox code="audit.text" path="text"/>
@@ -30,11 +30,9 @@
 	<acme:checkbox code="audit.draft" path="draft"/>
 	
 	<input type="submit" name="save"
-		value="<spring:message code="auditor.save" />" />&nbsp; 
-	<jstl:if test="${auditor.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="auditor.delete" />" />&nbsp; 
-	</jstl:if>
+		value="<spring:message code="audit.save" />" />&nbsp; 
+	<input type="submit" name="delete"
+		value="<spring:message code="auditor.delete" />" />&nbsp; 
 	<input type="button" name="cancel"
 		value="<spring:message code="auditor.cancel" />"
 		onclick="javascript: window.location.replace('${cancelURI}');" />
