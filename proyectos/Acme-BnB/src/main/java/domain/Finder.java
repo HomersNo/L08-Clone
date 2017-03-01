@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -17,21 +18,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Access(AccessType.PROPERTY)
 public class Finder extends DomainEntity {
-	
+
 	//Constructor
-	
-	public Finder(){
+
+	public Finder() {
 		super();
 	}
-	
+
+
 	// Attributes
-	
-	private String destinationCity;
-	private Double minimumPrice;
-	private Double maximumPrice;
-	private String keyWord;
-	private Date lastUpdate;
-	
+
+	private String	destinationCity;
+	private Double	minimumPrice;
+	private Double	maximumPrice;
+	private String	keyWord;
+	private Date	lastUpdate;
+
 
 	@NotBlank
 	public String getDestinationCity() {
@@ -40,14 +42,13 @@ public class Finder extends DomainEntity {
 	public void setDestinationCity(String destinationCity) {
 		this.destinationCity = destinationCity;
 	}
-	
+
 	public Double getMinimumPrice() {
 		return minimumPrice;
 	}
 	public void setMinimumPrice(Double minimumPrice) {
 		this.minimumPrice = minimumPrice;
 	}
-	
 
 	public Double getMaximumPrice() {
 		return maximumPrice;
@@ -55,32 +56,33 @@ public class Finder extends DomainEntity {
 	public void setMaximumPrice(Double maximumPrice) {
 		this.maximumPrice = maximumPrice;
 	}
-	
-	public String getKeyWord(){
-		
+
+	public String getKeyWord() {
+
 		return keyWord;
 	}
-	
-	public void setKeyWord(String keyWord){
-		
+
+	public void setKeyWord(String keyWord) {
+
 		this.keyWord = keyWord;
 	}
-	
+
 	@Past
-	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getLastUpdate() {
 		return lastUpdate;
 	}
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-	
-	
-	
+
+
 	//Relationships
-	
-	private Tenant tenant;
-	private Collection<Property> propertys;
+
+
+	private Tenant					tenant;
+	private Collection<Property>	cache;
+
 
 	@Valid
 	@OneToOne(optional = true)
@@ -90,17 +92,16 @@ public class Finder extends DomainEntity {
 	public void setTenant(Tenant tenant) {
 		this.tenant = tenant;
 	}
-	
+
 	@Valid
 	@ManyToMany()
-	public Collection<Property> getPropertys() {
-		return propertys;
+
+	public Collection<Property> getCache() {
+		return cache;
 	}
-	public void setPropertys(Collection<Property> propertys) {
-		this.propertys = propertys;
+	public void setCache(Collection<Property> cache) {
+		this.cache = cache;
+
 	}
-	
-	
-	
 
 }

@@ -50,9 +50,9 @@ public class Audit extends DomainEntity {
 	public void setMoment(Date moment) {
 		this.moment = moment;
 	}
-	
-	@ElementCollection
-	public Collection<String> getAttachments() {
+
+	public String getAttachments() {
+
 		return attachments;
 	}
 	public void setAttachments(Collection<String> attachments) {
