@@ -79,6 +79,7 @@ public class Finder extends DomainEntity {
 
 	//Relationships
 
+
 	private Tenant					tenant;
 	private Collection<Property>	cache;
 
@@ -94,11 +95,13 @@ public class Finder extends DomainEntity {
 
 	@Valid
 	@ManyToMany()
+
 	public Collection<Property> getCache() {
 		return cache;
 	}
 	public void setCache(Collection<Property> cache) {
 		this.cache = cache;
+
 	}
 
 }
