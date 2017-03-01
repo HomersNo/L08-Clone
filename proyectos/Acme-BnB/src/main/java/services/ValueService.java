@@ -20,10 +20,16 @@ public class ValueService {
 	// Managed Repository ------------------------------------
 
 	@Autowired
-	private ValueRepository	valueRepository;
-
+	private ValueRepository		valueRepository;
 
 	// Auxiliary Services -------------------------------------
+
+	@Autowired
+	private AttributeService	attributeService;
+
+	@Autowired
+	private PropertyService		propertyService;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -32,6 +38,16 @@ public class ValueService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
+
+	public Value create(Property property, Attribute attribute) {
+		Value result;
+		result = new Value();
+
+		result.setProperty(property);
+		result.setAttribute(attribute);
+
+		return result;
+	}
 
 	public Collection<Value> findAll() {
 		Collection<Value> result;
