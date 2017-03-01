@@ -17,35 +17,17 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="auditor">
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="userAccount.id" />
-	<form:hidden path="userAccount.version" />
-	<form:hidden path="socialIdentities" />
-	<form:hidden path="audits"/>
-	<jstl:if test="${auditor.id != 0}">
-		<form:hidden path="userAccount.username" />
-		<form:hidden path="userAccount.name" />
-	</jstl:if>
-	
-	<jstl:if test="${auditor.id == 0}">
-		<acme:textbox code="auditor.username" path="userAccount.username"/>
-		<acme:password code="auditor.password" path="userAccount.password"/>
-	</jstl:if>
-
+<form:form action="${requestURI}" modelAttribute="audit">
+	<form:hidden path="moment" />
+	<form:hidden path="auditor"/>
+	<form:hidden path="properties"/>
 	
 	
-	<acme:textbox code="auditor.name" path="userAccount.name"/>
+	<acme:textbox code="audit.text" path="text"/>
 	
-	<acme:textbox code="auditor.surname" path="userAccount.surname"/>
+	<acme:textarea code="audit.attachments" path="attachments"/>
 	
-	<acme:textbox code="auditor.email" path="userAccount.email"/>
-	
-	<acme:textarea code="auditor.postalAddress" path="userAccount.postalAddress"/>
-	
-	<acme:textbox code="auditor.phone" path="userAccount.phone"/>
+	<acme:checkbox code="audit.draft" path="draft"/>
 	
 	<input type="submit" name="save"
 		value="<spring:message code="auditor.save" />" />&nbsp; 
