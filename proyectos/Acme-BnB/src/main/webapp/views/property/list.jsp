@@ -70,10 +70,23 @@
 		<a href="lessor/display.do?lessorId=${row.lessor.id}"><spring:message code="property.lessor"/></a>
 	</display:column>
 	
-	<display:column>
-		<a href="audit/list.do?propertyId=${row.id}"><spring:message code="property.audit.list"/></a>
-	</display:column>
+	<security:authorize access="isAuthenticated()">
+		<display:column>
+			<a href="audit/list.do?propertyId=${row.id}"><spring:message code="property.audit.list"/></a>
+		</display:column>
+	</security:authorize>
 	
+	<security:authorize access="hasRole('TENANT')">
+		<display:column>
+			<a href="request/tenant/create.do?propertyId=${row.id}"><spring:message code="property.request.create" /></a>
+		</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('AUDITOR')">
+		<display:column>
+			<a href="audit/auditor/create.do?propertyId=${row.id}"><spring:message code="property.audit.create" /></a>
+		</display:column>
+	</security:authorize>
 	
 </display:table>
 <security:authorize access="hasRole('LESSOR')">

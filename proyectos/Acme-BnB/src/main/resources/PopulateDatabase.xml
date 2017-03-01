@@ -308,7 +308,6 @@
 		<property name="email" value="aleSa@hotmail.com" />
 		<property name="phone" value="Z999" />
 		<property name="picture" value="http://s3.amazonaws.com/libapps/accounts/41939/profiles/35619/Headshot_Jared.jpeg" />
-		<property name="creditCard" ref="creditCard4"/>
 		<property name="userAccount" ref="userAccount6" />
 		<property name="finder" ref="finder1" />
 	</bean>
@@ -319,7 +318,6 @@
 		<property name="email" value="clemen@email.com" />
 		<property name="phone" value="X234" />
 		<property name="picture" value="https://s-media-cache-ak0.pinimg.com/564x/f8/20/ca/f820ca980c59537992cb431fa2c30e5e.jpg" />
-		<property name="creditCard" ref="creditCard5"/>
 		<property name="userAccount" ref="userAccount7" />
 		<property name="finder" ref="finder2" />
 	</bean>
@@ -330,7 +328,6 @@
 		<property name="email" value="lola@gmail.com" />
 		<property name="phone" value="Y213" />
 		<property name="picture" value="http://blog.suny.edu/wp-content/uploads/2014/03/Cara-Friedman.jpeg" />
-		<property name="creditCard" ref="creditCard6"/>
 		<property name="userAccount" ref="userAccount8" />
 		<property name="finder" ref="finder3" />
 	</bean>
@@ -757,10 +754,7 @@
 	<bean id="audit1" class="domain.Audit">
 		<property name="moment" value="2017/01/26" />
 		<property name="text" value="Accomplished with all requirements." />
-		<property name="attachments" >
-			<list>
-			</list>
-		</property>
+		<property name="attachments" value=""/>
 		<property name="draft" value="false" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property1"/>
@@ -769,10 +763,7 @@
 	<bean id="audit2" class="domain.Audit">
 		<property name="moment" value="2017/01/27" />
 		<property name="text" value="Pending approval." />
-		<property name="attachments" >
-			<list>
-			</list>
-		</property>
+		<property name="attachments" value="" />
 		<property name="draft" value="true" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property2"/>
@@ -781,10 +772,7 @@
 	<bean id="audit3" class="domain.Audit">
 		<property name="moment" value="2017/02/08" />
 		<property name="text" value="Accomplished with all requirements." />
-		<property name="attachments" >
-			<list>
-			</list>
-		</property>
+		<property name="attachments" value="" />
 		<property name="draft" value="false" />
 		<property name="auditor" ref="auditor2"/>
 		<property name="property" ref="property3"/>
@@ -817,15 +805,6 @@
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="fee" value="1.0"/>
 		<property name="VATNumber" value="B41369871"/>
-		<property name="attributes">
-			<list>
-				<value>Country</value>
-				<value>Province</value>
-				<value>State</value>
-				<value>City</value>
-				<value>Capacity</value>
-			</list>
-		</property>
 	</bean>
 	
 	<!-- COMMENT -->
@@ -835,7 +814,7 @@
 		<property name="title" value="Bonita casa." />
 		<property name="text" value="Me ha encantado el lugar y la decoración de la casa." />
 		<property name="stars" value="5" />
-		<property name="date" value="2017/01/03" />
+		<property name="moment" value="2017/01/03" />
 		<property name="actor" ref="tenant1"/>
 		<property name="commentable" ref="lessor1"/>
 	</bean>
@@ -844,7 +823,7 @@
 		<property name="title" value="Fue un placer." />
 		<property name="text" value="Muchas gracias por tu comentario. Será un placer que vuelvas a ser nuestro inquilino." />
 		<property name="stars" value="5" />
-		<property name="date" value="2017/01/03" />
+		<property name="moment" value="2017/01/03" />
 		<property name="actor" ref="lessor1"/>
 		<property name="commentable" ref="tenant1"/>
 	</bean>
@@ -853,7 +832,7 @@
 		<property name="title" value="No se permiten fumadores en esta vivienda." />
 		<property name="text" value="Recuerdo a los futuros inquilinos que no se permiten fumadores en el apartamento de la calle Torneo. Un saludo." />
 		<property name="stars" value="5" />
-		<property name="date" value="2017/02/12" />
+		<property name="moment" value="2017/02/12" />
 		<property name="actor" ref="lessor1"/>
 		<property name="commentable" ref="lessor1"/>
 	</bean>
@@ -862,7 +841,7 @@
 		<property name="title" value="Sobre mí." />
 		<property name="text" value="Siempre acompañado de mi mujer, mi hija y nuestro perro. Mi mujer y yo somos fumadores habituales." />
 		<property name="stars" value="1" />
-		<property name="date" value="2017/02/10" />
+		<property name="moment" value="2017/02/10" />
 		<property name="actor" ref="tenant1"/>
 		<property name="commentable" ref="tenant1"/>
 	</bean>
