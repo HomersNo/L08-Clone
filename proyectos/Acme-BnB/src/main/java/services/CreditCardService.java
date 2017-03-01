@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.CreditCardRepository;
 import domain.CreditCard;
+import domain.Lessor;
 
 @Service
 @Transactional
@@ -26,7 +27,12 @@ public class CreditCardService {
 		super();
 	}
 
+
 	// Services
+
+	@Autowired
+	private LessorService	lessorService;
+
 
 	// CRUD
 
@@ -51,11 +57,15 @@ public class CreditCardService {
 	public CreditCard save(CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		CreditCard result;
+		Lessor lessor;
 		Assert.isTrue(checkCCNumber(creditCard.getCreditCardNumber()));
 		Assert.isTrue(expirationDate(creditCard));
 
 		result = creditCardRepository.save(creditCard);
 
+		lessor = lessorService.findByPrincipal();
+		lessor.setCreditCard(creditCard);
+		lessorService.save(lessor);
 		return result;
 	}
 
@@ -114,4 +124,14 @@ public class CreditCardService {
 		return res;
 	}
 
+	public CreditCard findByPrincipal() {
+		CreditCard result;
+		Lessor lessor;
+		lessor = lessorService.findByPrincipal();
+		if (lessor.getCreditCard() == null)
+			result = create();
+		else
+			result = lessor.getCreditCard();
+		return result;
+	}
 }
