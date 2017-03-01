@@ -1,10 +1,13 @@
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -79,6 +82,7 @@ public class Finder extends DomainEntity {
 	//Relationships
 	
 	private Tenant tenant;
+	private Collection<Property> properties;
 
 	@Valid
 	@OneToOne(optional = true)
@@ -87,6 +91,15 @@ public class Finder extends DomainEntity {
 	}
 	public void setTenant(Tenant tenant) {
 		this.tenant = tenant;
+	}
+	
+	@Valid
+	@OneToMany(mappedBy = "finder")
+	public Collection<Property> getProperties() {
+		return properties;
+	}
+	public void setProperties(Collection<Property> properties) {
+		this.properties = properties;
 	}
 	
 	

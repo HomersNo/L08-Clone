@@ -86,4 +86,20 @@ public class ValueService {
 
 		valueRepository.delete(value);
 	}
+	
+	public Collection<Value> findAllByAttribute(String attributeName){
+		return valueRepository.findAllByAttribute(attributeName);
+	}
+	
+	public Collection<Value> findAllByContent(String content){
+		return valueRepository.findAllByContent(content);
+	}
+	
+	public Collection<Value> findAllByProperty(Property property){
+		return valueRepository.findAllByProperty(property);
+	}
+	
+	Collection<Property> findAllPropertiesByValueContent(String content, String attributeName){
+		return valueRepository.findAllPropertiesByValueContent(content, attributeName);
+	}
 }

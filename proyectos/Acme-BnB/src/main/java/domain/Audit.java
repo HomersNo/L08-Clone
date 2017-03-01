@@ -28,7 +28,7 @@ public class Audit extends DomainEntity {
 	// Attributes
 	
 	private String text;
-	private Collection<String> attachments;
+	private String attachments;
 	private Date moment;
 	private boolean draft;
 	
@@ -52,10 +52,10 @@ public class Audit extends DomainEntity {
 	}
 	
 	@ElementCollection
-	public Collection<String> getAttachments() {
+	public String getAttachments() {
 		return attachments;
 	}
-	public void setAttachments(Collection<String> attachments) {
+	public void setAttachments(String attachments) {
 		this.attachments = attachments;
 	}
 	
