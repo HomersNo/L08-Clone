@@ -24,8 +24,19 @@
 		<value>/views/welcome/messages</value>
 		
 		<value>/views/administrator/messages</value>
-		<value>/views/customer/messages</value>
-		<value>/views/profile/messages</value>
+		<value>/views/attribute/messages</value>
+		<value>/views/audit/messages</value>
+		<value>/views/auditor/messages</value>
+		<value>/views/comment/messages</value>
+		<value>/views/finder/messages</value>
+		<value>/views/invoice/messages</value>
+		<value>/views/lessor/messages</value>
+		<value>/views/property/messages</value>
+		<value>/views/request/messages</value>
+		<value>/views/socialIdentity/messages</value>
+		<value>/views/tenant/messages</value>
+		<value>/views/terms/messages</value>
+		
 	</util:list>
 
 </beans>
