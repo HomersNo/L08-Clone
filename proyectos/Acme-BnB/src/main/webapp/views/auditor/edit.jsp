@@ -49,10 +49,6 @@
 	
 	<input type="submit" name="save"
 		value="<spring:message code="auditor.save" />" />&nbsp; 
-	<jstl:if test="${auditor.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="auditor.delete" />" />&nbsp; 
-	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="auditor.cancel" />"
 		onclick="javascript: window.location.replace('${cancelURI}');" />

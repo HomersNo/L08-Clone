@@ -1,3 +1,4 @@
+
 package converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import repositories.ValueRepository;
-
-import domain.Property;
 import domain.Value;
 
 @Component
@@ -15,7 +14,8 @@ import domain.Value;
 public class StringToValueConverter implements Converter<String, Value> {
 
 	@Autowired
-	ValueRepository valueRepository;
+	ValueRepository	valueRepository;
+
 
 	@Override
 	public Value convert(String text) {
@@ -33,4 +33,3 @@ public class StringToValueConverter implements Converter<String, Value> {
 	}
 
 }
-
