@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import repositories.CommentRepository;
 import domain.Actor;
 import domain.Comment;
+import domain.Commentable;
 
 @Service
 @Transactional
@@ -34,7 +35,7 @@ public class CommentService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
-	public Comment create() {
+	public Comment create(Commentable commentable) {
 		Comment created;
 		created = new Comment();
 		Date moment = new Date(System.currentTimeMillis() - 100);
