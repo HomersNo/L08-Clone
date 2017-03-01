@@ -16,11 +16,19 @@
        
 <tiles-definitions>
 
-	<definition name="master.page" template="/views/master-page/layout.jsp">
-		<put-attribute name="title" value="" />
-		<put-attribute name="header" value="/views/master-page/header.jsp" />
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/views/master-page/footer.jsp" />
+	<definition name="audit/display" extends="master.page">	
+		<put-attribute name="title" value="Mostrar auditoria" />
+		<put-attribute name="body" value="/views/audit/display.jsp" />
 	</definition>
-
+	
+	<definition name="audit/edit" extends="master.page">	
+		<put-attribute name="title" value="Editar auditoría" />
+		<put-attribute name="body" value="/views/audit/edit.jsp" />
+	</definition>
+	
+	<definition name="audit/list" extends="master.page">	
+		<put-attribute name="title" value="Listar auditorias" />
+		<put-attribute name="body" value="/views/audit/list.jsp" />
+	</definition>
+	
 </tiles-definitions>
