@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AttributeService;
-import services.LessorService;
 import services.PropertyService;
 import domain.Attribute;
-import domain.Lessor;
 import domain.Property;
 import domain.Value;
 import forms.AddAttribute;
@@ -27,9 +25,6 @@ public class PropertyController extends AbstractController {
 
 	@Autowired
 	private PropertyService		propertyService;
-
-	@Autowired
-	private LessorService		lessorService;
 
 	@Autowired
 	private AttributeService	attributeService;
@@ -52,23 +47,6 @@ public class PropertyController extends AbstractController {
 
 		result = new ModelAndView("property/list");
 		result.addObject("requestURI", "property/list.do");
-		result.addObject("properties", properties);
-
-		return result;
-	}
-
-	@RequestMapping(value = "/listOwn", method = RequestMethod.GET)
-	public ModelAndView own() {
-
-		ModelAndView result;
-		Collection<Property> properties;
-
-		Lessor lessor = lessorService.findByPrincipal();
-
-		properties = propertyService.findAllByLessor(lessor);
-
-		result = new ModelAndView("property/list");
-		result.addObject("requestURI", "property/user/listOwn.do");
 		result.addObject("properties", properties);
 
 		return result;

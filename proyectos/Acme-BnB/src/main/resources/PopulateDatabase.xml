@@ -274,6 +274,7 @@
 		<property name="userAccount" ref="userAccount5" />
 		<property name="properties" >
 			<list>
+				<ref bean="property3"></ref>
 			</list>
 		</property>
 	</bean>
@@ -285,6 +286,12 @@
 		<property name="minimumPrice" value="7.0"/>
 		<property name="maximumPrice" value="22.0"/>
 		<property name="keyWord" value="Eduardo"/>
+		<property name="cache">
+			<list>
+				<ref bean="property1"></ref>
+				<ref bean="property2"></ref>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="finder2" class="domain.Finder">
@@ -292,6 +299,11 @@
 		<property name="minimumPrice" value="8.2"/>
 		<property name="maximumPrice" value="35.0"/>
 		<property name="keyWord"><null/></property>
+		<property name="cache">
+			<list>
+				<ref bean="property3"></ref>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="finder3" class="domain.Finder">
@@ -299,6 +311,10 @@
 		<property name="minimumPrice" value="15.0"/>
 		<property name="maximumPrice" value="60.0"/>
 		<property name="keyWord"><null/></property>
+		<property name="cache">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<!-- TENANT -->
@@ -308,7 +324,6 @@
 		<property name="email" value="aleSa@hotmail.com" />
 		<property name="phone" value="Z999" />
 		<property name="picture" value="http://s3.amazonaws.com/libapps/accounts/41939/profiles/35619/Headshot_Jared.jpeg" />
-		<property name="creditCard" ref="creditCard4"/>
 		<property name="userAccount" ref="userAccount6" />
 		<property name="finder" ref="finder1" />
 	</bean>
@@ -319,7 +334,6 @@
 		<property name="email" value="clemen@email.com" />
 		<property name="phone" value="X234" />
 		<property name="picture" value="https://s-media-cache-ak0.pinimg.com/564x/f8/20/ca/f820ca980c59537992cb431fa2c30e5e.jpg" />
-		<property name="creditCard" ref="creditCard5"/>
 		<property name="userAccount" ref="userAccount7" />
 		<property name="finder" ref="finder2" />
 	</bean>
@@ -330,7 +344,6 @@
 		<property name="email" value="lola@gmail.com" />
 		<property name="phone" value="Y213" />
 		<property name="picture" value="http://blog.suny.edu/wp-content/uploads/2014/03/Cara-Friedman.jpeg" />
-		<property name="creditCard" ref="creditCard6"/>
 		<property name="userAccount" ref="userAccount8" />
 		<property name="finder" ref="finder3" />
 	</bean>
@@ -369,7 +382,7 @@
 	<!-- ATTRIBUTE -->
 	<!-- Hay 3 propiedades, por lo tanto tiene que haber 15 Attributes: Country, Province, State, City y Capacity (estan ordenadas) -->
 		<!-- ATTRIBUTE de la PROPERTY 1 -->
-	<bean id="country1" class="domain.Attribute">
+	<bean id="attribute1" class="domain.Attribute">
 		<property name="attributeName" value="Country"/> 
 		<property name="values">
 			<list>
@@ -377,7 +390,7 @@
 		</property>
 	</bean>
 	
-	<bean id="province1" class="domain.Attribute">
+	<bean id="attribute2" class="domain.Attribute">
 		<property name="attributeName" value="Province"/> 
 		<property name="values">
 			<list>
@@ -385,7 +398,7 @@
 		</property>
 	</bean>
 	
-	<bean id="state1" class="domain.Attribute">
+	<bean id="attribute3" class="domain.Attribute">
 		<property name="attributeName" value="State"/> 
 		<property name="values">
 			<list>
@@ -393,7 +406,7 @@
 		</property>
 	</bean>
 	
-	<bean id="city1" class="domain.Attribute">
+	<bean id="attribute4" class="domain.Attribute">
 		<property name="attributeName" value="City"/> 
 		<property name="values">
 			<list>
@@ -401,89 +414,7 @@
 		</property>
 	</bean>
 	
-	<bean id="capacity1" class="domain.Attribute">
-		<property name="attributeName" value="Capacity"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-		<!-- ATTRIBUTE de la PROPERTY 2 -->
-	<bean id="country2" class="domain.Attribute">
-		<property name="attributeName" value="Country"/>
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="province2" class="domain.Attribute">
-		<property name="attributeName" value="Province"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="state2" class="domain.Attribute">
-		<property name="attributeName" value="State"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="city2" class="domain.Attribute">
-		<property name="attributeName" value="City"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="capacity2" class="domain.Attribute">
-		<property name="attributeName" value="Capacity"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-		
-		<!-- ATTRIBUTE de la PROPERTY 3 -->
-	<bean id="country3" class="domain.Attribute">
-		<property name="attributeName" value="Country"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="province3" class="domain.Attribute">
-		<property name="attributeName" value="Province"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="state3" class="domain.Attribute">
-		<property name="attributeName" value="State"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="city3" class="domain.Attribute">
-		<property name="attributeName" value="City"/> 
-		<property name="values">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="capacity3" class="domain.Attribute">
+	<bean id="attribute5" class="domain.Attribute">
 		<property name="attributeName" value="Capacity"/> 
 		<property name="values">
 			<list>
@@ -566,93 +497,93 @@
 	
 	<bean id="countryValue1" class="domain.Value">
 		<property name="content" value="Spain"/>
-		<property name="attribute" ref="country1"/>
+		<property name="attribute" ref="attribute1"/>
 		<property name="property" ref="property1"/>
 	</bean>
 	
 	<bean id="provinceValue1" class="domain.Value">
 		<property name="content" value="Sevilla"/>
-		<property name="attribute" ref="province1"/>
+		<property name="attribute" ref="attribute2"/>
 		<property name="property" ref="property1"/>
 	</bean>
 	
 	<bean id="stateValue1" class="domain.Value"> 
 		<property name="content" value="Andalucia"/>
-		<property name="attribute" ref="state1"/>
+		<property name="attribute" ref="attribute3"/>
 		<property name="property" ref="property1"/>
 	</bean>
 	
 	<bean id="cityValue1" class="domain.Value">
 		<property name="content" value="Sevilla"/>
-		<property name="attribute" ref="city1"/>
+		<property name="attribute" ref="attribute4"/>
 		<property name="property" ref="property1"/>
 	</bean>
 	
 	<bean id="capacityValue1" class="domain.Value">
 		<property name="content" value="2"/>
-		<property name="attribute" ref="capacity1"/>
+		<property name="attribute" ref="attribute5"/>
 		<property name="property" ref="property1"/>
 	</bean>
 	
 		<!-- Values de la PROPERTY 2 -->
 	<bean id="countryValue2" class="domain.Value">
 		<property name="content" value="Spain"/>
-		<property name="attribute" ref="country2"/>
+		<property name="attribute" ref="attribute1"/>
 		<property name="property" ref="property2"/>
 	</bean>
 	
 	<bean id="provinceValue2" class="domain.Value">
 		<property name="content" value="Sevilla"/>
-		<property name="attribute" ref="province2"/>
+		<property name="attribute" ref="attribute2"/>
 		<property name="property" ref="property2"/>
 	</bean>
 	
 	<bean id="stateValue2" class="domain.Value">
 		<property name="content" value="Andalucia"/>
-		<property name="attribute" ref="state2"/>
+		<property name="attribute" ref="attribute3"/>
 		<property name="property" ref="property2"/>
 	</bean>
 	
 	<bean id="cityValue2" class="domain.Value">
 		<property name="content" value="Sevilla"/>
-		<property name="attribute" ref="city2"/>
+		<property name="attribute" ref="attribute4"/>
 		<property name="property" ref="property2"/>
 	</bean>
 	
 	<bean id="capacityValue2" class="domain.Value">
 		<property name="content" value="3"/>
-		<property name="attribute" ref="capacity2"/>
+		<property name="attribute" ref="attribute5"/>
 		<property name="property" ref="property2"/>
 	</bean>
 		
 		<!-- Value de la PROPERTY 3 -->
 	<bean id="countryValue3" class="domain.Value">
 		<property name="content" value="United State of America"/>
-		<property name="attribute" ref="country3"/>
+		<property name="attribute" ref="attribute1"/>
 		<property name="property" ref="property3"/>
 	</bean>
 	
 	<bean id="provinceValue3" class="domain.Value">
 		<property name="content" value="Las Vegas Valley"/>
-		<property name="attribute" ref="province3"/>
+		<property name="attribute" ref="attribute2"/>
 		<property name="property" ref="property3"/>
 	</bean>
 	
 	<bean id="stateValue3" class="domain.Value">
 		<property name="content" value="Nevada"/>
-		<property name="attribute" ref="state3"/>
+		<property name="attribute" ref="attribute3"/>
 		<property name="property" ref="property3"/>
 	</bean>
 	
 	<bean id="cityValue3" class="domain.Value">
 		<property name="content" value="Las Vegas"/>
-		<property name="attribute" ref="city3"/>
+		<property name="attribute" ref="attribute4"/>
 		<property name="property" ref="property3"/>
 	</bean>
 	
 	<bean id="capacityValue3" class="domain.Value">
 		<property name="content" value="5"/>
-		<property name="attribute" ref="capacity3"/>
+		<property name="attribute" ref="attribute5"/>
 		<property name="property" ref="property3"/>
 	</bean>
 	
@@ -757,10 +688,7 @@
 	<bean id="audit1" class="domain.Audit">
 		<property name="moment" value="2017/01/26" />
 		<property name="text" value="Accomplished with all requirements." />
-		<property name="attachments" >
-			<list>
-			</list>
-		</property>
+		<property name="attachments" value=""/>
 		<property name="draft" value="false" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property1"/>
@@ -769,10 +697,7 @@
 	<bean id="audit2" class="domain.Audit">
 		<property name="moment" value="2017/01/27" />
 		<property name="text" value="Pending approval." />
-		<property name="attachments" >
-			<list>
-			</list>
-		</property>
+		<property name="attachments" value="" />
 		<property name="draft" value="true" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property2"/>
@@ -781,10 +706,7 @@
 	<bean id="audit3" class="domain.Audit">
 		<property name="moment" value="2017/02/08" />
 		<property name="text" value="Accomplished with all requirements." />
-		<property name="attachments" >
-			<list>
-			</list>
-		</property>
+		<property name="attachments" value="" />
 		<property name="draft" value="false" />
 		<property name="auditor" ref="auditor2"/>
 		<property name="property" ref="property3"/>
@@ -817,15 +739,6 @@
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="fee" value="1.0"/>
 		<property name="VATNumber" value="B41369871"/>
-		<property name="attributes">
-			<list>
-				<value>Country</value>
-				<value>Province</value>
-				<value>State</value>
-				<value>City</value>
-				<value>Capacity</value>
-			</list>
-		</property>
 	</bean>
 	
 	<!-- COMMENT -->
@@ -835,7 +748,7 @@
 		<property name="title" value="Bonita casa." />
 		<property name="text" value="Me ha encantado el lugar y la decoración de la casa." />
 		<property name="stars" value="5" />
-		<property name="date" value="2017/01/03" />
+		<property name="moment" value="2017/01/03" />
 		<property name="actor" ref="tenant1"/>
 		<property name="commentable" ref="lessor1"/>
 	</bean>
@@ -844,7 +757,7 @@
 		<property name="title" value="Fue un placer." />
 		<property name="text" value="Muchas gracias por tu comentario. Será un placer que vuelvas a ser nuestro inquilino." />
 		<property name="stars" value="5" />
-		<property name="date" value="2017/01/03" />
+		<property name="moment" value="2017/01/03" />
 		<property name="actor" ref="lessor1"/>
 		<property name="commentable" ref="tenant1"/>
 	</bean>
@@ -853,7 +766,7 @@
 		<property name="title" value="No se permiten fumadores en esta vivienda." />
 		<property name="text" value="Recuerdo a los futuros inquilinos que no se permiten fumadores en el apartamento de la calle Torneo. Un saludo." />
 		<property name="stars" value="5" />
-		<property name="date" value="2017/02/12" />
+		<property name="moment" value="2017/02/12" />
 		<property name="actor" ref="lessor1"/>
 		<property name="commentable" ref="lessor1"/>
 	</bean>
@@ -862,7 +775,7 @@
 		<property name="title" value="Sobre mí." />
 		<property name="text" value="Siempre acompañado de mi mujer, mi hija y nuestro perro. Mi mujer y yo somos fumadores habituales." />
 		<property name="stars" value="1" />
-		<property name="date" value="2017/02/10" />
+		<property name="moment" value="2017/02/10" />
 		<property name="actor" ref="tenant1"/>
 		<property name="commentable" ref="tenant1"/>
 	</bean>

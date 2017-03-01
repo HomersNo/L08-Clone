@@ -30,7 +30,7 @@ public class Comment extends DomainEntity {
 	private String	title;
 	private String	text;
 	private Integer	stars;
-	private Date	date;
+	private Date	moment;
 
 
 	@NotBlank
@@ -61,10 +61,10 @@ public class Comment extends DomainEntity {
 	@Valid
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
-		return date;
+		return moment;
 	}
-	public void setMoment(Date date) {
-		this.date = date;
+	public void setMoment(Date moment) {
+		this.moment = moment;
 	}
 
 

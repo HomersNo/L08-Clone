@@ -1,97 +1,156 @@
-/* ActorService.java
- *
- * Copyright (C) 2017 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
- * 
- */
-
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import javax.transaction.Transactional;
 
-import repositories.ActorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+
+import repositories.AuditorRepository;
+import security.Authority;
+import security.LoginService;
 import security.UserAccount;
-import security.UserAccountService;
-import domain.Actor;
+import domain.Auditor;
+import domain.SocialIdentity;
 
 @Service
 @Transactional
 public class AuditorService {
 
-	// Managed repository -----------------------------------------------------
-
-	@Autowired
-	private ActorRepository actorRepository;	
-	
-	// Supporting services ----------------------------------------------------
-	
-	@Autowired
-	private UserAccountService userAccountService;
-	
-	// Constructors -----------------------------------------------------------
-
-	public AuditorService() {
+	//Constructor
+	public AuditorService(){
 		super();
 	}
 	
-	// Simple CRUD methods ----------------------------------------------------
+	//Managed Repository
+	@Autowired
+	private AuditorRepository auditorRepository;
 	
-	public Collection<Actor> findAll() {
-		Collection<Actor> result;
+	//Auxiliary Services
+	
+	@Autowired
+	private AdministratorService adminService;
+	
+	@Autowired
+	private Validator validator;
+	
+	
+	//CRUD
+	
+	public Auditor create(){
 		
-		result = actorRepository.findAll();
-		Assert.notNull(result);
+		Auditor result = new Auditor();
 		
+		result.setSocialIdentities(new ArrayList<SocialIdentity>());
+		
+		UserAccount userAccount = new UserAccount();
+		Authority authority = new Authority();
+		authority.setAuthority(Authority.AUDITOR);
+		Collection<Authority> authorities = new ArrayList<Authority>();
+		authorities.add(authority);
+		userAccount.setAuthorities(authorities);
+		
+		result.setUserAccount(userAccount);
 		return result;
 	}
 
-	public Actor findOne(int actorId) {
-		Assert.isTrue(actorId != 0);
+	
+	public Auditor findOneToEdit(int id){
+		Auditor result;
+		result = auditorRepository.findOne(id);
+		checkPrincipal(result);
+		return result;
+	}
+	
+	public Auditor findOne(int id){
+		Auditor result;
+		result = auditorRepository.findOne(id);
+		return result;
+	}
+	
+	public Auditor save(Auditor auditor){
+		Auditor result;		
 		
-		Actor result;
+		if(auditor.getId()<=0){
+			adminService.checkAdministrator();
+			String password = auditor.getUserAccount().getPassword();
+			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			password = encoder.encodePassword(password, null);
+			auditor.getUserAccount().setPassword(password);
+		}else{
+			checkPrincipal(auditor);
+		}
+		result = auditorRepository.save(auditor);
+		return result;
+	}
+	
+	public void delete(Auditor auditor){
+		adminService.checkAdministrator();
+		auditorRepository.delete(auditor);
+	}
+	
+	public Auditor findByUserAccount(UserAccount userAccount){
+		Auditor result;
+		result = auditorRepository.findByUserAccountId(userAccount.getId());
+		return result;
+	}
+	
+	public Auditor findByPrincipal(){
+		Auditor result;
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		result = findByUserAccount(userAccount);
+		return result;
+	}
+	
+	//Business Methods
+	
+	public void checkPrincipal(Auditor auditor){
+		Auditor prin;
+		prin = findByPrincipal();
+		Assert.isTrue(auditor.getId()== prin.getId());
+	}
+	
+	public Auditor reconstruct(Auditor auditor, BindingResult binding) {
+		Auditor result;
 
-		result = actorRepository.findOne(actorId);
-		Assert.notNull(result);
+		if (auditor.getId() == 0) {
+			result = auditor;
+		} else {
+			result = auditorRepository.findOne(auditor.getId());
+
+			result.setEmail(auditor.getEmail());
+			result.setName(auditor.getName());
+			result.setPhone(auditor.getPhone());
+			result.setPicture(auditor.getPicture());
+			result.setSurname(auditor.getSurname());
+			result.setCompanyName(auditor.getCompanyName());
+
+			validator.validate(result, binding);
+		}
 
 		return result;
 	}
 	
-	public Actor save(Actor actor) {
-		Assert.notNull(actor);
-		
-		Actor result;
-
-		result = actorRepository.save(actor);
-		
-		return result;
-	}	
+	public void checkAuditor(){
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		Boolean checker = false;
+		userAccount = LoginService.getPrincipal();
+		for(Authority a: userAccount.getAuthorities()){
+			if(a.getAuthority().equals(Authority.AUDITOR)){
+				checker = true;
+				break;
+			}
+		}
+		Assert.isTrue(checker); 
+	}
 	
-	public void delete(Actor actor) {
-		Assert.notNull(actor);
-		Assert.isTrue(actor.getId() != 0);
-		Assert.isTrue(actorRepository.exists(actor.getId()));		
-		
-		actorRepository.delete(actor);
-	}
 
-	// Other business methods -------------------------------------------------
-
-
-	public UserAccount findUserAccount(Actor actor) {
-		Assert.notNull(actor);
-		
-		UserAccount result;
-		
-		result = userAccountService.findByActor(actor);
-		
-		return result;
-	}
 }

@@ -6,30 +6,29 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.CommentRepository;
-import domain.Comment;
+import repositories.CreditCardRepository;
+import domain.CreditCard;
 
 @Component
 @Transactional
-public class StringToCommentConverter implements Converter<String, Comment> {
+public class StringToCreditCardConverter implements Converter<String, CreditCard> {
 
 	@Autowired
-	CommentRepository	commentRepository;
+	private CreditCardRepository	creditCardRepository;
 
 
 	@Override
-	public Comment convert(String text) {
-		Comment result;
+	public CreditCard convert(String text) {
+		CreditCard result;
 		int id;
 
 		try {
 			id = Integer.valueOf(text);
-			result = commentRepository.findOne(id);
+			result = creditCardRepository.findOne(id);
 		} catch (Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
 
 		return result;
 	}
-
 }

@@ -1,11 +1,11 @@
-/* Administrator.java
- *
+/*
+ * Administrator.java
+ * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
+ * The use of this project is hereby constrained to the conditions of the
+ * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
- * 
  */
 
 package domain;
@@ -16,6 +16,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -28,13 +29,13 @@ public class Lessor extends Actor {
 	public Lessor() {
 		super();
 	}
-	
+
+
 	// Attributes -------------------------------------------------------------
-	
-	private Double cumulatedFee;
-	private CreditCard creditCard;
-	
-	
+
+	private Double	cumulatedFee;
+
+
 	@Min(0)
 	public Double getCumulatedFee() {
 		return cumulatedFee;
@@ -42,19 +43,14 @@ public class Lessor extends Actor {
 	public void setCumulatedFee(Double cumulatedFee) {
 		this.cumulatedFee = cumulatedFee;
 	}
-	@Valid
-	public CreditCard getCreditCard() {
-		return creditCard;
-	}
-	public void setCreditCard(CreditCard creditCard) {
-		this.creditCard = creditCard;
-	}
-	
-	
+
+
 	// Relationships ----------------------------------------------------------
-	
-	private Collection<Property> properties;
-	
+
+	private Collection<Property>	properties;
+	private CreditCard				creditCard;
+
+
 	@Valid
 	@OneToMany(mappedBy = "lessor")
 	public Collection<Property> getProperties() {
@@ -63,7 +59,14 @@ public class Lessor extends Actor {
 	public void setProperties(Collection<Property> properties) {
 		this.properties = properties;
 	}
-	
-	
+
+	@Valid
+	@OneToOne(optional = true)
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
 
 }
