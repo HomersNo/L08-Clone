@@ -11,6 +11,7 @@
 
 
 <P><spring:message code="audit.property"/>${audit.property.name}<spring:message code="audit.auditor"/>${audit.auditor.name} ${audit.auditor.surname}</P>
+<p>${audit.moment}</p><br/>
 <P><b><spring:message code="audit.text"/>:</b> ${auditor.text}</P>
 <P>
 <jstl:forEach var="thisAttachment" items="${attachments}" >

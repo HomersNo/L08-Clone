@@ -30,12 +30,24 @@
 	<acme:checkbox code="audit.draft" path="draft"/>
 	
 	<input type="submit" name="save"
-		value="<spring:message code="audit.save" />" />&nbsp; 
+		value="<spring:message code="audit.save" 
+		onclick="javascript: toggleSubmit()"/>" />&nbsp; 
+	<jstl:if test="${draft}">
 	<input type="submit" name="delete"
-		value="<spring:message code="auditor.delete" />" />&nbsp; 
+		value="<spring:message code="audit.delete" />" />&nbsp; 
+	</jstl:if>
 	<input type="button" name="cancel"
-		value="<spring:message code="auditor.cancel" />"
+		value="<spring:message code="audit.cancel" />"
 		onclick="javascript: window.location.replace('${cancelURI}');" />
 	<br />
+	
+	<script type="text/javascript">
+		function toggleSubmit() {
+			var accepted = document.getElementById("draft");
+			if(!accepted.checked){
+				return confirm('<spring:message code="audit.save.confirm" />');
+			}		
+		}
+	</script>
 	
 </form:form>
