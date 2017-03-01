@@ -24,8 +24,18 @@
 		<value>/views/welcome/tiles.xml</value>
 		
 		<value>/views/administrator/tiles.xml</value>
-		<value>/views/customer/tiles.xml</value>
-		<value>/views/profile/tiles.xml</value>
+		<value>/views/attribute/tiles.xml</value>
+		<value>/views/audit/tiles.xml</value>
+		<value>/views/auditor/tiles.xml</value>
+		<value>/views/comment/tiles.xml</value>
+		<value>/views/finder/tiles.xml</value>
+		<value>/views/invoice/tiles.xml</value>
+		<value>/views/lessor/tiles.xml</value>
+		<value>/views/property/tiles.xml</value>
+		<value>/views/request/tiles.xml</value>
+		<value>/views/socialIdentity/tiles.xml</value>
+		<value>/views/tenant/tiles.xml</value>
+		<value>/views/terms/tiles.xml</value>
 	</util:list>
 
 </beans>
