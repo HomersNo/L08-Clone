@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import repositories.RequestRepository;
+import domain.Lessor;
 import domain.Request;
 import domain.Tenant;
 
@@ -46,6 +47,11 @@ public class RequestService {
 	public Collection<Request> findAllByTenant(Tenant t) {
 
 		return requestRepository.findAllByTenantId(t.getId());
+	}
+
+	public Collection<Request> findAllByLessor(Lessor l) {
+
+		return requestRepository.findAllByLessorId(l.getId());
 	}
 
 	public Request save(Request request) {
