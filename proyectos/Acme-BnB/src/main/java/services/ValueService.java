@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ValueRepository;
+import domain.Attribute;
+import domain.Property;
 import domain.Value;
 
 @Service
@@ -67,5 +69,21 @@ public class ValueService {
 		Assert.isTrue(valueRepository.exists(value.getId()));
 
 		valueRepository.delete(value);
+	}
+	
+	public Collection<Value> findAllByAttribute(String attributeName){
+		return valueRepository.findAllByAttribute(attributeName);
+	}
+	
+	public Collection<Value> findAllByContent(String content){
+		return valueRepository.findAllByContent(content);
+	}
+	
+	public Collection<Value> findAllByProperty(Property property){
+		return valueRepository.findAllByProperty(property);
+	}
+	
+	Collection<Property> findAllPropertiesByValueContent(String content, String attributeName){
+		return valueRepository.findAllPropertiesByValueContent(content, attributeName);
 	}
 }
