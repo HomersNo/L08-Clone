@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Invoice;
+import domain.Request;
 
 import repositories.InvoiceRepository;
 import security.LoginService;
@@ -24,6 +26,9 @@ public class InvoiceService {
 		//supporting services-------------------
 		@Autowired
 		private InvoiceService invoiceService;
+		
+		@Autowired
+		private TenantService tenantService;
 		
 		
 		//Basic CRUD methods-------------------
@@ -50,7 +55,32 @@ public class InvoiceService {
 			Assert.isTrue(checkPrincipal(invoice));
 			checkPrincipal(invoice);
 			Invoice saved =invoiceRepository.save(invoice);
+			saved.setMoment(new Date(System.currentTimeMillis() - 1));
+			String name;
+			String surname;
+			String email;
+			String phone;
 			
+			name = tenantService.findByPrincipal().getName();
+			surname = tenantService.findByPrincipal().getSurname();
+			email = tenantService.findByPrincipal().getEmail();
+			phone = tenantService.findByPrincipal().getPhone();
+			saved.setTenantInformation(name + ", " + surname + ", " + email + ", " + phone);
+			
+			Request request = saved.getRequest();
+			String status = request.getStatus();
+			Date in = request.getCheckInDate();
+			Date out = request.getCheckOutDate();
+			if(request.getSmoker() == true){
+				saved.setDetails(in.toString() + ", " + out.toString() + ", " + status + ", " + "smoker");
+			}
+			else{
+				saved.setDetails(in.toString() + ", " + out.toString() + ", " + status + ", " + "no smoker");
+			}
+			
+			Double days = (double) ((out.getTime() - in.getTime())/150000);
+			Double totalAmount = saved.getRequest().getProperty().getRate() * days;
+			saved.setTotalAmount(totalAmount);
 			
 			return saved;
 			
@@ -82,6 +112,7 @@ public class InvoiceService {
 			return result;
 			
 		}
+		
 		//Our other bussiness methods
 
 		public Collection<Invoice> findAll() {

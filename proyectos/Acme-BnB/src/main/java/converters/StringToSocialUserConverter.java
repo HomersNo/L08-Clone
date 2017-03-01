@@ -5,25 +5,24 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.FinderRepository;
-
-import domain.Finder;
+import repositories.SocialUserRepository;
+import domain.SocialUser;
 
 @Component
 @Transactional
-public class StringToFinderConverter implements Converter<String, Finder> {
+public class StringToSocialUserConverter implements Converter<String, SocialUser> {
 
 	@Autowired
-	FinderRepository finderRepository;
+	SocialUserRepository socialUserRepository;
 
 	@Override
-	public Finder convert(String text) {
-		Finder result;
+	public SocialUser convert(String text) {
+		SocialUser result;
 		int id;
 
 		try {
 			id = Integer.valueOf(text);
-			result = finderRepository.findOne(id);
+			result = socialUserRepository.findOne(id);
 		} catch (Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
@@ -32,4 +31,3 @@ public class StringToFinderConverter implements Converter<String, Finder> {
 	}
 
 }
-
