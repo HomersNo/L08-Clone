@@ -22,12 +22,17 @@ import domain.Auditor;
 @Repository
 public interface AuditRepository extends JpaRepository<Audit, Integer> {
 	
+
+	@Query("select avg(p.audits.size), min(p.audits.size), max(p.audits.size) from Property p")
+	Double[] findAvgMinAndMaxPerProperty();
+
 	@Query("select c from Audit c where c.property.id = ?1")
 	Collection<Audit> findAllByProperty(int propertyId);
 
 	
 	@Query("select c from Audit c where c.auditor.id = ?1")
 	Collection<Audit> findAllByAuditor(int auditorId);
+
 
 	
 }

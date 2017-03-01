@@ -43,9 +43,11 @@
 	
 	<acme:textbox code="auditor.email" path="userAccount.email"/>
 	
-	<acme:textarea code="auditor.postalAddress" path="userAccount.postalAddress"/>
+	<acme:textbox code="auditor.picture" path="userAccount.picture"/>
 	
 	<acme:textbox code="auditor.phone" path="userAccount.phone"/>
+	
+	<acme:textbox code="auditor.companyName" path="auditor.companyName"/>
 	
 	<input type="submit" name="save"
 		value="<spring:message code="auditor.save" />" />&nbsp; 

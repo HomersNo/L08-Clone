@@ -99,6 +99,7 @@ public class Finder extends DomainEntity {
 	}
 	public void setCache(Collection<Property> cache) {
 		this.cache = cache;
+
 	}
 
 }
