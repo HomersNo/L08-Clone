@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
@@ -72,6 +73,7 @@ public class Property extends DomainEntity {
 	private Collection<Request> requests;
 	private Collection<Value> values;
 	private Collection<Audit> audits;
+	private Collection<Finder> finders;
 
 
 	@Valid
@@ -108,6 +110,15 @@ public class Property extends DomainEntity {
 	}
 	public void setValues(Collection<Value> values) {
 		this.values = values;
+	}
+
+	@Valid
+	@ManyToMany(mappedBy="propertys")
+	public Collection<Finder> getFinders() {
+		return finders;
+	}
+	public void setFinders(Collection<Finder> finders) {
+		this.finders = finders;
 	}
 
 	

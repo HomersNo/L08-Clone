@@ -6,11 +6,9 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -82,7 +80,7 @@ public class Finder extends DomainEntity {
 	//Relationships
 	
 	private Tenant tenant;
-	private Collection<Property> properties;
+	private Collection<Property> propertys;
 
 	@Valid
 	@OneToOne(optional = true)
@@ -94,12 +92,12 @@ public class Finder extends DomainEntity {
 	}
 	
 	@Valid
-	@OneToMany(mappedBy = "finder")
-	public Collection<Property> getProperties() {
-		return properties;
+	@ManyToMany()
+	public Collection<Property> getPropertys() {
+		return propertys;
 	}
-	public void setProperties(Collection<Property> properties) {
-		this.properties = properties;
+	public void setPropertys(Collection<Property> propertys) {
+		this.propertys = propertys;
 	}
 	
 	
