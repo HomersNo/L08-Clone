@@ -286,7 +286,7 @@
 		<property name="minimumPrice" value="7.0"/>
 		<property name="maximumPrice" value="22.0"/>
 		<property name="keyWord" value="Eduardo"/>
-		<property name="propertys">
+		<property name="cache">
 			<list>
 				<ref bean="property1"></ref>
 				<ref bean="property2"></ref>
@@ -299,7 +299,7 @@
 		<property name="minimumPrice" value="8.2"/>
 		<property name="maximumPrice" value="35.0"/>
 		<property name="keyWord"><null/></property>
-		<property name="propertys">
+		<property name="cache">
 			<list>
 				<ref bean="property3"></ref>
 			</list>
@@ -311,7 +311,7 @@
 		<property name="minimumPrice" value="15.0"/>
 		<property name="maximumPrice" value="60.0"/>
 		<property name="keyWord"><null/></property>
-		<property name="propertys">
+		<property name="cache">
 			<list>
 			</list>
 		</property>
