@@ -52,6 +52,7 @@ public class Audit extends DomainEntity {
 	}
 
 	public String getAttachments() {
+
 		return attachments;
 	}
 	public void setAttachments(String attachments) {

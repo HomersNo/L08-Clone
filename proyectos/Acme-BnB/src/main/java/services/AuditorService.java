@@ -17,7 +17,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Auditor;
-import domain.Auditor;
 import domain.SocialIdentity;
 
 @Service
@@ -138,5 +137,20 @@ public class AuditorService {
 
 		return result;
 	}
+	
+	public void checkAuditor(){
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		Boolean checker = false;
+		userAccount = LoginService.getPrincipal();
+		for(Authority a: userAccount.getAuthorities()){
+			if(a.getAuthority().equals(Authority.AUDITOR)){
+				checker = true;
+				break;
+			}
+		}
+		Assert.isTrue(checker); 
+	}
+	
 
 }
