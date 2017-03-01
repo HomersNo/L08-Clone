@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Finder;
+import domain.Property;
 import domain.Tenant;
+import domain.Value;
 
 import repositories.FinderRepository;
 import security.LoginService;
@@ -32,6 +35,11 @@ public class FinderService {
 		@Autowired
 		private TenantService tenantService;
 		
+		@Autowired
+		private PropertyService propertyService;
+		
+		@Autowired
+		private ValueService valueService;
 		
 		//Basic CRUD methods-------------------
 		
@@ -42,9 +50,6 @@ public class FinderService {
 			Tenant principal = tenantService.findByPrincipal();
 			Assert.notNull(principal);
 			Assert.isTrue(principal.getId() != 0);
-			created.setTenant(principal);	
-			Date lastUpdate = new Date(System.currentTimeMillis() - 1);
-			created.setLastUpdate(lastUpdate);
 			
 			return created;
 		}
@@ -70,7 +75,42 @@ public class FinderService {
 				return saved;
 			}
 			else{
-			saved = finderRepository.save(finder);
+				//guardamos
+				saved = finderRepository.save(finder);
+				//asignamos el tenant al finder si se acaba de crear
+					if(saved.getId() == 0){
+						saved.setTenant(principal);	
+					}
+				//actualizamos la fecha de la última búsqueda
+				Date lastUpdate = new Date(System.currentTimeMillis() - 1);
+				saved.setLastUpdate(lastUpdate);
+				//inicializamos la colección filtrada de properties
+				Collection<Property> filtered;
+				filtered = new ArrayList<Property>();
+				//empezamos a añadir properties que cumplan con los requisitos
+				//primero la ciudad de destino
+				String attribute = "City";
+				filtered.addAll(valueService.findAllPropertiesByValueContent(saved.getDestinationCity(), attribute));
+				//ahora el rate
+				Double min = saved.getMinimumPrice();
+				Double max = saved.getMaximumPrice();
+				if(saved.getMaximumPrice()!= null && saved.getMinimumPrice() != null){
+					filtered.addAll(propertyService.findAllByMinMaxRate(min, max));
+				}
+				if(saved.getMaximumPrice()!= null && saved.getMinimumPrice() == null){
+					filtered.addAll(propertyService.findAllByMinRate(min));
+				}
+				if(saved.getMaximumPrice()== null && saved.getMinimumPrice() != null){
+					filtered.addAll(propertyService.findAllByMaxRate(max));
+				}
+				//por ultimo la KeyWord
+				if(saved.getKeyWord() != null){
+					String keyWord = saved.getKeyWord();
+					filtered.addAll(propertyService.findAllByContainsKeyWordAddress(keyWord));
+					filtered.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
+				}
+				//y ya cambiamos las properties a las filtradas
+				saved.setProperties(filtered);
 			return saved;
 			}
 			
