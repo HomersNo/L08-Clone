@@ -1,3 +1,4 @@
+
 package converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import repositories.PropertyRepository;
-
 import domain.Property;
 
 @Component
@@ -14,7 +14,8 @@ import domain.Property;
 public class StringToPropertyConverter implements Converter<String, Property> {
 
 	@Autowired
-	PropertyRepository propertyRepository;
+	PropertyRepository	propertyRepository;
+
 
 	@Override
 	public Property convert(String text) {
@@ -32,4 +33,3 @@ public class StringToPropertyConverter implements Converter<String, Property> {
 	}
 
 }
-

@@ -1,3 +1,4 @@
+
 package converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import repositories.TenantRepository;
-
 import domain.Tenant;
 
 @Component
@@ -14,7 +14,8 @@ import domain.Tenant;
 public class StringToTenantConverter implements Converter<String, Tenant> {
 
 	@Autowired
-	TenantRepository tenantRepository;
+	TenantRepository	tenantRepository;
+
 
 	@Override
 	public Tenant convert(String text) {
