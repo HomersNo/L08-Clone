@@ -2,6 +2,7 @@
 package forms;
 
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -9,6 +10,8 @@ import org.hibernate.validator.constraints.URL;
 
 public class RegisterLessor {
 
+	private String	username;
+	private String	password;
 	private String	name;
 	private String	surname;
 	private String	email;
@@ -17,6 +20,24 @@ public class RegisterLessor {
 	private boolean	accept;
 
 
+	@NotBlank
+	@Size(min = 5, max = 32)
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	@Size(min = 5, max = 32)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	@NotBlank
 	public String getName() {
 		return name;

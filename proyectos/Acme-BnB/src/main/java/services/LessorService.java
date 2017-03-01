@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -19,6 +20,7 @@ import domain.Comment;
 import domain.Lessor;
 import domain.Property;
 import domain.SocialIdentity;
+import forms.RegisterLessor;
 
 @Service
 @Transactional
@@ -49,6 +51,7 @@ public class LessorService {
 		result.setComments(new ArrayList<Comment>());
 		result.setProperties(new ArrayList<Property>());
 		result.setSocialIdentities(new ArrayList<SocialIdentity>());
+		result.setCumulatedFee(0.0);
 
 		UserAccount userAccount = new UserAccount();
 		Authority authority = new Authority();
@@ -132,6 +135,37 @@ public class LessorService {
 
 			validator.validate(result, binding);
 		}
+
+		return result;
+	}
+
+	public Lessor reconstruct(RegisterLessor registerLessor, BindingResult binding) {
+		Lessor result;
+		Assert.isTrue(registerLessor.getAccept());
+		result = create();
+
+		result.setEmail(registerLessor.getEmail());
+		result.setName(registerLessor.getName());
+		result.setPhone(registerLessor.getPhone());
+		result.setPicture(registerLessor.getPicture());
+		result.setSurname(registerLessor.getSurname());
+
+		result.getUserAccount().setUsername(registerLessor.getUsername());
+		result.getUserAccount().setPassword(registerLessor.getPassword());
+
+		return result;
+	}
+
+	public Lessor register(Lessor lessor) {
+		Lessor result;
+
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		// Convertimos la pass del usuario a hash.
+		String pass = encoder.encodePassword(lessor.getUserAccount().getPassword(), null);
+		// Creamos una nueva cuenta y le pasamos los parametros.
+		lessor.getUserAccount().setPassword(pass);
+
+		result = lessorRepository.save(lessor);
 
 		return result;
 	}

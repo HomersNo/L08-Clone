@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.PropertyRepository;
 import domain.Audit;
+import domain.Lessor;
 import domain.Property;
 import domain.Request;
 import domain.Value;
@@ -91,24 +92,29 @@ public class PropertyService {
 
 	// Other business methods -------------------------------------------------
 
-	
-	Collection<Property> findAllByMinMaxRate(Double min, Double max){
+	public Collection<Property> findAllByLessor(Lessor lessor) {
+		Collection<Property> result;
+		result = propertyRepository.findAllByLessorId(lessor.getId());
+		return result;
+	}
+
+	Collection<Property> findAllByMinMaxRate(Double min, Double max) {
 		return propertyRepository.findAllByMinMaxRate(min, max);
 	}
-	
-	Collection<Property> findAllByMinRate(Double min){
+
+	Collection<Property> findAllByMinRate(Double min) {
 		return propertyRepository.findAllByMinRate(min);
 	}
-	
-	Collection<Property> findAllByMaxRate(Double max){
+
+	Collection<Property> findAllByMaxRate(Double max) {
 		return propertyRepository.findAllByMaxRate(max);
 	}
-	
-	Collection<Property> findAllByContainsKeyWordName(String name){
+
+	Collection<Property> findAllByContainsKeyWordName(String name) {
 		return propertyRepository.findAllByContainsKeyWordName(name);
 	}
-	
-	Collection<Property> findAllByContainsKeyWordAddress(String address){
+
+	Collection<Property> findAllByContainsKeyWordAddress(String address) {
 		return propertyRepository.findAllByContainsKeyWordName(address);
 	}
-}	
+}
