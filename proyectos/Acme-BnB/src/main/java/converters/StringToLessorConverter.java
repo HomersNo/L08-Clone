@@ -1,3 +1,4 @@
+
 package converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -5,6 +6,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import repositories.LessorRepository;
 import domain.Lessor;
 
 @Component
@@ -12,7 +14,8 @@ import domain.Lessor;
 public class StringToLessorConverter implements Converter<String, Lessor> {
 
 	@Autowired
-	LessorRepository lessorRepository;
+	LessorRepository	lessorRepository;
+
 
 	@Override
 	public Lessor convert(String text) {
@@ -30,4 +33,3 @@ public class StringToLessorConverter implements Converter<String, Lessor> {
 	}
 
 }
-
