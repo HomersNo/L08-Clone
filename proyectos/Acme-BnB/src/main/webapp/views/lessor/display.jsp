@@ -16,38 +16,22 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<security:authentication property="principal" var ="loggedactor"/>
+<jstl:set var="lessor" value="${lessor}"/> 
 
-<display:table pagesize="10" class="displaytag" keepStatus="true"
-name="lessor" requestURI="${requestURI}" id="row">
+<h2><spring:message code="lessor" /></h2>
+<p><spring:message code="lessor.name"/>: <jstl:out value="${lessor.name}" /></p> 
+<p><spring:message code="lessor.surname"/>: <jstl:out value="${lessor.surname}" /></p> 
+<p><spring:message code="lessor.email"/>: <jstl:out value="${lessor.email}" /></p> 
+<p><spring:message code="lessor.phone"/>: <jstl:out value="${lessor.phone}" /></p> 
 
-	<security:authentication property="principal" var ="loggedactor"/>
-	<jstl:set var="lessor" value="${row}"/> 
+<img src="<jstl:out value='${lessor.picture}'/>" > 
 
-	<spring:message code="lessor.name" var="nameHeader"/>
-	<display:column property="name" title="${nameHeader}"/>
-	
-	<spring:message code="lessor.surname" var="surnameHeader"/>
-	<display:column property="surname" title="${surnameHeader}"/>
-	
-	<spring:message code="lessor.email" var="emailHeader"/>
-	<display:column property="email" title="${emailHeader}"/>
-	
-	<spring:message code="lessor.phone" var="phoneHeader"/>
-	<display:column property="phone" title="${phoneHeader}"/>
-	
-	<spring:message code="lessor.picture" var="pictureHeader"/>
-	<display:column title="${pictureHeader}">
-		<img style="maxheight: 150px; maxwidth: 150px;" src ='<jstl:out value="${row.picture}"/>'>
-	</display:column>
-	
-	<jstl:if test="${loggedactor == row.userAccount }">
-		<display:column>
-			<a href="lessor/lessor/edit.do?lessorId=${row.id}"> <spring:message
-					code="lessor.edit" />
-			</a>
-		</display:column>
+<security:authorize access="hasRole('LESSOR')">
+	<jstl:if test="${lessor.userAccount.username==loggedactor.username">
+		<a href="lessor/lessor/edit.do?"> <spring:message code="lessor.edit" /></a>
 	</jstl:if>
-</display:table>
+</security:authorize>
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="comments" requestURI="${requestURI}" id="row">

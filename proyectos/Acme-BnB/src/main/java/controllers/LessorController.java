@@ -53,6 +53,8 @@ public class LessorController extends AbstractController {
 		}
 		result = new ModelAndView("lessor/display");
 		result.addObject("lessor", lessor);
+		result.addObject("comments", lessor.getComments());
+		result.addObject("socialIdentitites", lessor.getSocialIdentities());
 
 		return result;
 	}

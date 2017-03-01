@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.PropertyRepository;
 import domain.Audit;
@@ -29,6 +31,9 @@ public class PropertyService {
 
 	@Autowired
 	private LessorService		lessorService;
+
+	@Autowired
+	private Validator			validator;
 
 
 	// Constructors -----------------------------------------------------------
@@ -98,6 +103,25 @@ public class PropertyService {
 		return result;
 	}
 
+	public Property reconstruct(Property property, BindingResult binding) {
+		Property result;
+
+		if (property.getId() == 0) {
+			result = property;
+		} else {
+			result = propertyRepository.findOne(property.getId());
+
+			result.setAddress(property.getAddress());
+			result.setDescription(property.getDescription());
+			result.setRate(property.getRate());
+			result.setName(property.getName());
+
+			validator.validate(result, binding);
+		}
+
+		return result;
+	}
+
 	Collection<Property> findAllByMinMaxRate(Double min, Double max) {
 		return propertyRepository.findAllByMinMaxRate(min, max);
 	}
@@ -117,4 +141,5 @@ public class PropertyService {
 	Collection<Property> findAllByContainsKeyWordAddress(String address) {
 		return propertyRepository.findAllByContainsKeyWordName(address);
 	}
+
 }
