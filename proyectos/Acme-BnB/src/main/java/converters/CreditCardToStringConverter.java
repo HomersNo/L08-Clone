@@ -14,13 +14,13 @@ public class CreditCardToStringConverter implements Converter<CreditCard, String
 	@Override
 	public String convert(CreditCard creditCard) {
 		String result;
-		
-		if(creditCard == null){
+
+		if (creditCard == null) {
 			result = null;
-		}else{
-			result = String.valueOf(creditCard.getId())
+		} else {
+			result = String.valueOf(creditCard.getId());
 		}
 
-		return null;
+		return result;
 	}
 }

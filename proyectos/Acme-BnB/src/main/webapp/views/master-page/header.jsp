@@ -59,7 +59,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="system/administrator/edit.do"><spring:message code="master.page.system.edit" /></a></li>
-					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.dashboard.display" /></a></li>
+					<li><a href="system/administrator/dashboard.do"><spring:message code="master.page.dashboard.display" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
