@@ -58,7 +58,7 @@ public class FinderTenantController extends AbstractController {
 		} else {
 			try {
 				finderService.save(finder);				
-				result = new ModelAndView("redirect:list.do");
+				result = new ModelAndView("redirect:/property/tenant/list.do?finderId="+finder.getId());
 				result.addObject("message", "finder.commit.ok");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(finder, "finder.commit.error");				

@@ -25,7 +25,7 @@ public class InvoiceService {
 		
 		//supporting services-------------------
 		@Autowired
-		private InvoiceService invoiceService;
+		private RequestService requestService;
 		
 		@Autowired
 		private TenantService tenantService;
@@ -36,10 +36,12 @@ public class InvoiceService {
 		
 		//Basic CRUD methods-------------------
 		
-		public Invoice create(){
-			
+		public Invoice create(int requestId){
+			Request request = requestService.findOne(requestId);
 			Invoice created;
 			created = new Invoice();
+			created.setRequest(request);
+			created.setMoment(new Date(System.currentTimeMillis() - 1));
 			return created;
 		}
 		
@@ -57,8 +59,7 @@ public class InvoiceService {
 			Assert.notNull(invoice);
 			Assert.isTrue(checkPrincipal(invoice));
 			checkPrincipal(invoice);
-			Invoice saved =invoiceRepository.save(invoice);
-			saved.setMoment(new Date(System.currentTimeMillis() - 1));
+			
 			String name;
 			String surname;
 			String email;
@@ -68,23 +69,20 @@ public class InvoiceService {
 			surname = tenantService.findByPrincipal().getSurname();
 			email = tenantService.findByPrincipal().getEmail();
 			phone = tenantService.findByPrincipal().getPhone();
-			saved.setTenantInformation(name + ", " + surname + ", " + email + ", " + phone);
+			invoice.setTenantInformation(name + ", " + surname + ", " + email + ", " + phone);
 			
-			Request request = saved.getRequest();
-			String status = request.getStatus();
+			Request request = invoice.getRequest();
 			Date in = request.getCheckInDate();
 			Date out = request.getCheckOutDate();
-			if(request.getSmoker() == true){
-				saved.setDetails(in.toString() + ", " + out.toString() + ", " + status + ", " + "smoker");
-			}
-			else{
-				saved.setDetails(in.toString() + ", " + out.toString() + ", " + status + ", " + "no smoker");
-			}
+		
+			invoice.setDetails(in.toString() + "-" + out.toString());
+	
 			
 			Double days = (double) ((out.getTime() - in.getTime())/150000);
-			Double totalAmount = saved.getRequest().getProperty().getRate() * days;
-			saved.setTotalAmount(totalAmount);
+			Double totalAmount = invoice.getRequest().getProperty().getRate() * days;
+			invoice.setTotalAmount(totalAmount);
 			
+			Invoice saved =invoiceRepository.save(invoice);
 			return saved;
 			
 		}
