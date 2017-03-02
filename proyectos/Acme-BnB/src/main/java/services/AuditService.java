@@ -34,6 +34,9 @@ public class AuditService {
 	private AuditorService auditorService;
 	
 	@Autowired
+	private AdministratorService administratorService;
+	
+	@Autowired
 	private Validator validator;
 	
 	
@@ -122,6 +125,12 @@ public class AuditService {
 		}
 		
 		
+		return result;
+	}
+	
+	public Double[] findAvgMinAndMaxPerProperty(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Double[] result = auditRepository.findAvgMinAndMaxPerProperty();
 		return result;
 	}
 

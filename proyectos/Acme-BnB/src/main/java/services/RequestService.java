@@ -6,8 +6,10 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import repositories.RequestRepository;
+import domain.Lessor;
 import domain.Request;
 import domain.Tenant;
 
@@ -22,6 +24,9 @@ public class RequestService {
 	//supporting services-------------------
 	@Autowired
 	private TenantService		tenantService;
+	
+	@Autowired
+	private AdministratorService administratorService;
 
 
 	//Basic CRUD methods-------------------
@@ -48,6 +53,11 @@ public class RequestService {
 		return requestRepository.findAllByTenantId(t.getId());
 	}
 
+	public Collection<Request> findAllByLessor(Lessor l) {
+
+		return requestRepository.findAllByLessorId(l.getId());
+	}
+
 	public Request save(Request request) {
 
 		Request saved;
@@ -65,6 +75,52 @@ public class RequestService {
 	public Collection<Request> findAll() {
 
 		return requestRepository.findAll();
+	}
+	
+	public Double[] findAverageAcceptedDeniedPerTenant(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Double[][] unprocessedAverage = requestRepository.findAverageAcceptedDeniedPerTenant();
+		Double[] result = {0.0,0.0};
+		for(Double[] averageGroup:unprocessedAverage){
+			result[0] += averageGroup[0];
+			result[1] += averageGroup[1];
+		}
+		result[0] /= unprocessedAverage.length;
+		result[1] /= unprocessedAverage.length;
+		return result;
+	}
+	
+	public Double[] findAverageAcceptedDeniedPerLessor(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Double[][] unprocessedAverage = requestRepository.findAverageAcceptedDeniedPerLessor();
+		Double[] result = {0.0,0.0};
+		for(Double[] averageGroup:unprocessedAverage){
+			result[0] += averageGroup[0];
+			result[1] += averageGroup[1];
+		}
+		result[0] /= unprocessedAverage.length;
+		result[1] /= unprocessedAverage.length;
+		return result;
+	}
+	
+	public Double[] findAvrageByPropertyWithOverWithoutInvoice(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Double[] unprocessedAverage = requestRepository.findAverageByPropertyWithInvoice();
+		Double[] result = {0.0,0.0};
+		Double aux = 0.0;
+		for(Double d:unprocessedAverage){
+			aux += d;
+		}
+		result[0] = aux/unprocessedAverage.length;
+		
+		unprocessedAverage = requestRepository.findAverageByPropertyWithoutInvoice();
+		aux = 0.0;
+		for(Double d:unprocessedAverage){
+			aux += d;
+		}
+		result[1] = aux/unprocessedAverage.length;
+		return result;
+		
 	}
 
 }
