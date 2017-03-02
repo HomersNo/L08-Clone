@@ -72,6 +72,9 @@
 		<security:intercept-url pattern="/creditcard/tenant/**.do**" access="hasRole('TENANT')"/>
 		
 		<security:intercept-url pattern="/finder/tenant/**.do**" access="hasRole('TENANT')"/>
+		<security:intercept-url pattern="/invoice/tenant/**.do**" access="hasRole('TENANT')"/>
+		
+		<security:intercept-url pattern="/finder/tenant/**.do**" access="hasRole('TENANT')"/>
 		
 		<security:intercept-url pattern="/invoice/tenant/**.do**" access="hasRole('TENANT')"/>
 		
