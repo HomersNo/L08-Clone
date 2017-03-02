@@ -1,6 +1,8 @@
 
 package controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -60,7 +62,7 @@ public class LessorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(RegisterLessor registerLessor, BindingResult binding) {
+	public ModelAndView save(@Valid RegisterLessor registerLessor, BindingResult binding) {
 		ModelAndView result;
 		Lessor lessor;
 

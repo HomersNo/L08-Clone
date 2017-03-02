@@ -25,18 +25,18 @@ public class PropertyService {
 	// Managed Repository ------------------------------------
 
 	@Autowired
-	private PropertyRepository	propertyRepository;
+	private PropertyRepository		propertyRepository;
 
 	// Auxiliary Services -------------------------------------
 
 	@Autowired
-	private LessorService		lessorService;
-	
-	@Autowired
-	private AdministratorService administratorService;
+	private LessorService			lessorService;
 
 	@Autowired
-	private Validator			validator;
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Constructors -----------------------------------------------------------
@@ -64,6 +64,13 @@ public class PropertyService {
 
 		result = propertyRepository.findAll();
 		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Collection<Property> findAllByFinderId(int finderId) {
+		Collection<Property> result;
+		result = propertyRepository.findAllByFinderId(finderId);
 
 		return result;
 	}
@@ -144,32 +151,32 @@ public class PropertyService {
 	Collection<Property> findAllByContainsKeyWordAddress(String address) {
 		return propertyRepository.findAllByContainsKeyWordName(address);
 	}
-	
-	Collection<Property> findAllByLessorOrderedByAudits(){
+
+	Collection<Property> findAllByLessorOrderedByAudits() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Property> result = propertyRepository.findAllByLessorOrderedByAudits();
 		return result;
 	}
-	
-	Collection<Property> findAllByLessorOrderedByRequests(){
+
+	Collection<Property> findAllByLessorOrderedByRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Property> result = propertyRepository.findAllByLessorOrderedByRequests();
 		return result;
 	}
-	
-	Collection<Property> findAllByLessorOrderByAcceptedRequest(){
+
+	Collection<Property> findAllByLessorOrderByAcceptedRequest() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Property> result = propertyRepository.findAllByLessorOrderByAcceptedRequest();
 		return result;
 	}
-	
-	Collection<Property> findAllByLessorOrderByDeniedRequest(){
+
+	Collection<Property> findAllByLessorOrderByDeniedRequest() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Property> result = propertyRepository.findAllByLessorOrderByDeniedRequest();
 		return result;
 	}
-	
-	Collection<Property> findAllByLessorOrderByPendingRequest(){
+
+	Collection<Property> findAllByLessorOrderByPendingRequest() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Property> result = propertyRepository.findAllByLessorOrderByPendingRequest();
 		return result;
