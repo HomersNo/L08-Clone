@@ -70,18 +70,11 @@ public class Comment extends DomainEntity {
 
 	//relationships
 
-	private Commentable	commentable;
+	// El actor que escribe un comentario.
 	private Actor		actor;
+	// Clase sobre la cual el actor comenta.
+	private Commentable	commentable;
 
-
-	@Valid
-	@ManyToOne(optional = false)
-	public Commentable getCommentable() {
-		return commentable;
-	}
-	public void setCommentable(Commentable commentable) {
-		this.commentable = commentable;
-	}
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -90,6 +83,15 @@ public class Comment extends DomainEntity {
 	}
 	public void setActor(Actor actor) {
 		this.actor = actor;
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Commentable getCommentable() {
+		return commentable;
+	}
+	public void setCommentable(Commentable commentable) {
+		this.commentable = commentable;
 	}
 
 }
