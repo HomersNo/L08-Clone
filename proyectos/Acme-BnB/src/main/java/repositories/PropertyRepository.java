@@ -26,10 +26,6 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
 
 	@Query("Select p from property p where Contains(p.address, ?1")
 	Collection<Property> findAllByContainsKeyWordAddress(String address);
-
-	
-	@Query("select avg(f.propertys.size),min(f.propertys.size),max(f.propertys.size) from Finder f")
-	Double[] findAvgMinAndMaxPerFinder();
 	
 	@Query("select p from Property p where p.lessor.id = 14 order by p.audits.size DESC")
 	Collection<Property> findAllByLessorOrderedByAudits();

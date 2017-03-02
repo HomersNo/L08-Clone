@@ -1,5 +1,5 @@
 <%--
- * index.jsp
+ * action-2.jsp
  *
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -16,5 +16,4 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-
-<p><spring:message code="terms.terms.provisional" /> </p>
+<p><spring:message code="customer.action.2" /></p>

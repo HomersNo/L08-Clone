@@ -30,6 +30,9 @@ public class InvoiceService {
 		@Autowired
 		private TenantService tenantService;
 		
+		@Autowired
+		private AdministratorService administratorService;
+		
 		
 		//Basic CRUD methods-------------------
 		
@@ -120,7 +123,17 @@ public class InvoiceService {
 			return invoiceRepository.findAll();
 		}
 
-		
+		public Double[] findAvgMinMaxPerTenant(){
+			Assert.notNull(administratorService.findByPrincipal());
+			Double[] result = invoiceRepository.findAvgMinMaxPerTenant();
+			return result;
+		}
+
+		public Double findTotalMoneyDue(){
+			Assert.notNull(administratorService.findByPrincipal());
+			Double result = invoiceRepository.findTotalMoneyDue();
+			return result;
+		}
 		
 
 }
