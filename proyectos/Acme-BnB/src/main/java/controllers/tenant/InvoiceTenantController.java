@@ -7,11 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Invoice;
+import domain.Request;
 
 import services.InvoiceService;
+import services.RequestService;
 
 @Controller
 @RequestMapping("/invoice/tenant")
@@ -21,6 +24,9 @@ public class InvoiceTenantController {
 
 		@Autowired
 		private InvoiceService invoiceService;	
+		
+		@Autowired
+		private RequestService requestService;	
 	
 		// Constructors -----------------------------------------------------------
 		
@@ -28,59 +34,34 @@ public class InvoiceTenantController {
 			super();
 		}
 		
-		
+		@RequestMapping(value = "/display", method = RequestMethod.GET)
+		public ModelAndView display(@RequestParam(required = false, defaultValue = "0") int invoiceId) {
 
-		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create() {
+			
 			ModelAndView result;
 			Invoice invoice;
+			
+			invoice = invoiceService.findOne(invoiceId);
 
-			invoice = invoiceService.create();
-			result = createEditModelAndView(invoice);
-
-			return result;
-		}
-		
-		
-		
-
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(@Valid Invoice invoice, BindingResult binding) {
-
-			ModelAndView result;
-			if (binding.hasErrors()) {
-				result = createEditModelAndView(invoice);
-			} else {
-
-				try {
-					invoice = invoiceService.save(invoice);
-					result = new ModelAndView(
-							"redirect:/invoice/tenant/display.do");
-
-				} catch (Throwable oops) {
-					result = createEditModelAndView(invoice, "invoice.commit.error");
-					result.addObject("invoice", invoice);
-				}
-			}
-
-			return result;
-		}
-	
-		protected ModelAndView createEditModelAndView(Invoice invoice) {
-			ModelAndView result;
-
-			result = createEditModelAndView(invoice, null);
-
-			return result;
-		}
-
-		protected ModelAndView createEditModelAndView(Invoice invoice, String message) {
-			ModelAndView result;
-
-			result = new ModelAndView("invoice/save");
+			result = new ModelAndView("invoice/display");
 			result.addObject("invoice", invoice);
-			result.addObject("errorMessage", message);
 
 			return result;
 		}
+
+		@RequestMapping(value = "/create", method = RequestMethod.GET)
+		public ModelAndView create(@RequestParam int requestId) {
+			ModelAndView result;
+			Invoice invoice;
+			
+
+			invoice = invoiceService.create(requestId);
+			invoice = invoiceService.save(invoice);
+			result = new ModelAndView(
+					"redirect:/invoice/tenant/display.do?invoiceId="+invoice.getId());
+			
+
+			return result;
+		}
+		
 }

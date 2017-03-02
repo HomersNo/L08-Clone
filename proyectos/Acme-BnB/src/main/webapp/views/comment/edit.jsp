@@ -29,45 +29,25 @@
 	
 	<acme:textbox code="comment.title" path="title"/>
 	<acme:textbox code="comment.text " path="text"/>
-	<acme:select code="comment.stars" path="stars"
-	items="${stars}" itemLabel="stars" />
+	<acme:select items="{0,1,2,3,4,5,6}" itemLabel="SELECT" code="comment.stars" path="stars"/>
+<%-- 	<form:label path="stars">
+		<spring:message code="comment.stars" />:
+	</form:label>
+	<form:select path="stars">
+    <form:option value="NONE">SELECT</form:option>
+    <form:option value="0">0</form:option>
+    <form:option value="1">1</form:option>
+    <form:option value="2">2</form:option>
+    <form:option value="3">3</form:option>
+    <form:option value="4">4</form:option>
+    <form:option value="5">5</form:option>
+    </form:select>
+	<form:errors cssClass="error" path="stars" />
+	<br /> --%>
 	
 	<acme:submit name="save" code="comment.save"/>
 	
 	<acme:cancel url="actor/list.do" code="comment.cancel"/>
-	
-<%-- 	<form:label path="nick">
-		<spring:message code="socialidentity.nick" />:
-	</form:label>
-	<form:input path="nick" />
-	<form:errors cssClass="error" path="nick" />
-	<br />
-	
-	<form:label path="socialNetworkName">
-		<spring:message code="socialidentity.network.name" />:
-	</form:label>
-	<form:input path="socialNetworkName" />
-	<form:errors cssClass="error" path="socialNetworkName" />
-	<br />
-	
-	<form:label path="socialNetworkLink">
-		<spring:message code="socialidentity.network.link" />:
-	</form:label>
-	<form:input path="socialNetworkLink" />
-	<form:errors cssClass="error" path="socialNetworkLink" />
-	<br />
-	
-	<input type="submit" name="save"
-		value="<spring:message code="socialidentity.save" />" />&nbsp; 
-	<jstl:if test="${socialIdentity.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="socialidentity.delete" />"
-			onclick="return confirm('<spring:message code="socialidentity.confirm.delete" />')" />&nbsp;
-	</jstl:if>
-	<input type="button" name="cancel"
-		value="<spring:message code="socialidentity.cancel" />"
-		onclick="location.href = ('socialIdentity/actor/list.do');" />
-	<br /> --%>
 
 </form:form>
 	
