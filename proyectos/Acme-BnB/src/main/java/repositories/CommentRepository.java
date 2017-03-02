@@ -21,7 +21,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	Collection<Comment> allCommentsOfAnActorDidToHimself(int actorId);
 
 	// Devolvemos los comentarios de un Actor, pero sin incluir los que se hizo a si mismo.
-	@Query("select co from Commentable co where co.actor.id = ?1 and not c.actor.id = ?1")
+	@Query("select c from Comment c where c.actor.id = ?1 and not c.commentable.id = ?1")
 	Collection<Comment> allCommentsActorsDidToAnActor(int actorId);
 
 }

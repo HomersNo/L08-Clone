@@ -12,19 +12,19 @@ import domain.Property;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Integer> {
 
-	@Query("Select p from property p where p.rate between ?1 and ?2")
+	@Query("Select p from Property p where p.rate between ?1 and ?2")
 	Collection<Property> findAllByMinMaxRate(Double min, Double max);
 
-	@Query("Select p from property p where p.rate >= ?1")
+	@Query("Select p from Property p where p.rate >= ?1")
 	Collection<Property> findAllByMinRate(Double min);
 
-	@Query("Select p from property p where p.rate <= ?1")
+	@Query("Select p from Property p where p.rate <= ?1")
 	Collection<Property> findAllByMaxRate(Double max);
 
-	@Query("Select p from property p where Contains(p.name, ?1")
+	@Query("Select p from Property p where p.name like ?1")
 	Collection<Property> findAllByContainsKeyWordName(String name);
 
-	@Query("Select p from property p where Contains(p.address, ?1")
+	@Query("Select p from Property p where p.address like ?1")
 	Collection<Property> findAllByContainsKeyWordAddress(String address);
 
 	@Query("select p from Property p where p.lessor.id = 14 order by p.audits.size DESC")
