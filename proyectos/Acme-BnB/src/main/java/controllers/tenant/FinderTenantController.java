@@ -7,12 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.FinderService;
 import services.TenantService;
-
 import controllers.AbstractController;
 import domain.Finder;
 import domain.Tenant;
@@ -43,9 +41,11 @@ public class FinderTenantController extends AbstractController {
 	
 	//Edition --------------
 	@RequestMapping(value="/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int finderId) {
+	public ModelAndView edit() {
+		
+		Tenant principal = tenantService.findByPrincipal();
+		Finder finder = finderService.findByTenant(principal);
 		ModelAndView result;
-		Finder finder = finderService.findOne(finderId);
 		result = createEditModelAndView(finder, null);
 		return result;
 	}
