@@ -59,25 +59,6 @@ public class TenantController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(RegisterLessor registerTenant, BindingResult binding) {
-		ModelAndView result;
-		Tenant tenant;
-
-		tenant = tenantService.reconstruct(registerTenant, binding);
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(tenant);
-		} else {
-			try {
-				tenant = tenantService.register(tenant);
-				result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + tenant.getId());
-			} catch (Throwable oops) {
-				result = createEditModelAndView(tenant, "tenant.commit.error");
-			}
-		}
-		return result;
-	}
-
 	protected ModelAndView createEditModelAndView(Tenant tenant) {
 		ModelAndView result;
 
@@ -95,6 +76,25 @@ public class TenantController extends AbstractController {
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
 
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(RegisterLessor registerTenant, BindingResult binding) {
+		ModelAndView result;
+		Tenant tenant;
+
+		tenant = tenantService.reconstruct(registerTenant, binding);
+		if (binding.hasErrors()) {
+			result = createEditModelAndView(tenant);
+		} else {
+			try {
+				tenant = tenantService.register(tenant);
+				result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + tenant.getId());
+			} catch (Throwable oops) {
+				result = createEditModelAndView(tenant, "tenant.commit.error");
+			}
+		}
 		return result;
 	}
 
