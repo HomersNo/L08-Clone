@@ -15,7 +15,7 @@ import domain.Lessor;
 import domain.Request;
 
 @Controller
-@RequestMapping("/request")
+@RequestMapping("/request/lessor")
 public class RequestLessorController {
 
 	//Services

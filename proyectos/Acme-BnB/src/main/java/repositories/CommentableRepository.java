@@ -10,10 +10,6 @@ import domain.Commentable;
 @Repository
 public interface CommentableRepository extends JpaRepository<Commentable, Integer> {
 
-	@Query("select co from Commentable co where co.comment.id = ?1")
-	Commentable findByComment(int id);
 
-	@Query("select co from Commentable co where co.id = ?1")
-	Commentable findOne(int id);
 
 }
