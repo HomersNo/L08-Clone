@@ -31,19 +31,14 @@
 	name="properties" requestURI="${requestURI}" id="row">
 	<security:authentication property="principal" var ="loggedactor"/>
 	<security:authorize access="hasRole('LESSOR')">
-	<display:column>
-	<jstl:set var="propertylessor" value="${row.lessor}"/> 
-	<jstl:choose>
-		<jstl:when test="${propertylessor.userAccount.username==loggedactor.username}">
-			<jstl:set value="${row.contest}" var="cont"/>
-			<jstl:if test="${empty cont}">
-			<a href="property/lessor/edit.do?propertyId=${row.id}">
-				<spring:message	code="property.edit" />
-			</a>
+		<display:column>
+		<jstl:set var="propertylessor" value="${row.lessor}"/> 
+			<jstl:if test="${propertylessor.userAccount.username==loggedactor.username}">	
+				<a href="property/lessor/edit.do?propertyId=${row.id}">
+					<spring:message	code="property.edit" />
+				</a>
 			</jstl:if>
-		</jstl:when>
-	</jstl:choose>
-	</display:column>
+		</display:column>
 	</security:authorize>
 
 	

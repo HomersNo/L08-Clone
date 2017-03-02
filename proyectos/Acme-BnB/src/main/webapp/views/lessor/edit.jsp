@@ -52,7 +52,7 @@
 			onclick="return confirm('<spring:message code="lessor.confirm.delete" />')" />&nbsp;
 	</jstl:if>
 	
-	<acme:cancel url="index.do" code="lessor.cancel"/>
+	<acme:cancel url="welcome/index.do" code="lessor.cancel"/>
 	
 	
 	
