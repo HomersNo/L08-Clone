@@ -15,7 +15,7 @@ import controllers.AbstractController;
 import domain.Tenant;
 
 @Controller
-@RequestMapping("/tenant")
+@RequestMapping("/tenant/tenant")
 public class TenantTenantController extends AbstractController {
 
 	//Services
