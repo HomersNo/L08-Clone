@@ -50,7 +50,7 @@
 		onclick="location.href = 'actor/list.do';" />&nbsp;
 	<br />
 
-<security:authorize access="hasAnyRole('AUDITOR','ADMINISTRATOR','LESSOR','TENANT')">
+<security:authorize access="hasAnyRole('LESSOR','TENANT')">
 	<div>
 		<a href="comment/commentable/edit.do?actorId=${actorId}"> <spring:message
 				code="comment.create" />
