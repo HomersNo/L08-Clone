@@ -8,22 +8,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.TenantRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Comment;
 import domain.Request;
+import domain.SocialIdentity;
 import domain.Tenant;
+import forms.RegisterLessor;
 
 @Service
 @Transactional
 public class TenantService {
 
-	//managed repository-------------------
+	// Managed repository-------------------
 	@Autowired
 	private TenantRepository	tenantRepository;
 
+	// Auxiliary Services -------------------------------------
+	
+	@Autowired
+	private AdministratorService administratorService;
+
+	@Autowired
+	private Validator			validator;
+
+
+	// Constructors -----------------------------------------------------------
+
+	public TenantService() {
+		super();
+	}
 
 	//Basic CRUD methods-------------------
 
@@ -31,6 +51,8 @@ public class TenantService {
 		Tenant created;
 		created = new Tenant();
 		created.setRequests(new ArrayList<Request>());
+		created.setSocialIdentities(new ArrayList<SocialIdentity>());
+		created.setComments(new ArrayList<Comment>());
 
 		UserAccount userAccount = new UserAccount();
 		Authority authority = new Authority();
@@ -44,31 +66,40 @@ public class TenantService {
 		return created;
 	}
 
-	public Tenant findOne(int tenantId) {
+	public Collection<Tenant> findAll() {
+		Collection<Tenant> result;
 
-		Tenant retrieved;
-		retrieved = tenantRepository.findOne(tenantId);
-		return retrieved;
+		result = tenantRepository.findAll();
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Tenant findOne(int tenantId) {
+		Assert.isTrue(tenantId != 0);
+
+		Tenant result;
+
+		result = tenantRepository.findOne(tenantId);
+		Assert.notNull(result);
+
+		return result;
 	}
 
 	public Tenant save(Tenant tenant) {
+		Assert.notNull(tenant);
 
-		Tenant saved;
-		if (tenant.getUserAccount().getId() == 0) {
-			// Creamos un codificador de hash para la password.
-			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-			// Convertimos la pass del usuario a hash.
-			String pass = encoder.encodePassword(tenant.getUserAccount().getPassword(), null);
-			// Creamos una nueva cuenta y le pasamos los parametros.
-			tenant.getUserAccount().setPassword(pass);
-		}
-		saved = tenantRepository.save(tenant);
+		Tenant result;
 
-		return saved;
+		result = tenantRepository.save(tenant);
 
+		return result;
 	}
 
 	public void delete(Tenant tenant) {
+		Assert.notNull(tenant);
+		Assert.isTrue(tenant.getId() != 0);
+		Assert.isTrue(tenantRepository.exists(tenant.getId()));
 
 		tenantRepository.delete(tenant);
 
@@ -88,9 +119,80 @@ public class TenantService {
 
 	}
 
-	public Collection<Tenant> findAll() {
+	// Other business methods -------------------------------------------------
 
-		return tenantRepository.findAll();
+	public Tenant reconstruct(Tenant tenant, BindingResult binding) {
+		Tenant result;
+
+		if (tenant.getId() == 0) {
+			result = tenant;
+		} else {
+			result = tenantRepository.findOne(tenant.getId());
+
+			result.setEmail(tenant.getEmail());
+			result.setName(tenant.getName());
+			result.setPhone(tenant.getPhone());
+			result.setPicture(tenant.getPicture());
+			result.setSurname(tenant.getSurname());
+
+			validator.validate(result, binding);
+		}
+
+		return result;
 	}
 
+	public Tenant reconstruct(RegisterLessor registerTenant, BindingResult binding) {
+		Tenant result;
+		Assert.isTrue(registerTenant.getAccept());
+		result = create();
+
+		result.setEmail(registerTenant.getEmail());
+		result.setName(registerTenant.getName());
+		result.setPhone(registerTenant.getPhone());
+		result.setPicture(registerTenant.getPicture());
+		result.setSurname(registerTenant.getSurname());
+
+		result.getUserAccount().setUsername(registerTenant.getUsername());
+		result.getUserAccount().setPassword(registerTenant.getPassword());
+
+		return result;
+	}
+
+	public Tenant register(Tenant tenant) {
+		Tenant result;
+
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		// Convertimos la pass del usuario a hash.
+		String pass = encoder.encodePassword(tenant.getUserAccount().getPassword(), null);
+		// Creamos una nueva cuenta y le pasamos los parametros.
+		tenant.getUserAccount().setPassword(pass);
+
+		result = tenantRepository.save(tenant);
+
+		return result;
+	}
+	
+	public Tenant findAllByAcceptedRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findAllByAcceptedRequests().iterator().next();
+		return result;
+	}
+	
+	public Tenant findAllByDeniedRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findAllByDeniedRequests().iterator().next();
+		return result;
+	}
+	
+	public Tenant findAllByPendingRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findAllByPendingRequests().iterator().next();
+		return result;
+	}
+
+	public Tenant findByRequestedAcceptedRatio(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findByRequestedAcceptedRatio();
+		return result;
+	}
 }

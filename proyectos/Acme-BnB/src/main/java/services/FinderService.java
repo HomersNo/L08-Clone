@@ -3,13 +3,9 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.persistence.Cache;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,7 +13,6 @@ import org.springframework.util.Assert;
 import domain.Finder;
 import domain.Property;
 import domain.Tenant;
-import domain.Value;
 
 import repositories.FinderRepository;
 import security.LoginService;
@@ -40,6 +35,9 @@ public class FinderService {
 		
 		@Autowired
 		private ValueService valueService;
+		
+		@Autowired
+		private AdministratorService administratorService;
 		
 		//Basic CRUD methods-------------------
 		
@@ -110,7 +108,7 @@ public class FinderService {
 					filtered.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
 				}
 				//y ya cambiamos las properties a las filtradas
-				saved.setProperties(filtered);
+				saved.setCache(filtered);
 			return saved;
 			}
 			
@@ -157,7 +155,11 @@ public class FinderService {
 			return	finderRepository.findByTenantId(t.getId());
 		}
 
-		
+		public Double[] findAvgMinAndMaxPerFinder(){
+			Assert.notNull(administratorService.findByPrincipal());
+			Double[] result = finderRepository.findAvgMinAndMaxPerFinder();
+			return result;
+		}
 		
 
 }

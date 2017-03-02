@@ -31,6 +31,9 @@ public class PropertyService {
 
 	@Autowired
 	private LessorService		lessorService;
+	
+	@Autowired
+	private AdministratorService administratorService;
 
 	@Autowired
 	private Validator			validator;
@@ -140,6 +143,36 @@ public class PropertyService {
 
 	Collection<Property> findAllByContainsKeyWordAddress(String address) {
 		return propertyRepository.findAllByContainsKeyWordName(address);
+	}
+	
+	Collection<Property> findAllByLessorOrderedByAudits(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Property> result = propertyRepository.findAllByLessorOrderedByAudits();
+		return result;
+	}
+	
+	Collection<Property> findAllByLessorOrderedByRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Property> result = propertyRepository.findAllByLessorOrderedByRequests();
+		return result;
+	}
+	
+	Collection<Property> findAllByLessorOrderByAcceptedRequest(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Property> result = propertyRepository.findAllByLessorOrderByAcceptedRequest();
+		return result;
+	}
+	
+	Collection<Property> findAllByLessorOrderByDeniedRequest(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Property> result = propertyRepository.findAllByLessorOrderByDeniedRequest();
+		return result;
+	}
+	
+	Collection<Property> findAllByLessorOrderByPendingRequest(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Property> result = propertyRepository.findAllByLessorOrderByPendingRequest();
+		return result;
 	}
 
 }

@@ -2,6 +2,9 @@
 
 pom.properties
 
+!messages.properties
+!messages_es.properties
+
 *.properties
 
 *.class

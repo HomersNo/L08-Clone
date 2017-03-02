@@ -30,8 +30,6 @@ public class Tenant extends Actor {
 	}
 
 
-	// Attributes -------------------------------------------------------------
-
 	// Relationships ----------------------------------------------------------
 
 	private Collection<Request>	requests;

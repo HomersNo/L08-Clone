@@ -23,7 +23,7 @@
 	<form:hidden path="property"/>
 	
 	
-	<acme:textbox code="audit.text" path="text"/>
+	<acme:textarea code="audit.text" path="text"/>
 	
 	<acme:textarea code="audit.attachments" path="attachments"/>
 	

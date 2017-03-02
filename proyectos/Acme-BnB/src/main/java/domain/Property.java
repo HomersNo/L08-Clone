@@ -111,6 +111,8 @@ public class Property extends DomainEntity {
 	}
 
 	
+
+	
 	
 
 }
