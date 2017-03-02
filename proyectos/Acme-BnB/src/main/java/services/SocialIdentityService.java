@@ -29,6 +29,9 @@ public class SocialIdentityService {
 	//Auxiliary Services
 	@Autowired
 	private ActorService				actorService;
+	
+	@Autowired
+	private AdministratorService administratorService;
 
 
 	//CRUD
@@ -73,6 +76,12 @@ public class SocialIdentityService {
 		Actor principal;
 		principal = actorService.findByPrincipal();
 		Assert.isTrue(principal.equals(socialIdentity.getActor()), "Dear user, you can't edit another user's social identity");
+	}
+	
+	public Double[] findAvgMinAndMaxPerActor(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Double[] result = socialIdentityRepository.findAvgMinAndMaxPerActor();
+		return result;
 	}
 
 }

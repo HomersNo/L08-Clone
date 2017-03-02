@@ -25,6 +25,9 @@ public class AttributeService {
 	private AttributeRepository	attributeRepository;
 
 	// Auxiliary Services -------------------------------------
+	
+	@Autowired
+	private AdministratorService administratorService;
 
 	@Autowired
 	private Validator			validator;
@@ -100,6 +103,12 @@ public class AttributeService {
 			validator.validate(result, binding);
 		}
 
+		return result;
+	}
+	
+	public Collection<Attribute> findAllOrderedByProperty(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Attribute> result = attributeRepository.findAllOrderedByProperty();
 		return result;
 	}
 

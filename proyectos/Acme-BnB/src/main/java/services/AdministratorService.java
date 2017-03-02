@@ -61,5 +61,7 @@ public class AdministratorService {
 		administrator = administratorRepository.findOneByUserAccountId(userAccount.getId());
 		return administrator;
 	}
+	
+	
 
 }
