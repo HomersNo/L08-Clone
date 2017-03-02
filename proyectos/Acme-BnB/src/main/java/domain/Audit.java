@@ -1,11 +1,10 @@
+
 package domain;
 
 import java.util.Date;
-import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -18,20 +17,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Access(AccessType.PROPERTY)
 public class Audit extends DomainEntity {
-	
+
 	//Constructor
-	
-	public Audit(){
+
+	public Audit() {
 		super();
 	}
-	
+
+
 	// Attributes
-	
-	private String text;
-	private String attachments;
-	private Date moment;
-	private boolean draft;
-	
+
+	private String	text;
+	private String	attachments;
+	private Date	moment;
+	private boolean	draft;
+
 
 	@NotBlank
 	public String getText() {
@@ -40,25 +40,25 @@ public class Audit extends DomainEntity {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	@Past
 	@NotNull
-	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
 		return moment;
 	}
 	public void setMoment(Date moment) {
 		this.moment = moment;
 	}
-	
-	@ElementCollection
+
 	public String getAttachments() {
+
 		return attachments;
 	}
 	public void setAttachments(String attachments) {
 		this.attachments = attachments;
 	}
-	
+
 	@NotNull
 	public boolean getDraft() {
 		return draft;
@@ -66,12 +66,12 @@ public class Audit extends DomainEntity {
 	public void setDraft(boolean draft) {
 		this.draft = draft;
 	}
-	
-	
+
+
 	//Relationships
-	
-	private Auditor auditor;
-	private Property property;
+
+	private Auditor		auditor;
+	private Property	property;
 
 
 	@Valid
@@ -82,7 +82,7 @@ public class Audit extends DomainEntity {
 	public void setAuditor(Auditor auditor) {
 		this.auditor = auditor;
 	}
-	
+
 	@Valid
 	@ManyToOne(optional = false)
 	public Property getProperty() {
@@ -91,7 +91,5 @@ public class Audit extends DomainEntity {
 	public void setProperty(Property property) {
 		this.property = property;
 	}
-	
-	
 
 }

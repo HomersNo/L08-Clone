@@ -1,11 +1,11 @@
-/* Administrator.java
- *
+/*
+ * Administrator.java
+ * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
+ * The use of this project is hereby constrained to the conditions of the
+ * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
- * 
  */
 
 package domain;
@@ -28,26 +28,14 @@ public class Tenant extends Actor {
 	public Tenant() {
 		super();
 	}
-	
-	// Attributes -------------------------------------------------------------
-	
-	private CreditCard creditCard;
-	
-	
-	@Valid
-	public CreditCard getCreditCard() {
-		return creditCard;
-	}
-	public void setCreditCard(CreditCard creditCard) {
-		this.creditCard = creditCard;
-	}
-	
-	
+
+
 	// Relationships ----------------------------------------------------------
-	
-	private Collection<Request> requests;
-	private Finder finder;
-	
+
+	private Collection<Request>	requests;
+	private Finder				finder;
+
+
 	@Valid
 	@OneToMany(mappedBy = "tenant")
 	public Collection<Request> getRequests() {
@@ -56,7 +44,7 @@ public class Tenant extends Actor {
 	public void setRequests(Collection<Request> requests) {
 		this.requests = requests;
 	}
-	
+
 	@Valid
 	@OneToOne(optional = false)
 	public Finder getFinder() {
@@ -65,7 +53,5 @@ public class Tenant extends Actor {
 	public void setFinder(Finder finder) {
 		this.finder = finder;
 	}
-	
-	
 
 }

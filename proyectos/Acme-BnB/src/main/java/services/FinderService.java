@@ -110,7 +110,7 @@ public class FinderService {
 					filtered.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
 				}
 				//y ya cambiamos las properties a las filtradas
-				saved.setProperties(filtered);
+				saved.setCache(filtered);
 			return saved;
 			}
 			

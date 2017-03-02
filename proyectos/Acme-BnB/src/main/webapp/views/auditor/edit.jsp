@@ -43,16 +43,14 @@
 	
 	<acme:textbox code="auditor.email" path="userAccount.email"/>
 	
-	<acme:textarea code="auditor.postalAddress" path="userAccount.postalAddress"/>
+	<acme:textbox code="auditor.picture" path="userAccount.picture"/>
 	
 	<acme:textbox code="auditor.phone" path="userAccount.phone"/>
 	
+	<acme:textbox code="auditor.companyName" path="auditor.companyName"/>
+	
 	<input type="submit" name="save"
 		value="<spring:message code="auditor.save" />" />&nbsp; 
-	<jstl:if test="${auditor.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="auditor.delete" />" />&nbsp; 
-	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="auditor.cancel" />"
 		onclick="javascript: window.location.replace('${cancelURI}');" />
