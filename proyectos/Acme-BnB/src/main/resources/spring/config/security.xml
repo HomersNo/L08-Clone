@@ -52,6 +52,7 @@
 		<security:intercept-url pattern="/lessor/display.do**" access="permitAll" />
 		<security:intercept-url pattern="/lessor/lessor/**.do**" access="hasRole('LESSOR')" />
 		
+		<security:intercept-url pattern="/tenant/**" access="permitAll" />
 		<security:intercept-url pattern="/tenant/lessor/display.do**" access="hasRole('LESSOR')" />
 		<security:intercept-url pattern="/tenant/tenant/**.do**" access="hasRole('TENANT')" />
 		
@@ -60,7 +61,7 @@
 		<security:intercept-url pattern="/auditor/display.do**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/auditor/auditor/**.do**" access="hasRole('AUDITOR')" />
 		
-		<security:intercept-url pattern="/audit/list.do**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/audit/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/audit/auditor/**" access="hasRole('AUDITOR')" />
 		
 		<security:intercept-url pattern="/request/lessor/**.do**" access="hasRole('LESSOR')"/>
@@ -80,9 +81,12 @@
 		
 		<security:intercept-url pattern="/system/administrator/**.do**" access="hasRole('ADMIN')"/>
 		
+		<security:intercept-url pattern="/socialIdentity/actor/**" access="isAuthenticated()"/>
+		
 		<security:intercept-url pattern="/commentable/actor/comment.do**" access="isAuthenticated()" />
 		
-	
+		<security:intercept-url pattern="/comment/actor/**" access="isAuthenticated()" />
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
