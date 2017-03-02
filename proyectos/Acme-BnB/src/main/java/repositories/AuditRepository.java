@@ -17,7 +17,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Audit;
-import domain.Auditor;
 
 @Repository
 public interface AuditRepository extends JpaRepository<Audit, Integer> {

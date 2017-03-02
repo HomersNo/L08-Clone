@@ -32,6 +32,9 @@ public class LessorService {
 	private LessorRepository	lessorRepository;
 
 	// Auxiliary Services -------------------------------------
+	
+	@Autowired
+	private AdministratorService administratorService;
 
 	@Autowired
 	private Validator			validator;
@@ -167,6 +170,30 @@ public class LessorService {
 
 		result = lessorRepository.save(lessor);
 
+		return result;
+	}
+	
+	public Lessor findAllByAcceptedRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Lessor result = lessorRepository.findAllByAcceptedRequests().iterator().next();
+		return result;
+	}
+	
+	public Lessor findAllByDeniedRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Lessor result = lessorRepository.findAllByDeniedRequests().iterator().next();
+		return result;
+	}
+	
+	public Lessor findAllByPendingRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Lessor result = lessorRepository.findAllByPendingRequests().iterator().next();
+		return result;
+	}
+	
+	public Lessor findByRequestedAcceptedRatio(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Lessor result = lessorRepository.findByRequestedAcceptedRatio();
 		return result;
 	}
 

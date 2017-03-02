@@ -31,6 +31,9 @@ public class TenantService {
 	private TenantRepository	tenantRepository;
 
 	// Auxiliary Services -------------------------------------
+	
+	@Autowired
+	private AdministratorService administratorService;
 
 	@Autowired
 	private Validator			validator;
@@ -168,5 +171,28 @@ public class TenantService {
 
 		return result;
 	}
+	
+	public Tenant findAllByAcceptedRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findAllByAcceptedRequests().iterator().next();
+		return result;
+	}
+	
+	public Tenant findAllByDeniedRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findAllByDeniedRequests().iterator().next();
+		return result;
+	}
+	
+	public Tenant findAllByPendingRequests(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findAllByPendingRequests().iterator().next();
+		return result;
+	}
 
+	public Tenant findByRequestedAcceptedRatio(){
+		Assert.notNull(administratorService.findByPrincipal());
+		Tenant result = tenantRepository.findByRequestedAcceptedRatio();
+		return result;
+	}
 }
