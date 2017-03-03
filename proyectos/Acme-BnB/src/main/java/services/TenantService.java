@@ -20,7 +20,7 @@ import domain.Comment;
 import domain.Request;
 import domain.SocialIdentity;
 import domain.Tenant;
-import forms.RegisterLessor;
+import forms.Register;
 
 @Service
 @Transactional
@@ -141,7 +141,7 @@ public class TenantService {
 		return result;
 	}
 
-	public Tenant reconstruct(RegisterLessor registerTenant, BindingResult binding) {
+	public Tenant reconstruct(Register registerTenant, BindingResult binding) {
 		Tenant result;
 		Assert.isTrue(registerTenant.getAccept());
 		result = create();

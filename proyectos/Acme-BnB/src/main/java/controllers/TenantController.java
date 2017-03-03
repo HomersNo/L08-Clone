@@ -1,6 +1,8 @@
 
 package controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.TenantService;
 import domain.Tenant;
-import forms.RegisterLessor;
+import forms.Register;
 
 @Controller
 @RequestMapping("/tenant")
@@ -32,9 +34,10 @@ public class TenantController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		Tenant tenant;
+		Register tenant;
 
-		tenant = tenantService.create();
+		tenant = new Register();
+		tenant.setAccept(false);
 		result = createEditModelAndView(tenant);
 
 		return result;
@@ -59,42 +62,42 @@ public class TenantController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(Tenant tenant) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid Register registerTenant, BindingResult binding) {
+		ModelAndView result;
+		Tenant tenant;
+
+		tenant = tenantService.reconstruct(registerTenant, binding);
+		if (binding.hasErrors()) {
+			result = createEditModelAndView(registerTenant);
+		} else {
+			try {
+				tenant = tenantService.register(tenant);
+				result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + tenant.getId());
+			} catch (Throwable oops) {
+				result = createEditModelAndView(registerTenant, "tenant.commit.error");
+			}
+		}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(Register tenant) {
 		ModelAndView result;
 
 		result = createEditModelAndView(tenant, null);
 
 		return result;
 	}
-	protected ModelAndView createEditModelAndView(Tenant tenant, String message) {
+	protected ModelAndView createEditModelAndView(Register tenant, String message) {
 		ModelAndView result;
 
 		String requestURI = "tenant/edit.do";
 
 		result = new ModelAndView("tenant/register");
-		result.addObject("tenant", tenant);
+		result.addObject("register", tenant);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
 
-		return result;
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(RegisterLessor registerTenant, BindingResult binding) {
-		ModelAndView result;
-		Tenant tenant;
-
-		tenant = tenantService.reconstruct(registerTenant, binding);
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(tenant);
-		} else {
-			try {
-				tenant = tenantService.register(tenant);
-				result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + tenant.getId());
-			} catch (Throwable oops) {
-				result = createEditModelAndView(tenant, "tenant.commit.error");
-			}
-		}
 		return result;
 	}
 
