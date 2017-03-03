@@ -29,11 +29,19 @@
 				</security:authorize>	
 			</ul>
 		</li>
-		<security:authorize access = "hasAnyRole('LESSOR', 'TENANT')">
+		<security:authorize access = "hasRole('TENANT')">
 			<li><a class="fNiv"><spring:message	code="master.page.requests" /></a>
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="request/tenant/list.do"><spring:message code="master.page.requests.list" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		<security:authorize access = "hasRole('LESSOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.requests" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="request/lessor/list.do"><spring:message code="master.page.requests.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
