@@ -38,6 +38,7 @@ public class TenantController extends AbstractController {
 
 		tenant = new Register();
 		tenant.setAccept(false);
+
 		result = createEditModelAndView(tenant);
 
 		return result;
