@@ -10,39 +10,67 @@
 
 
 
-<display:table pagesize="10" class="displaytag" keepStatus="true"
-name="tenant" requestURI="${requestURI}" id="row">
+<security:authentication property="principal" var ="loggedactor"/>
+<jstl:set var="tenant" value="${tenant}"/> 
 
-	<security:authentication property="principal" var ="loggedactor"/>
-	<jstl:set var="tenant" value="${row}"/> 
+<h2><spring:message code="tenant" /></h2>
+<p><spring:message code="tenant.name"/>: <jstl:out value="${tenant.name}" /></p> 
+<p><spring:message code="tenant.surname"/>: <jstl:out value="${tenant.surname}" /></p> 
+<p><spring:message code="tenant.email"/>: <jstl:out value="${tenant.email}" /></p> 
+<p><spring:message code="tenant.phone"/>: <jstl:out value="${tenant.phone}" /></p> 
 
-	<spring:message code="tenant.name" var="nameHeader"/>
-	<display:column property="name" title="${nameHeader}"/>
-	
-	<spring:message code="tenant.surname" var="surnameHeader"/>
-	<display:column property="surname" title="${surnameHeader}"/>
-	
-	<spring:message code="tenant.email" var="emailHeader"/>
-	<display:column property="email" title="${emailHeader}"/>
-	
-	<spring:message code="tenant.phone" var="phoneHeader"/>
-	<display:column property="phone" title="${phoneHeader}"/>
-	
-	
-	<spring:message code="tenant.picture" var="pictureHeader"/>
-	<display:column property="picture" title="${pictureHeader}"/>
-	
-	<jstl:if test="${loggedactor == row.userAccount }">
-		<display:column>
-			<a href="tenant/tenant/edit.do?tenantId=${row.id}"> <spring:message
-					code="tenant.edit" />
-			</a>
-		</display:column>
+<img src="<jstl:out value='${tenant.picture}'/>" > 
+
+<br/>
+
+<security:authorize access="hasRole('LESSOR')">
+	<jstl:if test="${tenant.userAccount.username==loggedactor.username}">
+		<a href="tenant/tenant/edit.do?"> <spring:message code="tenant.edit" /></a>
 	</jstl:if>
-</display:table>
-	<a href="comment/list.do?commentableId=${tenant.id}"> <spring:message
-					code="tenant.comments" /></a>
+</security:authorize>
 
 <br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="comments" requestURI="tenant/display.do" id="row">
+
+	<!-- Attributes -->
+
+	<spring:message code="comment.title" var="titleHeader" />
+	<display:column property="title" title="${titleHeader}" sortable="true" />
+
+	<spring:message code="comment.text" var="textHeader" />
+	<display:column property="text" title="${textHeader}" sortable="true" />
+	
+	<spring:message code="comment.stars" var="starsHeader" />
+	<display:column property="stars" title="${starsHeader}" sortable="true" />
+
+	<spring:message code="comment.moment" var="momentHeader" />
+	<display:column property="moment" title="${momentHeader}"  format="{0,date,dd/MM/yyyy HH:mm}"/>
+	
+	<spring:message code="comment.actor" var="authorHeader"/>
+	<display:column title="${authorHeader}">
+		<a href="actor/display.do?actorId=${row.actor.id}"><spring:message code="comment.actor"/></a>
+	</display:column>
+	
+</display:table>
+
 <br/>
-<br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="socialIdentities" requestURI="tenant/display.do" id="row">
+
+	<!-- Attributes -->
+	
+	<spring:message code="socialidentity.nick" var="nickHeader" />
+	<display:column property="nick" title="${nickHeader}" sortable="true" />
+
+	<spring:message code="socialidentity.network.link" var="linkHeader" />
+	<display:column title="${linkHeader}" sortable="false" >
+		<a href="${row.socialNetworkLink}"><spring:message code="socialidentity.network.link"/></a>
+	</display:column>
+	
+	<spring:message code="socialidentity.network.name" var="nameHeader" />
+	<display:column property="socialNetworkName" title="${nameHeader}" sortable="false" />
+	
+</display:table>
