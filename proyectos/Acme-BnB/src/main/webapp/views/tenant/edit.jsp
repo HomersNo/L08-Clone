@@ -15,7 +15,6 @@
 	<form:hidden path="version" />
 	<form:hidden path="finder" />
 	<form:hidden path="requests" />
-	<form:hidden path="creditCard" />
 	<form:hidden path="socialIdentities" />
 	<form:hidden path="comments" />
 	<form:hidden path="userAccount.authorities" />
@@ -46,17 +45,15 @@
     
 	</jstl:if>
 	
-	<acme:textbox code="tenant.name" path="tenant.name"/>
+	<acme:textbox code="tenant.name" path="name"/>
 	
-	<acme:textbox code="tenant.surname" path="tenant.surname"/>
+	<acme:textbox code="tenant.surname" path="surname"/>
 	
-	<acme:textbox code="tenant.email" path="tenant.email"/>
+	<acme:textbox code="tenant.email" path="email"/>
 	
-	<acme:textarea code="tenant.postalAddress" path="tenant.postalAddress"/>
+	<acme:textbox code="tenant.phone" path="phone"/>
 	
-	<acme:textbox code="tenant.phone" path="tenant.phone"/>
-	
-	<acme:textbox code="tenant.picture" path="tenant.picture"/>
+	<acme:textbox code="tenant.picture" path="picture"/>
 	
 	<br>
 	<input type="submit" name="save"
