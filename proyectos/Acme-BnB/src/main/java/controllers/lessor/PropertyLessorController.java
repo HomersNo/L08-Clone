@@ -104,11 +104,12 @@ public class PropertyLessorController extends AbstractController {
 
 		ModelAndView result;
 
-		property = propertyService.reconstruct(property, binding);
+		
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(property);
 		} else {
 			try {
+				property = propertyService.reconstruct(property, binding);
 				property = propertyService.save(property);
 				result = new ModelAndView("redirect:/property/display.do?propertyId=" + property.getId());
 

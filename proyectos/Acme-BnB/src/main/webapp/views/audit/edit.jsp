@@ -27,11 +27,16 @@
 	
 	<acme:textarea code="audit.attachments" path="attachments"/>
 	
-	<acme:checkbox code="audit.draft" path="draft"/>
+	<form:label path="draft" >
+		<spring:message code="audit.draft" />
+	</form:label>
+	<form:checkbox path="draft" id="draft"/>
+	<form:errors path="draft" cssClass="error" />
+	
+	<br/>
 	
 	<input type="submit" name="save"
-		value="<spring:message code="audit.save" 
-		onclick="javascript: toggleSubmit()"/>" />&nbsp; 
+		value="<spring:message code="audit.save" />" onclick="return toggleSubmit()" />&nbsp; 
 	<jstl:if test="${draft}">
 	<input type="submit" name="delete"
 		value="<spring:message code="audit.delete" />" />&nbsp; 
@@ -43,8 +48,8 @@
 	
 	<script type="text/javascript">
 		function toggleSubmit() {
-			var accepted = document.getElementById("draft");
-			if(!accepted.checked){
+			var drafted = document.getElementById("draft").checked;
+			if(!drafted){
 				return confirm('<spring:message code="audit.save.confirm" />');
 			}		
 		}
