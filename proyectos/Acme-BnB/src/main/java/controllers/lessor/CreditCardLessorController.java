@@ -15,7 +15,7 @@ import controllers.AbstractController;
 import domain.CreditCard;
 
 @Controller
-@RequestMapping("/creditCard/lessor")
+@RequestMapping("/creditcard/lessor")
 public class CreditCardLessorController extends AbstractController {
 
 	// Services
