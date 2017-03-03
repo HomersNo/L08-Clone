@@ -33,7 +33,7 @@ public class TenantController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result;
 		Tenant tenant;
-
+		
 		tenant = tenantService.create();
 		result = createEditModelAndView(tenant);
 
@@ -70,8 +70,11 @@ public class TenantController extends AbstractController {
 		ModelAndView result;
 
 		String requestURI = "tenant/edit.do";
+		RegisterLessor registerLessor = new RegisterLessor();
 
+		
 		result = new ModelAndView("tenant/register");
+		result.addObject("registerLessor", registerLessor);
 		result.addObject("tenant", tenant);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
