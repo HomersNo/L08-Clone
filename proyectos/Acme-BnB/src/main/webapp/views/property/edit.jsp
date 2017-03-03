@@ -32,7 +32,7 @@
 	<acme:textbox code="property.address" path="address"/>
 
 	<label><spring:message	code="property.rate" /></label>
-	<input type="number" min="0" step="any" name="rate" id="hourRate">
+	<form:input type="number" min="0" step="any" path="rate" />
 	<form:errors path="rate" cssClass="error"/>
 	<br/>
 

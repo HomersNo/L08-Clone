@@ -21,8 +21,8 @@ import security.UserAccount;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public abstract class Actor extends Commentable {
-
+public class Actor extends Commentable {
+	
 	// Constructors -----------------------------------------------------------
 
 	public Actor() {

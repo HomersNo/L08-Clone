@@ -30,8 +30,7 @@
 	<acme:checkbox code="request.smoker" path="smoker"/>
 	
 	<div style="padding-left: 15px;">
-		<b><font size=5><spring:message
-					code="request.creditCard.create" /></font></b>
+		<b><font size=5>Falta un message</font></b>
 	</div>
 	<br />
 
