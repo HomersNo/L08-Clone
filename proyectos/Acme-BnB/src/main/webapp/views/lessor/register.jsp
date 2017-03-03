@@ -49,7 +49,7 @@
 
 		
 	
-	<acme:cancel url="welcome/index.do" code="lessor.cancel"/>
+	<acme:cancel url="index.do" code="lessor.cancel"/>
 	
 	
 	<script type="text/javascript">
