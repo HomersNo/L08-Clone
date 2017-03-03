@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.LessorService;
 import domain.Lessor;
-import forms.RegisterLessor;
+import forms.Register;
 
 @Controller
 @RequestMapping("/lessor")
@@ -34,9 +34,10 @@ public class LessorController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		Lessor lessor;
+		Register lessor;
 
-		lessor = lessorService.create();
+		lessor = new Register();
+		lessor.setAccept(false);
 		result = createEditModelAndView(lessor);
 
 		return result;
@@ -62,38 +63,38 @@ public class LessorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid RegisterLessor registerLessor, BindingResult binding) {
+	public ModelAndView save(@Valid Register registerLessor, BindingResult binding) {
 		ModelAndView result;
 		Lessor lessor;
 
 		lessor = lessorService.reconstruct(registerLessor, binding);
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(lessor);
+			result = createEditModelAndView(registerLessor);
 		} else {
 			try {
 				lessor = lessorService.register(lessor);
 				result = new ModelAndView("redirect:/lessor/display.do?lessorId=" + lessor.getId());
 			} catch (Throwable oops) {
-				result = createEditModelAndView(lessor, "lessor.commit.error");
+				result = createEditModelAndView(registerLessor, "lessor.commit.error");
 			}
 		}
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(Lessor lessor) {
+	protected ModelAndView createEditModelAndView(Register lessor) {
 		ModelAndView result;
 
 		result = createEditModelAndView(lessor, null);
 
 		return result;
 	}
-	protected ModelAndView createEditModelAndView(Lessor lessor, String message) {
+	protected ModelAndView createEditModelAndView(Register lessor, String message) {
 		ModelAndView result;
 
 		String requestURI = "lessor/edit.do";
 
 		result = new ModelAndView("lessor/register");
-		result.addObject("lessor", lessor);
+		result.addObject("register", lessor);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
 

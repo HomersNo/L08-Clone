@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
-public class RegisterLessor {
+public class Register {
 
 	private String	username;
 	private String	password;
