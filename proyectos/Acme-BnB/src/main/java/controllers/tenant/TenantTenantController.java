@@ -30,6 +30,8 @@ public class TenantTenantController extends AbstractController {
 		super();
 	}
 
+	// Methods ----------------------------------------------------------------
+
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit() {
 		ModelAndView result;
@@ -71,10 +73,11 @@ public class TenantTenantController extends AbstractController {
 
 		return result;
 	}
+
 	protected ModelAndView createEditModelAndView(Tenant tenant, String message) {
 		ModelAndView result;
 
-		String requestURI = "tenant/edit.do";
+		String requestURI = "tenant/tenant/edit.do";
 
 		result = new ModelAndView("tenant/edit");
 		result.addObject("tenant", tenant);
@@ -83,5 +86,4 @@ public class TenantTenantController extends AbstractController {
 
 		return result;
 	}
-
 }

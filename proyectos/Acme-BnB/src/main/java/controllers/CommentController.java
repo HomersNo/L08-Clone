@@ -1,5 +1,5 @@
 
-package controllers.actor;
+package controllers;
 
 import java.util.Collection;
 
@@ -13,17 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
 import services.CommentService;
 import services.CommentableService;
-import controllers.AbstractController;
-import domain.Actor;
 import domain.Comment;
 import domain.Commentable;
 
 @Controller
-@RequestMapping("/comment/actor")
-public class CommentActorController extends AbstractController {
+@RequestMapping("/comment")
+public class CommentController extends AbstractController {
 
 	// Services -----------------------------------------------------------------------
 	@Autowired
@@ -32,24 +29,19 @@ public class CommentActorController extends AbstractController {
 	@Autowired
 	private CommentableService	commentableService;
 
-	@Autowired
-	private ActorService		actorService;
-
 
 	// Constructor --------------------------------------------------------------------
-	public CommentActorController() {
+	public CommentController() {
 		super();
 	}
 
 	// Listing ------------------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam int commentableId) {
 		ModelAndView result;
 		Collection<Comment> comments;
 
-		Actor principal = actorService.findByPrincipal();
-
-		comments = commentableService.getAllCommentsFromCommentable(principal.getId());
+		comments = commentableService.getAllCommentsFromCommentable(commentableId);
 
 		result = new ModelAndView("comment/list");
 		result.addObject("requestURI", "comment/list.do");

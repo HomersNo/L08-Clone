@@ -14,16 +14,17 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="userAccount" /> 
+
 	
-	<acme:textbox code="tenant.name" path="tenant.name"/>
+	<acme:textbox code="tenant.name" path="name"/>
 	
-	<acme:textbox code="tenant.surname" path="tenant.surname"/>
+	<acme:textbox code="tenant.surname" path="surname"/>
 	
-	<acme:textbox code="tenant.email" path="tenant.email"/>
-		
-	<acme:textbox code="tenant.phone" path="tenant.phone"/>
+	<acme:textbox code="tenant.email" path="email"/>
 	
-	<acme:textbox code="tenant.picture" path="tenant.picture"/>
+	<acme:textbox code="tenant.phone" path="phone"/>
+	
+	<acme:textbox code="tenant.picture" path="picture"/>
 	
 	<br>
 	<input type="submit" name="save"
@@ -35,18 +36,9 @@
 			value="<spring:message code="tenant.delete" />" />&nbsp; 
 	</jstl:if>
 	
-	<jstl:if test="${tenant.id != 0}">
-		<input type="button" name="cancel"
-		value="<spring:message code="tenant.cancel" />"
-		onclick="location.href = 'tenant/display.do';" />&nbsp;
-	<br />
-	</jstl:if>
-	
-	<jstl:if test="${tenant.id == 0}">
 	<input type="button" name="cancel"
 		value="<spring:message code="tenant.cancel" />"
 		onclick="location.href = 'welcome/index.do';" />&nbsp;
-	</jstl:if>
 	<br />
 	
 </form:form>

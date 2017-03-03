@@ -34,7 +34,7 @@
 	</display:column>
 	<spring:message code="request.property" var="propertyHeader"/>
 	<display:column title="${propertyHeader}">
-		<a href="property/diplay.do?propertyId=${row.property.id}"><spring:message code="request.property"/> </a>
+		<a href="property/display.do?propertyId=${row.property.id}"><spring:message code="request.property"/> </a>
 	</display:column>
 	
 	<security:authorize access="hasRole('TENANT')">

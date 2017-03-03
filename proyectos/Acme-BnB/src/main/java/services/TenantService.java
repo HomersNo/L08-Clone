@@ -172,21 +172,21 @@ public class TenantService {
 		return result;
 	}
 
-	public Tenant findAllByAcceptedRequests() {
+	public Collection<Tenant> findAllByAcceptedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findAllByAcceptedRequests().iterator().next();
+		Collection<Tenant> result = tenantRepository.findAllByAcceptedRequests();
 		return result;
 	}
 
-	public Tenant findAllByDeniedRequests() {
+	public Collection<Tenant> findAllByDeniedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findAllByDeniedRequests().iterator().next();
+		Collection<Tenant> result = tenantRepository.findAllByDeniedRequests();
 		return result;
 	}
 
-	public Tenant findAllByPendingRequests() {
+	public Collection<Tenant> findAllByPendingRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findAllByPendingRequests().iterator().next();
+		Collection<Tenant> result = tenantRepository.findAllByPendingRequests();
 		return result;
 	}
 
