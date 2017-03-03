@@ -1,6 +1,8 @@
 
 package controllers.actor;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,20 @@ public class CommentActorController extends AbstractController {
 	}
 
 	// Listing ------------------------------------------------------------------------
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam int commentableId) {
+		ModelAndView result;
+		Collection<Comment> comments;
+
+		comments = commentableService.getAllCommentsFromCommentable(commentableId);
+
+		result = new ModelAndView("comment/list");
+		result.addObject("requestURI", "comment/list.do");
+		result.addObject("comments", comments);
+		result.addObject("commentableId", commentableId);
+
+		return result;
+	}
 
 	// Creation -----------------------------------------------------------------------
 
@@ -62,7 +78,7 @@ public class CommentActorController extends AbstractController {
 		} else {
 			try {
 				comment = commentService.save(comment);
-				result = new ModelAndView("redirect:/commentable/display.do?commentableId=" + comment.getCommentable().getId());
+				result = new ModelAndView("redirect:/comment/display.do?commentableId=" + comment.getCommentable().getId());
 			} catch (Throwable oops) {
 				result = createEditModelAndView(comment, "comment.commit.error");
 			}
