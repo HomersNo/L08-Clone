@@ -83,6 +83,7 @@ public class CommentActorController extends AbstractController {
 			result = createEditModelAndView(comment);
 		} else {
 			try {
+				commentService.reconstruct(comment, binding);
 				comment = commentService.save(comment);
 				result = new ModelAndView("redirect:/comment/display.do?commentableId=" + comment.getCommentable().getId());
 			} catch (Throwable oops) {
