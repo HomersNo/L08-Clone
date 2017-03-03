@@ -13,37 +13,8 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="finder" />
-	<form:hidden path="requests" />
-	<form:hidden path="socialIdentities" />
-	<form:hidden path="comments" />
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="userAccount.id" />
-	<form:hidden path="userAccount.version" />
-	
-	<jstl:if test="${tenant.id!=0}">
-	<form:hidden path="userAccount.username" />
-	<form:hidden path="userAccount.password" />
-	</jstl:if>
-	
-	<jstl:if test="${tenant.id==0}">
-	<form:label path="userAccount.username">
-      <spring:message code="tenant.username" />
-    </form:label>
-    <form:input path="userAccount.username"/>
-    <form:errors cssClass="error" path="userAccount.username"/>
-    <br />
-    <br />
-    
-    <form:label path="userAccount.password">
-      <spring:message code="tenant.password" />
-    </form:label>
-    <form:password path="userAccount.password"/>
-    <form:errors cssClass="error" path="userAccount.password"/>
-    <br />
-    <br />
-    
-	</jstl:if>
+	<form:hidden path="userAccount" /> 
+
 	
 	<acme:textbox code="tenant.name" path="name"/>
 	
@@ -65,18 +36,9 @@
 			value="<spring:message code="tenant.delete" />" />&nbsp; 
 	</jstl:if>
 	
-	<jstl:if test="${tenant.id != 0}">
-		<input type="button" name="cancel"
-		value="<spring:message code="tenant.cancel" />"
-		onclick="location.href = 'tenant/display.do';" />&nbsp;
-	<br />
-	</jstl:if>
-	
-	<jstl:if test="${tenant.id == 0}">
 	<input type="button" name="cancel"
 		value="<spring:message code="tenant.cancel" />"
 		onclick="location.href = 'welcome/index.do';" />&nbsp;
-	</jstl:if>
 	<br />
 	
 </form:form>

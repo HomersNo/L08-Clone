@@ -29,7 +29,7 @@ public class TenantTenantController extends AbstractController {
 	public TenantTenantController() {
 		super();
 	}
-	
+
 	// Methods ----------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -48,12 +48,15 @@ public class TenantTenantController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid Tenant tenant, BindingResult binding) {
 		ModelAndView result;
-		
-		tenant = tenantService.reconstruct(tenant, binding);
+
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(tenant);
 		} else {
 			try {
+				tenant = tenantService.reconstruct(tenant, binding);
+				if (binding.hasErrors()) {
+					result = createEditModelAndView(tenant);
+				}
 				tenant = tenantService.save(tenant);
 				result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + tenant.getId());
 			} catch (Throwable oops) {
@@ -70,7 +73,7 @@ public class TenantTenantController extends AbstractController {
 
 		return result;
 	}
-	
+
 	protected ModelAndView createEditModelAndView(Tenant tenant, String message) {
 		ModelAndView result;
 

@@ -10,45 +10,46 @@
 
 <form:form action="${requestURI}" modelAttribute="register">
 
-	<acme:textbox code="tenant.username" path="username"/>
+	<acme:textbox code="lessor.useraccount.username" path="username"/>
 	
-    <acme:password code="tenant.password" path="password"/>
+    <acme:password code="lessor.useraccount.password" path="password"/>
     
-	<acme:textbox code="tenant.name" path="name"/>
+	<acme:textbox code="lessor.name" path="name"/>
 	
-	<acme:textbox code="tenant.surname" path="surname"/>
+	<acme:textbox code="lessor.surname" path="surname"/>
 	
-	<acme:textbox code="tenant.email" path="email"/>
+	<acme:textbox code="lessor.email" path="email"/>
 	
-	<acme:textbox code="tenant.phone" path="phone"/>
+	<acme:textbox code="lessor.phone" path="phone"/>
 	
-	<acme:textbox code="tenant.picture" path="picture"/>
+	<acme:textbox code="lessor.picture" path="picture"/>
 	
 	<form:label path="accept" >
-		<spring:message code="tenant.terms" />
+		<spring:message code="lessor.terms" />
 	</form:label>
 	<form:checkbox path="accept" id="terms" onchange="javascript: toggleSubmit()"/>
 	<form:errors path="accept" cssClass="error" />
+	
 	<br/>
 	
 	<button type="submit" name="save" class="btn btn-primary" id="save" disabled onload="javascript: toggleSubmit()">
-		<spring:message code="tenant.save" />
+		<spring:message code="lessor.save" />
 	</button>
 
 		
 	
-	<acme:cancel url="index.do" code="tenant.cancel"/>
+	<acme:cancel url="index.do" code="lessor.cancel"/>
 	
 	
 	<script type="text/javascript">
-	function toggleSubmit() {
-		var accepted = document.getElementById("terms");
-		if(accepted.checked){
-			document.getElementById("save").disabled = false;
-		} else{
-			document.getElementById("save").disabled = true;
+		function toggleSubmit() {
+			var accepted = document.getElementById("terms");
+			if(accepted.checked){
+				document.getElementById("save").disabled = false;
+			} else{
+				document.getElementById("save").disabled = true;
+			}
 		}
-	}
 	</script>
 	
 </form:form>

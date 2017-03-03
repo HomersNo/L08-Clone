@@ -17,28 +17,24 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <security:authentication property="principal" var ="loggedactor"/>
-<jstl:set var="lessor" value="${lessor}"/> 
+<jstl:set var="administrator" value="${administrator}"/> 
 
-<h2><spring:message code="lessor" /></h2>
-<p><spring:message code="lessor.name"/>: <jstl:out value="${lessor.name}" /></p> 
-<p><spring:message code="lessor.surname"/>: <jstl:out value="${lessor.surname}" /></p> 
-<p><spring:message code="lessor.email"/>: <jstl:out value="${lessor.email}" /></p> 
-<p><spring:message code="lessor.phone"/>: <jstl:out value="${lessor.phone}" /></p> 
+<h2><spring:message code="administrator" /></h2>
+<p><spring:message code="administrator.name"/>: <jstl:out value="${administrator.name}" /></p> 
+<p><spring:message code="administrator.surname"/>: <jstl:out value="${administrator.surname}" /></p> 
+<p><spring:message code="administrator.email"/>: <jstl:out value="${administrator.email}" /></p> 
+<p><spring:message code="administrator.phone"/>: <jstl:out value="${administrator.phone}" /></p> 
 
-<img src="<jstl:out value='${lessor.picture}'/>" > 
+<img src="<jstl:out value='${administrator.picture}'/>" > 
 
-<br/>
-
-<security:authorize access="hasRole('LESSOR')">
-	<jstl:if test="${lessor.userAccount.username==loggedactor.username}">
-		<a href="lessor/lessor/edit.do?"> <spring:message code="lessor.edit" /></a>
+<security:authorize access="hasRole('ADMIN')">
+	<jstl:if test="${administrator.userAccount.username==loggedactor.username}">
+		<a href="administrator/administrator/edit.do?"> <spring:message code="administrator.edit" /></a>
 	</jstl:if>
 </security:authorize>
 
-<br/>
-
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="comments" requestURI="lessor/display.do" id="row">
+	name="comments" requestURI="${requestURI}" id="row">
 
 	<!-- Attributes -->
 
@@ -54,17 +50,15 @@
 	<spring:message code="comment.moment" var="momentHeader" />
 	<display:column property="moment" title="${momentHeader}"  format="{0,date,dd/MM/yyyy HH:mm}"/>
 	
-	<spring:message code="comment.actor" var="authorHeader"/>
+	<spring:message code="comment.author" var="authorHeader"/>
 	<display:column title="${authorHeader}">
-		<a href="actor/display.do?actorId=${row.actor.id}"><spring:message code="comment.actor"/></a>
+		<a href="actor/display.do?actorId=${row.actor.id}"><spring:message code="comment.author"/></a>
 	</display:column>
 	
 </display:table>
 
-<br/>
-
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="socialIdentities" requestURI="lessor/display.do" id="row">
+	name="socialIdentities" requestURI="socialIdentity/actor/list.do" id="row">
 
 	<!-- Attributes -->
 	

@@ -46,7 +46,7 @@ public class Tenant extends Actor {
 	}
 
 	@Valid
-	@OneToOne(optional = false)
+	@OneToOne(optional = true)
 	public Finder getFinder() {
 		return finder;
 	}

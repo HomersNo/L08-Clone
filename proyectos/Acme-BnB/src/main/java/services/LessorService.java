@@ -173,21 +173,21 @@ public class LessorService {
 		return result;
 	}
 	
-	public Lessor findAllByAcceptedRequests(){
+	public Collection<Lessor> findAllByAcceptedRequests(){
 		Assert.notNull(administratorService.findByPrincipal());
-		Lessor result = lessorRepository.findAllByAcceptedRequests().iterator().next();
+		Collection<Lessor> result = lessorRepository.findAllByAcceptedRequests();
 		return result;
 	}
 	
-	public Lessor findAllByDeniedRequests(){
+	public Collection<Lessor> findAllByDeniedRequests(){
 		Assert.notNull(administratorService.findByPrincipal());
-		Lessor result = lessorRepository.findAllByDeniedRequests().iterator().next();
+		Collection<Lessor> result = lessorRepository.findAllByDeniedRequests();
 		return result;
 	}
 	
-	public Lessor findAllByPendingRequests(){
+	public Collection<Lessor> findAllByPendingRequests(){
 		Assert.notNull(administratorService.findByPrincipal());
-		Lessor result = lessorRepository.findAllByPendingRequests().iterator().next();
+		Collection<Lessor> result = lessorRepository.findAllByPendingRequests();
 		return result;
 	}
 	
