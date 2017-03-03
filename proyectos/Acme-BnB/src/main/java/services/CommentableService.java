@@ -35,17 +35,6 @@ public class CommentableService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
-	public Commentable findByComment(Comment comment) {
-		Commentable result;
-		result = commentableRepository.findByComment(comment.getId());
-		return result;
-	}
-
-	public Commentable findByComment(int commentId) {
-		Commentable result;
-		result = commentableRepository.findByComment(commentId);
-		return result;
-	}
 
 	public Commentable findOne(int commentableId) {
 		Assert.isTrue(commentableId != 0);
@@ -79,6 +68,12 @@ public class CommentableService {
 	}
 
 	//Auxiliary methods ------------------------------------------------------
+	public Collection<Comment> getAllCommentsFromCommentable(int commentableId) {
+		Collection<Comment> result;
+		result = commentableRepository.allCommentsByCommentable(commentableId);
+		Assert.notNull(result);
+		return result;
+	}
 
 	//Our other bussiness methods --------------------------------------------
 }

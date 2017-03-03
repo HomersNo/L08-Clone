@@ -29,7 +29,9 @@
 	<acme:submit name="save" code="attribute.save"/>
 
 	<jstl:if test="${attribute.id != 0}">
-		<acme:submit name="delete" code="attribute.delete"/>
+		<input type="submit" name="delete"
+			value="<spring:message code="attribute.delete" />"
+			onclick="return confirm('<spring:message code="attribute.confirm.delete" />')" />&nbsp;
 	</jstl:if>
 	<acme:cancel url="attribute/administrator/list.do" code="attribute.cancel"/>
 

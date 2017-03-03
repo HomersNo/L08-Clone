@@ -1,6 +1,8 @@
 
 package controllers.actor;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CommentService;
 import services.CommentableService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Comment;
 import domain.Commentable;
 
@@ -28,6 +32,9 @@ public class CommentActorController extends AbstractController {
 	@Autowired
 	private CommentableService	commentableService;
 
+	@Autowired
+	private ActorService		actorService;
+
 
 	// Constructor --------------------------------------------------------------------
 	public CommentActorController() {
@@ -35,6 +42,21 @@ public class CommentActorController extends AbstractController {
 	}
 
 	// Listing ------------------------------------------------------------------------
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		Collection<Comment> comments;
+
+		Actor principal = actorService.findByPrincipal();
+
+		comments = commentableService.getAllCommentsFromCommentable(principal.getId());
+
+		result = new ModelAndView("comment/list");
+		result.addObject("requestURI", "comment/list.do");
+		result.addObject("comments", comments);
+
+		return result;
+	}
 
 	// Creation -----------------------------------------------------------------------
 
@@ -62,7 +84,7 @@ public class CommentActorController extends AbstractController {
 		} else {
 			try {
 				comment = commentService.save(comment);
-				result = new ModelAndView("redirect:/commentable/display.do?commentableId=" + comment.getCommentable().getId());
+				result = new ModelAndView("redirect:/comment/display.do?commentableId=" + comment.getCommentable().getId());
 			} catch (Throwable oops) {
 				result = createEditModelAndView(comment, "comment.commit.error");
 			}

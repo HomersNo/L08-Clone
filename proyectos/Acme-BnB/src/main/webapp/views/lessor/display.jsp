@@ -27,14 +27,18 @@
 
 <img src="<jstl:out value='${lessor.picture}'/>" > 
 
+<br/>
+
 <security:authorize access="hasRole('LESSOR')">
-	<jstl:if test="${lessor.userAccount.username==loggedactor.username">
+	<jstl:if test="${lessor.userAccount.username==loggedactor.username}">
 		<a href="lessor/lessor/edit.do?"> <spring:message code="lessor.edit" /></a>
 	</jstl:if>
 </security:authorize>
 
+<br/>
+
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="comments" requestURI="${requestURI}" id="row">
+	name="comments" requestURI="lessor/display.do" id="row">
 
 	<!-- Attributes -->
 
@@ -50,15 +54,17 @@
 	<spring:message code="comment.moment" var="momentHeader" />
 	<display:column property="moment" title="${momentHeader}"  format="{0,date,dd/MM/yyyy HH:mm}"/>
 	
-	<spring:message code="comment.author" var="authorHeader"/>
+	<spring:message code="comment.actor" var="authorHeader"/>
 	<display:column title="${authorHeader}">
-		<a href="actor/display.do?actorId=${row.actor.id}"><spring:message code="comment.author"/></a>
+		<a href="actor/display.do?actorId=${row.actor.id}"><spring:message code="comment.actor"/></a>
 	</display:column>
 	
 </display:table>
 
+<br/>
+
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="socialIdentities" requestURI="socialIdentity/actor/list.do" id="row">
+	name="socialIdentities" requestURI="lessor/display.do" id="row">
 
 	<!-- Attributes -->
 	

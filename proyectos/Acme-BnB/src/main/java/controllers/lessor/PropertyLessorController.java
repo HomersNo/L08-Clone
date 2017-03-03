@@ -136,7 +136,7 @@ public class PropertyLessorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/addAttribute", method = RequestMethod.POST, params = "addAttribute")
-	public ModelAndView addIngredient(AddAttribute addAttribute, BindingResult binding) {
+	public ModelAndView addAttribute(@Valid AddAttribute addAttribute, BindingResult binding) {
 
 		ModelAndView result;
 		Property property = propertyService.findOne(addAttribute.getPropertyId());
@@ -181,8 +181,8 @@ public class PropertyLessorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/removeIngredient", method = RequestMethod.GET)
-	public ModelAndView removeIngredient(@RequestParam int valueId) {
+	@RequestMapping(value = "/removeAttribute", method = RequestMethod.GET)
+	public ModelAndView removeAttribute(@RequestParam int valueId) {
 
 		ModelAndView result;
 		Value value = valueService.findOne(valueId);
@@ -192,11 +192,11 @@ public class PropertyLessorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/editQuantity", method = RequestMethod.GET)
-	public ModelAndView editQuantity(@RequestParam int quantityId) {
+	@RequestMapping(value = "/editValue", method = RequestMethod.GET)
+	public ModelAndView editValue(@RequestParam int valueId) {
 
 		ModelAndView result;
-		Value value = valueService.findOne(quantityId);
+		Value value = valueService.findOne(valueId);
 		result = createValueModelAndView(value);
 		return result;
 	}

@@ -20,7 +20,7 @@
 	<!-- ADMIN -->
 	<bean id="userAccount1" class="security.UserAccount">
 		<property name="username" value="admin1" />
-		<property name="password" value="admin1" />
+		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -32,7 +32,7 @@
 	
 	<bean id="userAccount2" class="security.UserAccount">
 		<property name="username" value="admin2" />
-		<property name="password" value="admin2" />
+		<property name="password" value="c84258e9c39059a89ab77d846ddab909" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -45,7 +45,7 @@
 	<!-- LESSOR -->
 	<bean id="userAccount3" class="security.UserAccount">
 		<property name="username" value="lessor1" />
-		<property name="password" value="lessor1" />
+		<property name="password" value="5b61d56842232fc77308dbd3e99d99d4" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -57,7 +57,7 @@
 	
 	<bean id="userAccount4" class="security.UserAccount">
 		<property name="username" value="lessor2" />
-		<property name="password" value="lessor2" />
+		<property name="password" value="f52271900bf9fb541f9dc9a4e05d722c" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -69,7 +69,7 @@
 	
 	<bean id="userAccount5" class="security.UserAccount">
 		<property name="username" value="lessor3" />
-		<property name="password" value="lessor3" />
+		<property name="password" value="08478d5845e9ce53e7afe6f846f6e25f" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -82,7 +82,7 @@
 	<!-- TENANT -->
 	<bean id="userAccount6" class="security.UserAccount">
 		<property name="username" value="tenant1" />
-		<property name="password" value="tenant1" />
+		<property name="password" value="febe027753c1e6ce9acdbbd9c80a8407" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -94,7 +94,7 @@
 	
 	<bean id="userAccount7" class="security.UserAccount">
 		<property name="username" value="tenant2" />
-		<property name="password" value="tenant2" />
+		<property name="password" value="2df2c46b04b68726715c3500161133c2" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -106,7 +106,7 @@
 	
 	<bean id="userAccount8" class="security.UserAccount">
 		<property name="username" value="tenant3" />
-		<property name="password" value="tenant3" />
+		<property name="password" value="2f92d0876b22fca3eae306f8221a3418" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -119,7 +119,7 @@
 	<!-- AUDITOR -->
 	<bean id="userAccount9" class="security.UserAccount">
 		<property name="username" value="auditor1" />
-		<property name="password" value="auditor1" />
+		<property name="password" value="175d2e7a63f386554a4dd66e865c3e14" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -131,7 +131,7 @@
 	
 	<bean id="userAccount10" class="security.UserAccount">
 		<property name="username" value="auditor2" />
-		<property name="password" value="auditor2" />
+		<property name="password" value="04dd94ba3212ac52ad3a1f4cbfb52d4f" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -143,7 +143,7 @@
 	
 	<bean id="userAccount11" class="security.UserAccount">
 		<property name="username" value="auditor3" />
-		<property name="password" value="auditor3" />
+		<property name="password" value="fc2073dbe4f65dfd71e46602f8e6a5f3" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -688,7 +688,7 @@
 	<bean id="audit1" class="domain.Audit">
 		<property name="moment" value="2017/01/26" />
 		<property name="text" value="Accomplished with all requirements." />
-		<property name="attachments" value=""/>
+		<property name="attachments" value="www.attachment1.es, www.wtf.com"/>
 		<property name="draft" value="false" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property1"/>
@@ -697,7 +697,7 @@
 	<bean id="audit2" class="domain.Audit">
 		<property name="moment" value="2017/01/27" />
 		<property name="text" value="Pending approval." />
-		<property name="attachments" value="" />
+		<property name="attachments" value="www.thingy.org" />
 		<property name="draft" value="true" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property2"/>

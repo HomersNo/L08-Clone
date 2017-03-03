@@ -10,7 +10,7 @@
 <security:authentication property="principal" var ="loggedactor"/>
 
 
-<P><spring:message code="audit.property"/>${audit.property.name}<spring:message code="audit.auditor"/>${audit.auditor.name} ${audit.auditor.surname}</P>
+<P><b><spring:message code="audit.property"/> ${audit.property.name} -- <spring:message code="audit.auditor"/> ${audit.auditor.name} ${audit.auditor.surname}</b></P>
 <p>${audit.moment}</p><br/>
 <P> ${audit.text}</P>
 <P>

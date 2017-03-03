@@ -28,8 +28,6 @@ name="tenant" requestURI="${requestURI}" id="row">
 	<spring:message code="tenant.phone" var="phoneHeader"/>
 	<display:column property="phone" title="${phoneHeader}"/>
 	
-	<spring:message code="tenant.postalAddress" var="postalAddressHeader"/>
-	<display:column property="postalAddress" title="${postalAddressHeader}"/>
 	
 	<spring:message code="tenant.picture" var="pictureHeader"/>
 	<display:column property="picture" title="${pictureHeader}"/>
@@ -42,6 +40,9 @@ name="tenant" requestURI="${requestURI}" id="row">
 		</display:column>
 	</jstl:if>
 </display:table>
+	<a href="comment/list.do?commentableId=${tenant.id}"> <spring:message
+					code="tenant.comments" /></a>
+
 <br/>
 <br/>
 <br/>

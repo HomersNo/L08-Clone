@@ -29,11 +29,19 @@
 				</security:authorize>	
 			</ul>
 		</li>
-		<security:authorize access = "hasAnyRole('LESSOR', 'TENANT')">
+		<security:authorize access = "hasRole('TENANT')">
 			<li><a class="fNiv"><spring:message	code="master.page.requests" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="request/list.do"><spring:message code="master.page.requests.list" /></a></li>
+					<li><a href="request/tenant/list.do"><spring:message code="master.page.requests.list" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		<security:authorize access = "hasRole('LESSOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.requests" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="request/lessor/list.do"><spring:message code="master.page.requests.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -112,7 +120,6 @@
 								<li class="arrow"></li>
 								<li><a href="tenant/display.do"><spring:message code="master.page.tenant.display" /></a></li>
 								<li><a href="tenant/tenant/edit.do"><spring:message code="master.page.tenant.edit" /></a></li>
-								<li><a href="creditcard/lessor/edit.do"><spring:message code="master.page.creditcard.edit" /></a></li>
 								<li><a href="finder/tenant/edit.do"><spring:message code="master.page.finder.edit" /></a></li>
 							</ul>
 						</li>
