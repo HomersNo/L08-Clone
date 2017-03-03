@@ -62,6 +62,7 @@
 		
 		<security:intercept-url pattern="/auditor/display.do**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/auditor/auditor/**.do**" access="hasRole('AUDITOR')" />
+		<security:intercept-url pattern="/auditor/administrator/****" access="hasRole('ADMIN')" />
 		
 		<security:intercept-url pattern="/audit/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/audit/auditor/**" access="hasRole('AUDITOR')" />
@@ -73,9 +74,6 @@
 		
 		<security:intercept-url pattern="/creditcard/lessor/**.do**" access="hasRole('LESSOR')"/>
 		<security:intercept-url pattern="/creditcard/tenant/**.do**" access="hasRole('TENANT')"/>
-		
-		<security:intercept-url pattern="/finder/tenant/**.do**" access="hasRole('TENANT')"/>
-		<security:intercept-url pattern="/invoice/tenant/**.do**" access="hasRole('TENANT')"/>
 		
 		<security:intercept-url pattern="/finder/tenant/**.do**" access="hasRole('TENANT')"/>
 		
