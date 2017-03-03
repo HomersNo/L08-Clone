@@ -18,32 +18,34 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="${requestURI}" modelAttribute="lessor">
+<form:form action="${requestURI}" modelAttribute="administrator">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="userAccount" />
+	<form:hidden path="userAccount"/>
 	
-	<acme:textbox code="lessor.name" path="name"/>
+	<jstl:if test="${administrator.id==0}">
 	
-	<acme:textbox code="lessor.surname" path="surname"/>
+	<acme:textbox code="administrator.useraccount.username" path="userAccount.username"/>
 	
-	<acme:textbox code="lessor.email" path="email"/>
-	
-	<acme:textbox code="lessor.phone" path="phone"/>
-	
-	<acme:textbox code="lessor.picture" path="picture"/>
-	
-	<acme:submit name="save" code="lessor.save"/>
-		
-		
-	<jstl:if test="${user.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="lessor.delete" />"
-			onclick="return confirm('<spring:message code="lessor.confirm.delete" />')" />&nbsp;
+    <acme:password code="administrator.useraccount.password" path="userAccount.password"/>
+    
 	</jstl:if>
 	
-	<acme:cancel url="welcome/index.do" code="lessor.cancel"/>
+	
+	<acme:textbox code="administrator.name" path="name"/>
+	
+	<acme:textbox code="administrator.surname" path="surname"/>
+	
+	<acme:textbox code="administrator.email" path="email"/>
+	
+	<acme:textbox code="administrator.phone" path="phone"/>
+	
+	<acme:textbox code="administrator.picture" path="picture"/>
+	
+	<acme:submit name="save" code="administrator.save"/>
+	
+	<acme:cancel url="welcome/index.do" code="administrator.cancel"/>
 	
 	
 	
