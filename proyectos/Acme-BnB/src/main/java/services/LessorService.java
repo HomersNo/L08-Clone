@@ -20,7 +20,7 @@ import domain.Comment;
 import domain.Lessor;
 import domain.Property;
 import domain.SocialIdentity;
-import forms.RegisterLessor;
+import forms.Register;
 
 @Service
 @Transactional
@@ -142,7 +142,7 @@ public class LessorService {
 		return result;
 	}
 
-	public Lessor reconstruct(RegisterLessor registerLessor, BindingResult binding) {
+	public Lessor reconstruct(Register registerLessor, BindingResult binding) {
 		Lessor result;
 		Assert.isTrue(registerLessor.getAccept());
 		result = create();

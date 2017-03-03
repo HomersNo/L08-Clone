@@ -688,7 +688,7 @@
 	<bean id="audit1" class="domain.Audit">
 		<property name="moment" value="2017/01/26" />
 		<property name="text" value="Accomplished with all requirements." />
-		<property name="attachments" value=""/>
+		<property name="attachments" value="www.attachment1.es, www.wtf.com"/>
 		<property name="draft" value="false" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property1"/>
@@ -697,7 +697,7 @@
 	<bean id="audit2" class="domain.Audit">
 		<property name="moment" value="2017/01/27" />
 		<property name="text" value="Pending approval." />
-		<property name="attachments" value="" />
+		<property name="attachments" value="www.thingy.org" />
 		<property name="draft" value="true" />
 		<property name="auditor" ref="auditor1"/>
 		<property name="property" ref="property2"/>

@@ -8,7 +8,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="${requestURI}" modelAttribute="RegisterLessor">
+<form:form action="${requestURI}" modelAttribute="register">
 
 	<acme:textbox code="tenant.username" path="userAccount.username"/>
 	

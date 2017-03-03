@@ -85,7 +85,7 @@ public class AttributeAdministratorController {
 
 			try {
 				attribute = attributeService.save(attribute);
-				result = new ModelAndView("redirect:/attribute/display.do?attributeId=" + attribute.getId());
+				result = new ModelAndView("redirect:/attribute/administrator/list.do");
 
 			} catch (Throwable oops) {
 				result = createEditModelAndView(attribute, "attribute.commit.error");
