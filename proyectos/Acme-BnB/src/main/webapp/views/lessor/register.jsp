@@ -10,9 +10,9 @@
 
 <form:form action="${requestURI}" modelAttribute="register">
 
-	<acme:textbox code="lessor.username" path="userAccount.username"/>
+	<acme:textbox code="lessor.useraccount.username" path="username"/>
 	
-    <acme:password code="lessor.password" path="userAccount.password"/>
+    <acme:password code="lessor.useraccount.password" path="password"/>
     
 	<acme:textbox code="lessor.name" path="name"/>
 	
@@ -27,11 +27,12 @@
 	<form:label path="accept" >
 		<spring:message code="lessor.terms" />
 	</form:label>
-	<form:radiobutton path="accept" id="terms" onchange="javascript: toggleSubmit()"/>
+	<form:checkbox path="accept" id="terms" onchange="javascript: toggleSubmit()"/>
 	<form:errors path="accept" cssClass="error" />
 	
+	<br/>
 	
-	<button type="submit" name="save" class="btn btn-primary" id="save" disabled>
+	<button type="submit" name="save" class="btn btn-primary" id="save" disabled onload="javascript: toggleSubmit()">
 		<spring:message code="lessor.save" />
 	</button>
 
@@ -43,10 +44,11 @@
 	<script type="text/javascript">
 		function toggleSubmit() {
 			var accepted = document.getElementById("terms");
-			var toggled = document.getElementById("save").disabled;
 			if(accepted.checked){
-				toggled = !toggled;
-			}		
+				document.getElementById("save").disabled = false;
+			} else{
+				document.getElementById("save").disabled = true;
+			}
 		}
 	</script>
 	

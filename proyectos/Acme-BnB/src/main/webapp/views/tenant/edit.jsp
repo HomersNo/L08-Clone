@@ -13,47 +13,14 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="finder" />
-	<form:hidden path="requests" />
-	<form:hidden path="creditCard" />
-	<form:hidden path="socialIdentities" />
-	<form:hidden path="comments" />
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="userAccount.id" />
-	<form:hidden path="userAccount.version" />
-	
-	<jstl:if test="${tenant.id!=0}">
-	<form:hidden path="userAccount.username" />
-	<form:hidden path="userAccount.password" />
-	</jstl:if>
-	
-	<jstl:if test="${tenant.id==0}">
-	<form:label path="userAccount.username">
-      <spring:message code="tenant.username" />
-    </form:label>
-    <form:input path="userAccount.username"/>
-    <form:errors cssClass="error" path="userAccount.username"/>
-    <br />
-    <br />
-    
-    <form:label path="userAccount.password">
-      <spring:message code="tenant.password" />
-    </form:label>
-    <form:password path="userAccount.password"/>
-    <form:errors cssClass="error" path="userAccount.password"/>
-    <br />
-    <br />
-    
-	</jstl:if>
+	<form:hidden path="userAccount" /> 
 	
 	<acme:textbox code="tenant.name" path="tenant.name"/>
 	
 	<acme:textbox code="tenant.surname" path="tenant.surname"/>
 	
 	<acme:textbox code="tenant.email" path="tenant.email"/>
-	
-	<acme:textarea code="tenant.postalAddress" path="tenant.postalAddress"/>
-	
+		
 	<acme:textbox code="tenant.phone" path="tenant.phone"/>
 	
 	<acme:textbox code="tenant.picture" path="tenant.picture"/>

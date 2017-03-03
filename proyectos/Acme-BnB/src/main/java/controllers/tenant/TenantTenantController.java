@@ -46,10 +46,15 @@ public class TenantTenantController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid Tenant tenant, BindingResult binding) {
 		ModelAndView result;
+
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(tenant);
 		} else {
 			try {
+				tenant = tenantService.reconstruct(tenant, binding);
+				if (binding.hasErrors()) {
+					result = createEditModelAndView(tenant);
+				}
 				tenant = tenantService.save(tenant);
 				result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + tenant.getId());
 			} catch (Throwable oops) {
@@ -71,7 +76,7 @@ public class TenantTenantController extends AbstractController {
 
 		String requestURI = "tenant/edit.do";
 
-		result = new ModelAndView("tenant/register");
+		result = new ModelAndView("tenant/edit");
 		result.addObject("tenant", tenant);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);

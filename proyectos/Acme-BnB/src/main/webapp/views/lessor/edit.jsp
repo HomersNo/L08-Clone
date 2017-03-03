@@ -22,16 +22,7 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="userAccount"/>
-	
-	<jstl:if test="${lessor.id==0}">
-	
-	<acme:textbox code="lessor.useraccount.username" path="userAccount.username"/>
-	
-    <acme:password code="lessor.useraccount.password" path="userAccount.password"/>
-    
-	</jstl:if>
-	
+	<form:hidden path="userAccount" />
 	
 	<acme:textbox code="lessor.name" path="name"/>
 	

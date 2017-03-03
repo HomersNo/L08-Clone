@@ -49,11 +49,14 @@ public class LessorLessorController extends AbstractController {
 	public ModelAndView save(@Valid Lessor lessor, BindingResult binding) {
 		ModelAndView result;
 
-		lessor = lessorService.reconstruct(lessor, binding);
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(lessor);
 		} else {
 			try {
+				lessor = lessorService.reconstruct(lessor, binding);
+				if (binding.hasErrors()) {
+					result = createEditModelAndView(lessor);
+				}
 				lessor = lessorService.save(lessor);
 				result = new ModelAndView("redirect:/lessor/display.do?lessorId=" + lessor.getId());
 			} catch (Throwable oops) {

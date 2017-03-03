@@ -44,7 +44,7 @@ public class TenantController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	@RequestMapping(value = "/lessor/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam(required = false, defaultValue = "0") int tenantId) {
 
 		ModelAndView result;
@@ -74,7 +74,7 @@ public class TenantController extends AbstractController {
 		} else {
 			try {
 				tenant = tenantService.register(tenant);
-				result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + tenant.getId());
+				result = new ModelAndView("redirect:/security/login.do");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(registerTenant, "tenant.commit.error");
 			}

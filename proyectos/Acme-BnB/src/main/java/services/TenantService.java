@@ -28,15 +28,15 @@ public class TenantService {
 
 	// Managed repository-------------------
 	@Autowired
-	private TenantRepository	tenantRepository;
+	private TenantRepository		tenantRepository;
 
 	// Auxiliary Services -------------------------------------
-	
-	@Autowired
-	private AdministratorService administratorService;
 
 	@Autowired
-	private Validator			validator;
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Constructors -----------------------------------------------------------
@@ -171,26 +171,26 @@ public class TenantService {
 
 		return result;
 	}
-	
-	public Tenant findAllByAcceptedRequests(){
+
+	public Tenant findAllByAcceptedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Tenant result = tenantRepository.findAllByAcceptedRequests().iterator().next();
 		return result;
 	}
-	
-	public Tenant findAllByDeniedRequests(){
+
+	public Tenant findAllByDeniedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Tenant result = tenantRepository.findAllByDeniedRequests().iterator().next();
 		return result;
 	}
-	
-	public Tenant findAllByPendingRequests(){
+
+	public Tenant findAllByPendingRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Tenant result = tenantRepository.findAllByPendingRequests().iterator().next();
 		return result;
 	}
 
-	public Tenant findByRequestedAcceptedRatio(){
+	public Tenant findByRequestedAcceptedRatio() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Tenant result = tenantRepository.findByRequestedAcceptedRatio();
 		return result;
