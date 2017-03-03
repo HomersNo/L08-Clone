@@ -131,7 +131,7 @@ public class ActorService {
 
 		UserAccount result;
 
-		result = userAccountService.findByActor(actor);
+		result = actor.getUserAccount();
 
 		return result;
 	}

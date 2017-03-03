@@ -33,14 +33,10 @@
 	
 	<security:authorize access="isAuthenticated()">
 	<display:column>
-		<a href="audit/display?auditId=${row.id}">${row.auditor.name}-${row.property.name}</a>
+		<a href="audit/display?auditId=${row.id}">${row.auditor.name} ${row.auditor.surname} -- ${row.property.name}</a>
 	</display:column>
 	</security:authorize>
 	
-	<security:authorize access="isAuthenticated()">
-	<display:column title="<spring:message code="audit.auditor"/>">
-		<a href="auditor/display?auditorId=${row.auditor.id}">${row.auditor.name}</a>
-	</display:column>
-	</security:authorize>
+
 </display:table>
 
