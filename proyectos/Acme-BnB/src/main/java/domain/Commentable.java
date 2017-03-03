@@ -10,7 +10,7 @@ import javax.validation.Valid;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Commentable extends DomainEntity{
+public abstract class Commentable extends DomainEntity{
 
 	//attributes
 	

@@ -57,7 +57,7 @@
 		
 		<security:intercept-url pattern="/tenant/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/tenant/edit.do" access="isAnonymous()" />
-		<security:intercept-url pattern="/tenant/lessor/display.do**" access="hasRole('LESSOR')" />
+		<security:intercept-url pattern="/tenant/display.do**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/tenant/tenant/**.do**" access="hasRole('TENANT')" />
 		<security:intercept-url pattern="/tenant/display.do**" access="permitAll"/>
 		
