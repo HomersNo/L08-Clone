@@ -1,11 +1,12 @@
+
 package domain;
 
 import java.util.Collection;
 
 import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.AccessType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -28,14 +29,16 @@ public class Actor extends Commentable {
 		super();
 	}
 
+
 	// Attributes -------------------------------------------------------------
 
-	private String name;
-	private String surname;
-	private String email;
-	private String phone;
-	private String picture;
-	
+	private String	name;
+	private String	surname;
+	private String	email;
+	private String	phone;
+	private String	picture;
+
+
 	@NotBlank
 	public String getName() {
 		return name;
@@ -50,9 +53,8 @@ public class Actor extends Commentable {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	
+
 	@NotBlank
-	
 	@Email
 	public String getEmail() {
 		return email;
@@ -61,15 +63,14 @@ public class Actor extends Commentable {
 		this.email = email;
 	}
 	@NotBlank
-	
-	@Pattern(regexp = "^([+]([1-9]|[1-9][0-9]|[1-9][0-9][0-9]))?\\s?([(](00[1-9]|0[1-9][0-9]|[1-9][0-9][0-9])[)])?\\s?\\w\\s?[-]?\\w\\s?[-]?\\w\\s?[-]?\\w$")			
+	@Pattern(regexp = "^([+](9[976]\\d|8[987530]\\d|6[987]\\d|5[90]\\d|42\\d|3[875]\\d|2[98654321]\\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1))?\\d{1,14}$")
 	public String getPhone() {
 		return phone;
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	@NotBlank
 	@URL
 	public String getPicture() {
@@ -79,14 +80,15 @@ public class Actor extends Commentable {
 		this.picture = picture;
 	}
 
-	
+
 	//Relations
-	
-	private UserAccount userAccount;
-	private Collection<SocialIdentity> socialIdentities;
-	
+
+	private UserAccount					userAccount;
+	private Collection<SocialIdentity>	socialIdentities;
+
+
 	@NotNull
-	@Valid	
+	@Valid
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
 	public UserAccount getUserAccount() {
 		return userAccount;
@@ -95,9 +97,7 @@ public class Actor extends Commentable {
 	public void setUserAccount(UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
-	
-	
-	
+
 	@Valid
 	@OneToMany(mappedBy = "actor")
 	public Collection<SocialIdentity> getSocialIdentities() {
@@ -106,5 +106,5 @@ public class Actor extends Commentable {
 	public void setSocialIdentities(Collection<SocialIdentity> socialIdenttities) {
 		this.socialIdentities = socialIdenttities;
 	}
-	
+
 }

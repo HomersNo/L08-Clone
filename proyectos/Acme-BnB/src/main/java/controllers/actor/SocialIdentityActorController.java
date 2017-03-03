@@ -78,7 +78,8 @@ public class SocialIdentityActorController extends AbstractController {
 			result = createEditModelAndView(socialIdentity);
 		} else {
 			try {
-				socialIdentityService.save(socialIdentity);
+				socialIdentity = socialIdentityService.reconstruct(socialIdentity, binding);
+				socialIdentity = socialIdentityService.save(socialIdentity);
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(socialIdentity, "socialIdentity.commit.error");

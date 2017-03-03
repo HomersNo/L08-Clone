@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.SocialIdentityRepository;
 import domain.Actor;
@@ -29,9 +31,12 @@ public class SocialIdentityService {
 	//Auxiliary Services
 	@Autowired
 	private ActorService				actorService;
-	
+
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService		administratorService;
+
+	@Autowired
+	private Validator					validator;
 
 
 	//CRUD
@@ -72,13 +77,29 @@ public class SocialIdentityService {
 	}
 
 	//Business Methods
+	public SocialIdentity reconstruct(SocialIdentity socialIdentity, BindingResult binding) {
+		SocialIdentity result;
+		if (socialIdentity.getId() == 0) {
+			result = socialIdentity;
+		} else {
+			result = socialIdentityRepository.findOne(socialIdentity.getId());
+
+			result.setNick(socialIdentity.getNick());
+			result.setSocialNetworkName(socialIdentity.getSocialNetworkName());
+			result.setSocialNetworkLink(socialIdentity.getSocialNetworkLink());
+
+			validator.validate(result, binding);
+		}
+		return result;
+	}
+
 	public void checkPrincipal(SocialIdentity socialIdentity) {
 		Actor principal;
 		principal = actorService.findByPrincipal();
 		Assert.isTrue(principal.equals(socialIdentity.getActor()), "Dear user, you can't edit another user's social identity");
 	}
-	
-	public Double[] findAvgMinAndMaxPerActor(){
+
+	public Double[] findAvgMinAndMaxPerActor() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[] result = socialIdentityRepository.findAvgMinAndMaxPerActor();
 		return result;
