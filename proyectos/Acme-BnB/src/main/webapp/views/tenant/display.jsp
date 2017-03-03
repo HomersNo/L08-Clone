@@ -40,6 +40,9 @@ name="tenant" requestURI="${requestURI}" id="row">
 		</display:column>
 	</jstl:if>
 </display:table>
+	<a href="comment/list.do?commentableId=${tenant.id}"> <spring:message
+					code="tenant.comments" /></a>
+
 <br/>
 <br/>
 <br/>
