@@ -33,16 +33,25 @@ public class AuditorController extends AbstractController {
 	//Methods
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam int auditorId) {
+	public ModelAndView display(@RequestParam(required=false, defaultValue="0") int auditorId) {
 		ModelAndView result;
 		Auditor auditor;
+	
+		auditor = auditorService.findByPrincipal();
 		
-
-		auditor = auditorService.findOne(auditorId);
+		
+		if(auditorId!=0){
+			
+	
+			auditor = auditorService.findOne(auditorId);
+			
+		}
+		
 		Collection<SocialIdentity> socialIdentities = auditor.getSocialIdentities();
 		result = new ModelAndView("auditor/display");
 		result.addObject("auditor", auditor);
 		result.addObject("socialIdentities", socialIdentities );
+	
 
 		return result;
 	}
