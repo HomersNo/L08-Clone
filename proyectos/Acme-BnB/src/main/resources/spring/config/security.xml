@@ -49,10 +49,12 @@
 		<security:intercept-url pattern="/property/tenant/request.do" access="hasRole('TENANT')" />
 		
 		<security:intercept-url pattern="/lessor/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/lessor/edit.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/lessor/display.do**" access="permitAll" />
 		<security:intercept-url pattern="/lessor/lessor/**.do**" access="hasRole('LESSOR')" />
 		
-		<security:intercept-url pattern="/tenant/**" access="permitAll" />
+		<security:intercept-url pattern="/tenant/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/tenant/edit.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/tenant/lessor/display.do**" access="hasRole('LESSOR')" />
 		<security:intercept-url pattern="/tenant/tenant/**.do**" access="hasRole('TENANT')" />
 		
