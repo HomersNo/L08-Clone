@@ -36,7 +36,7 @@
 	<br/>
 	
 	<input type="submit" name="save"
-		value="<spring:message code="audit.save" />" onsubmit="javascript: toggleSubmit()" />&nbsp; 
+		value="<spring:message code="audit.save" />" onclick="return toggleSubmit()" />&nbsp; 
 	<jstl:if test="${draft}">
 	<input type="submit" name="delete"
 		value="<spring:message code="audit.delete" />" />&nbsp; 
@@ -50,7 +50,7 @@
 		function toggleSubmit() {
 			var drafted = document.getElementById("draft").checked;
 			if(!drafted){
-				return alert('<spring:message code="audit.save.confirm" />');
+				return confirm('<spring:message code="audit.save.confirm" />');
 			}		
 		}
 	</script>
