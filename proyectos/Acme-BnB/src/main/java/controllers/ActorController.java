@@ -46,7 +46,7 @@ public class ActorController extends AbstractController {
 		result = new ModelAndView("redirect:/welcome/index.do");
 		
 		if (actor instanceof Tenant ) {
-			result = new ModelAndView("redirect:/tenant/lessor/display.do?tenantId=" + actor.getId());
+			result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + actor.getId());
 			result.addObject("tenant", actor);
 			result.addObject("comments", actor.getComments());
 			result.addObject("socialIdentitites", actor.getSocialIdentities());

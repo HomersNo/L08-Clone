@@ -28,14 +28,12 @@
 	<form:hidden path="moment"/>
 	
 	<acme:textbox code="comment.title" path="title"/>
-	<acme:textbox code="comment.text " path="text"/>
-	<acme:select items="{0,1,2,3,4,5,6}" itemLabel="SELECT" code="comment.stars" path="stars"/>
-<%-- 	<form:label path="stars">
+	<acme:textarea code="comment.text" path="text"/>
+	
+<form:label path="stars">
 		<spring:message code="comment.stars" />:
 	</form:label>
 	<form:select path="stars">
-    <form:option value="NONE">SELECT</form:option>
-    <form:option value="0">0</form:option>
     <form:option value="1">1</form:option>
     <form:option value="2">2</form:option>
     <form:option value="3">3</form:option>
@@ -43,11 +41,11 @@
     <form:option value="5">5</form:option>
     </form:select>
 	<form:errors cssClass="error" path="stars" />
-	<br /> --%>
+	<br /> 
 	
 	<acme:submit name="save" code="comment.save"/>
 	
-	<acme:cancel url="actor/list.do" code="comment.cancel"/>
+	<acme:cancel url="welcome/index.do" code="comment.cancel"/>
 
 </form:form>
 	
