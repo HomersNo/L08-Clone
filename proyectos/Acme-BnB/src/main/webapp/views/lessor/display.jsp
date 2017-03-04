@@ -25,16 +25,22 @@
 <p><spring:message code="lessor.email"/>: <jstl:out value="${lessor.email}" /></p> 
 <p><spring:message code="lessor.phone"/>: <jstl:out value="${lessor.phone}" /></p> 
 
-<img src="<jstl:out value='${lessor.picture}'/>" > 
+<img src="<jstl:out value='${lessor.picture}'/>"  width="300"> 
+
+<br/>
 
 <security:authorize access="hasRole('LESSOR')">
-	<jstl:if test="${lessor.userAccount.username==loggedactor.username">
+	<jstl:if test="${lessor.userAccount.username==loggedactor.username}">
 		<a href="lessor/lessor/edit.do?"> <spring:message code="lessor.edit" /></a>
 	</jstl:if>
 </security:authorize>
 
+<br/>
+
+<b><spring:message code="lessor.comments"/></b><br/>
+
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="comments" requestURI="${requestURI}" id="row">
+	name="comments" requestURI="lessor/display.do" id="row">
 
 	<!-- Attributes -->
 
@@ -50,27 +56,32 @@
 	<spring:message code="comment.moment" var="momentHeader" />
 	<display:column property="moment" title="${momentHeader}"  format="{0,date,dd/MM/yyyy HH:mm}"/>
 	
-	<spring:message code="comment.author" var="authorHeader"/>
+	<spring:message code="comment.actor" var="authorHeader"/>
 	<display:column title="${authorHeader}">
-		<a href="actor/display.do?actorId=${row.actor.id}"><spring:message code="comment.author"/></a>
+		<a href="actor/display.do?actorId=${row.actor.id}"><spring:message code="comment.actor"/></a>
 	</display:column>
 	
 </display:table>
 
-<display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="socialIdentities" requestURI="socialIdentity/actor/list.do" id="row">
 
-	<!-- Attributes -->
+<br/>
+
+<b><spring:message code="lessor.socials"/></b><br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="socialIdentities" requestURI="lessor/display.do" id="row">
+
 	
+	<!-- Attributes -->
 	<spring:message code="socialidentity.nick" var="nickHeader" />
 	<display:column property="nick" title="${nickHeader}" sortable="true" />
+
+	<spring:message code="socialidentity.network.name" var="nameHeader" />
+	<display:column property="socialNetworkName" title="${nameHeader}" sortable="false" />
 
 	<spring:message code="socialidentity.network.link" var="linkHeader" />
 	<display:column title="${linkHeader}" sortable="false" >
 		<a href="${row.socialNetworkLink}"><spring:message code="socialidentity.network.link"/></a>
 	</display:column>
-	
-	<spring:message code="socialidentity.network.name" var="nameHeader" />
-	<display:column property="socialNetworkName" title="${nameHeader}" sortable="false" />
-	
+
 </display:table>

@@ -8,11 +8,11 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="${requestURI}" modelAttribute="RegisterLessor">
+<form:form action="${requestURI}" modelAttribute="register">
 
-	<acme:textbox code="tenant.username" path="userAccount.username"/>
+	<acme:textbox code="tenant.username" path="username"/>
 	
-    <acme:password code="tenant.password" path="userAccount.password"/>
+    <acme:password code="tenant.password" path="password"/>
     
 	<acme:textbox code="tenant.name" path="name"/>
 	
@@ -27,11 +27,11 @@
 	<form:label path="accept" >
 		<spring:message code="tenant.terms" />
 	</form:label>
-	<form:radiobutton path="accept" id="terms" onchange="javascript: toggleSubmit()"/>
+	<form:checkbox path="accept" id="terms" onchange="javascript: toggleSubmit()"/>
 	<form:errors path="accept" cssClass="error" />
+	<br/>
 	
-	
-	<button type="submit" name="save" class="btn btn-primary" id="save" disabled>
+	<button type="submit" name="save" class="btn btn-primary" id="save" disabled onload="javascript: toggleSubmit()">
 		<spring:message code="tenant.save" />
 	</button>
 
@@ -41,13 +41,14 @@
 	
 	
 	<script type="text/javascript">
-		function toggleSubmit() {
-			var accepted = document.getElementById("terms");
-			var toggled = document.getElementById("save").disabled;
-			if(accepted.checked){
-				toggled = !toggled;
-			}		
+	function toggleSubmit() {
+		var accepted = document.getElementById("terms");
+		if(accepted.checked){
+			document.getElementById("save").disabled = false;
+		} else{
+			document.getElementById("save").disabled = true;
 		}
+	}
 	</script>
 	
 </form:form>

@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -7,6 +6,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CommentRepository;
 import domain.Actor;
@@ -17,17 +18,19 @@ import domain.Commentable;
 @Transactional
 public class CommentService {
 
-	//managed repository ------------------------------------------------------
+	// managed repository ------------------------------------------------------
 	@Autowired
-	CommentRepository	commentRepository;
+	private CommentRepository commentRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	CommentableService	commentableService;
+	private CommentableService commentableService;
 
 	@Autowired
-	ActorService		actorService;
+	private ActorService actorService;
 
+	@Autowired
+	private Validator validator;
 
 	// Constructors -----------------------------------------------------------
 	public CommentService() {
@@ -66,8 +69,46 @@ public class CommentService {
 		commentRepository.delete(comment);
 	}
 
-	//Auxiliary methods ------------------------------------------------------
+	public Collection<Comment> allCommentsOfAnActor(int commentableId) {
 
-	//Our other bussiness methods --------------------------------------------
+		Collection<Comment> result;
+		result = commentRepository.allCommentsOfACommentable(commentableId);
+		return result;
+	}
+
+	public Collection<Comment> allCommentsOfAnActorDidToHimself(int actorId) {
+
+		Collection<Comment> result;
+		result = commentRepository.allCommentsOfAnActorDidToHimself(actorId);
+		return result;
+	}
+
+
+	public Collection<Comment> allCommentsExceptSelfComments(int actorId) {
+
+		Collection<Comment> result;
+		result = commentRepository.allCommentsExceptSelfComments(actorId);
+		return result;
+	}
+
+	// Auxiliary methods ------------------------------------------------------
+
+	// Our other bussiness methods --------------------------------------------
+	public Comment reconstruct(Comment comment, BindingResult binding) {
+		Comment result;
+		if (comment.getId() == 0) {
+			result = comment;
+		} else {
+			result = commentRepository.findOne(comment.getId());
+
+			result.setMoment(comment.getMoment());
+			result.setText(comment.getText());
+			result.setTitle(comment.getTitle());
+			result.setStars(comment.getStars());
+
+			validator.validate(result, binding);
+		}
+		return result;
+	}
 
 }

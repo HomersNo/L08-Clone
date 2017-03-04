@@ -33,7 +33,7 @@
 	
 	<security:authorize access="isAuthenticated()">
 	<display:column>
-		<a href="audit/display?auditId=${row.id}">${row.auditor.name} ${row.auditor.surname} -- ${row.property.name}</a>
+		<a href="audit/display.do?auditId=${row.id}">${row.auditor.name} ${row.auditor.surname} -- ${row.property.name}</a>
 	</display:column>
 	</security:authorize>
 	

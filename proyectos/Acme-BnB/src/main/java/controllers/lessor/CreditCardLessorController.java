@@ -15,7 +15,7 @@ import controllers.AbstractController;
 import domain.CreditCard;
 
 @Controller
-@RequestMapping("/creditCard/lessor")
+@RequestMapping("/creditcard/lessor")
 public class CreditCardLessorController extends AbstractController {
 
 	// Services
@@ -88,7 +88,7 @@ public class CreditCardLessorController extends AbstractController {
 
 		String requestURI = "creditCard/lessor/edit.do";
 
-		result = new ModelAndView("lessor/edit");
+		result = new ModelAndView("creditCard/edit");
 		result.addObject("creditCard", creditCard);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);

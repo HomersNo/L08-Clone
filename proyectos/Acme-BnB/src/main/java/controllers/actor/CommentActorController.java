@@ -1,6 +1,8 @@
 
 package controllers.actor;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CommentService;
 import services.CommentableService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Comment;
 import domain.Commentable;
 
@@ -28,6 +32,9 @@ public class CommentActorController extends AbstractController {
 	@Autowired
 	private CommentableService	commentableService;
 
+	@Autowired
+	private ActorService		actorService;
+
 
 	// Constructor --------------------------------------------------------------------
 	public CommentActorController() {
@@ -35,24 +42,39 @@ public class CommentActorController extends AbstractController {
 	}
 
 	// Listing ------------------------------------------------------------------------
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		Collection<Comment> comments;
+		
+		Actor principal = actorService.findByPrincipal();
+		Commentable commentable;
+		commentable = commentableService.findOne(principal.getId());
+
+		comments = commentableService.getAllCommentsFromCommentable(principal.getId());
+
+		result = new ModelAndView("comment/list");
+		result.addObject("requestURI", "comment/list.do");
+		result.addObject("comments", comments);
+		result.addObject("commentable", commentable);
+
+		return result;
+	}
 
 	// Creation -----------------------------------------------------------------------
 
 	// Edition ------------------------------------------------------------------------
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam int commentableId) {
 		ModelAndView result;
 		Commentable commentable = commentableService.findOne(commentableId);
-		try {
-			Comment comment = commentService.create(commentable);
-			result = createEditModelAndView(comment);
-			result.addObject("comment", comment);
-			result.addObject("commentableId", commentable.getId());
-		} catch (Throwable oops) {
-			result = new ModelAndView("redirect:/comment/list.do?commentableId=" + commentable.getId());
-		}
+		Comment comment = commentService.create(commentable);
+		result = createEditModelAndView(comment);
+
 		return result;
 	}
+	
+	
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid Comment comment, BindingResult binding) {
@@ -61,8 +83,9 @@ public class CommentActorController extends AbstractController {
 			result = createEditModelAndView(comment);
 		} else {
 			try {
+				comment = commentService.reconstruct(comment, binding);
 				comment = commentService.save(comment);
-				result = new ModelAndView("redirect:/commentable/display.do?commentableId=" + comment.getCommentable().getId());
+				result = new ModelAndView("redirect:/comment/list.do?commentableId=" + comment.getCommentable().getId());
 			} catch (Throwable oops) {
 				result = createEditModelAndView(comment, "comment.commit.error");
 			}

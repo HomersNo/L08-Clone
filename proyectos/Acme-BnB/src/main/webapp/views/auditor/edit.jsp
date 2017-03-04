@@ -27,7 +27,7 @@
 	<form:hidden path="audits"/>
 	<jstl:if test="${auditor.id != 0}">
 		<form:hidden path="userAccount.username" />
-		<form:hidden path="userAccount.name" />
+		<form:hidden path="userAccount.password" />
 	</jstl:if>
 	
 	<jstl:if test="${auditor.id == 0}">
@@ -37,17 +37,17 @@
 
 	
 	
-	<acme:textbox code="auditor.name" path="userAccount.name"/>
+	<acme:textbox code="auditor.name" path="name"/>
 	
-	<acme:textbox code="auditor.surname" path="userAccount.surname"/>
+	<acme:textbox code="auditor.surname" path="surname"/>
 	
-	<acme:textbox code="auditor.email" path="userAccount.email"/>
+	<acme:textbox code="auditor.email" path="email"/>
 	
-	<acme:textbox code="auditor.picture" path="userAccount.picture"/>
+	<acme:textbox code="auditor.picture" path="picture"/>
 	
-	<acme:textbox code="auditor.phone" path="userAccount.phone"/>
+	<acme:textbox code="auditor.phone" path="phone"/>
 	
-	<acme:textbox code="auditor.companyName" path="auditor.companyName"/>
+	<acme:textbox code="auditor.companyName" path="companyName"/>
 	
 	<input type="submit" name="save"
 		value="<spring:message code="auditor.save" />" />&nbsp; 

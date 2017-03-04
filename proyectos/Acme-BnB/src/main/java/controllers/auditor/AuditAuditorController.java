@@ -14,9 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AuditService;
 import services.AuditorService;
+import services.PropertyService;
 import controllers.AbstractController;
 import domain.Audit;
 import domain.Auditor;
+import domain.Property;
 
 @Controller
 @RequestMapping("/audit/auditor")
@@ -29,6 +31,9 @@ public class AuditAuditorController extends AbstractController {
 	
 	@Autowired
 	private AuditorService auditorService;
+	
+	@Autowired
+	private PropertyService propertyService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -39,11 +44,15 @@ public class AuditAuditorController extends AbstractController {
 	// Listing ----------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam int propertyId) {
 		ModelAndView result;
 		Audit audit;
+		Property property = propertyService.findOne(propertyId);
+		Auditor  principal = auditorService.findByPrincipal();
 
 		audit = auditService.create();
+		audit.setProperty(property);
+		audit.setAuditor(principal);
 		result = createEditModelAndView(audit);
 
 		return result;
@@ -70,8 +79,9 @@ public class AuditAuditorController extends AbstractController {
 			result = createEditModelAndView(audit);
 		} else {
 				try {
-					auditService.save(audit);
-					result = new ModelAndView("redirect:/audit/display.do?"+audit.getId());					
+					audit = auditService.reconstruct(audit, binding);
+					audit = auditService.save(audit);
+					result = new ModelAndView("redirect:/audit/display.do?auditId="+audit.getId());					
 				} catch (Throwable oops) {
 					result = createEditModelAndView(audit, "audit.commit.error");
 				}

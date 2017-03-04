@@ -117,7 +117,11 @@ public class PropertyService {
 		Property result;
 
 		if (property.getId() == 0) {
-			result = property;
+			result = create();
+			result.setAddress(property.getAddress());
+			result.setDescription(property.getDescription());
+			result.setName(property.getName());
+			result.setRate(property.getRate());
 		} else {
 			result = propertyRepository.findOne(property.getId());
 

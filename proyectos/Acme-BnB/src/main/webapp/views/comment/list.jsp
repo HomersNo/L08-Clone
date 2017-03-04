@@ -33,27 +33,22 @@
 
 	<spring:message code="comment.actor" var="actorHeader" />
 	<display:column title="${actorHeader}">
-		<a href="user/display.do?userId=${row.actor.id}"><spring:message
-				code="comment.actor"/> </a>
+		<a href="actor/display.do?actorId=${row.actor.id}">${row.actor.name} ${row.actor.surname }</a>
 	</display:column>
 	
 </display:table>
 
-<div>
-	<a href="socialIdentity/actor/create.do"> 
-	<spring:message code="socialidentity.create" />
-	</a>
-</div>
+
+<security:authorize access="hasAnyRole('LESSOR','TENANT')">
+	<div>
+		<a href="comment/actor/create.do?commentableId=${commentable.id}"> <spring:message
+				code="comment.create" />
+		</a>
+	</div>
+</security:authorize>
+<br/>
 
 <input type="button" name="back"
 		value="<spring:message code="comment.back" />"
 		onclick="location.href = 'actor/list.do';" />&nbsp;
 	<br />
-
-<security:authorize access="hasAnyRole('LESSOR','TENANT')">
-	<div>
-		<a href="comment/commentable/edit.do?actorId=${actorId}"> <spring:message
-				code="comment.create" />
-		</a>
-	</div>
-</security:authorize>

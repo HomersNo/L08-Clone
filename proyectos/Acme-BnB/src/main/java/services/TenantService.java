@@ -20,7 +20,7 @@ import domain.Comment;
 import domain.Request;
 import domain.SocialIdentity;
 import domain.Tenant;
-import forms.RegisterLessor;
+import forms.Register;
 
 @Service
 @Transactional
@@ -28,15 +28,15 @@ public class TenantService {
 
 	// Managed repository-------------------
 	@Autowired
-	private TenantRepository	tenantRepository;
+	private TenantRepository		tenantRepository;
 
 	// Auxiliary Services -------------------------------------
-	
-	@Autowired
-	private AdministratorService administratorService;
 
 	@Autowired
-	private Validator			validator;
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Constructors -----------------------------------------------------------
@@ -141,7 +141,7 @@ public class TenantService {
 		return result;
 	}
 
-	public Tenant reconstruct(RegisterLessor registerTenant, BindingResult binding) {
+	public Tenant reconstruct(Register registerTenant, BindingResult binding) {
 		Tenant result;
 		Assert.isTrue(registerTenant.getAccept());
 		result = create();
@@ -171,26 +171,26 @@ public class TenantService {
 
 		return result;
 	}
-	
-	public Tenant findAllByAcceptedRequests(){
+
+	public Collection<Tenant> findAllByAcceptedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findAllByAcceptedRequests().iterator().next();
-		return result;
-	}
-	
-	public Tenant findAllByDeniedRequests(){
-		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findAllByDeniedRequests().iterator().next();
-		return result;
-	}
-	
-	public Tenant findAllByPendingRequests(){
-		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findAllByPendingRequests().iterator().next();
+		Collection<Tenant> result = tenantRepository.findAllByAcceptedRequests();
 		return result;
 	}
 
-	public Tenant findByRequestedAcceptedRatio(){
+	public Collection<Tenant> findAllByDeniedRequests() {
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Tenant> result = tenantRepository.findAllByDeniedRequests();
+		return result;
+	}
+
+	public Collection<Tenant> findAllByPendingRequests() {
+		Assert.notNull(administratorService.findByPrincipal());
+		Collection<Tenant> result = tenantRepository.findAllByPendingRequests();
+		return result;
+	}
+
+	public Tenant findByRequestedAcceptedRatio() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Tenant result = tenantRepository.findByRequestedAcceptedRatio();
 		return result;

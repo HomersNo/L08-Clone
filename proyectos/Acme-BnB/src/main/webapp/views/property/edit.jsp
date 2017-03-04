@@ -27,12 +27,12 @@
 	
 	<acme:textbox code="property.name" path="name"/>
 
-	<acme:textbox code="property.description" path="description"/>
+	<acme:textarea code="property.description" path="description"/>
 	
-	<acme:textbox code="property.address" path="address"/>
+	<acme:textarea code="property.address" path="address"/>
 
 	<label><spring:message	code="property.rate" /></label>
-	<input type="number" min="0" step="any" name="rate" id="hourRate">
+	<form:input type="number" min="0" step="any" path="rate" />
 	<form:errors path="rate" cssClass="error"/>
 	<br/>
 

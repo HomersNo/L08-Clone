@@ -8,36 +8,29 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form:form action="${requestURI}" modelAttribute="request">
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="tenant"/>
-	<form:hidden path="invoice"/>
-	<form:hidden path="property"/>
-	<form:hidden path="creditCard.id" />
-	<form:hidden path="creditCard.version" />
+	
+	<form:hidden path="propertyId"/>
 	
 	
-	<acme:textbox code="request.status" path="status"/>
 	
 	<form:label path="checkInDate">
 		<spring:message code="request.checkInDate" />:
 	</form:label>
-	<form:input placeholder="dd/MM/yyyy HH:mm" path="checkInDate" />
+	<form:input type='date' placeholder="dd/MM/yyyy HH:mm" path="checkInDate" />
 	<form:errors cssClass="error" path="checkInDate" />
 	<br />
 	
 	<form:label path="checkOutDate">
 		<spring:message code="request.checkOutDate" />:
 	</form:label>
-	<form:input placeholder="dd/MM/yyyy HH:mm" path="checkOutDate" />
+	<form:input type='date' placeholder="dd/MM/yyyy HH:mm" path="checkOutDate" />
 	<form:errors cssClass="error" path="checkOutDate" />
 	<br />
 	
 	<acme:checkbox code="request.smoker" path="smoker"/>
 	
 	<div style="padding-left: 15px;">
-		<b><font size=5><spring:message
-					code="request.creditCard.create" /></font></b>
+		<b><font size=5>Falta un message</font></b>
 	</div>
 	<br />
 

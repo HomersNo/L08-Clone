@@ -20,7 +20,7 @@ import domain.Comment;
 import domain.Lessor;
 import domain.Property;
 import domain.SocialIdentity;
-import forms.RegisterLessor;
+import forms.Register;
 
 @Service
 @Transactional
@@ -142,7 +142,7 @@ public class LessorService {
 		return result;
 	}
 
-	public Lessor reconstruct(RegisterLessor registerLessor, BindingResult binding) {
+	public Lessor reconstruct(Register registerLessor, BindingResult binding) {
 		Lessor result;
 		Assert.isTrue(registerLessor.getAccept());
 		result = create();
@@ -173,21 +173,21 @@ public class LessorService {
 		return result;
 	}
 	
-	public Lessor findAllByAcceptedRequests(){
+	public Collection<Lessor> findAllByAcceptedRequests(){
 		Assert.notNull(administratorService.findByPrincipal());
-		Lessor result = lessorRepository.findAllByAcceptedRequests().iterator().next();
+		Collection<Lessor> result = lessorRepository.findAllByAcceptedRequests();
 		return result;
 	}
 	
-	public Lessor findAllByDeniedRequests(){
+	public Collection<Lessor> findAllByDeniedRequests(){
 		Assert.notNull(administratorService.findByPrincipal());
-		Lessor result = lessorRepository.findAllByDeniedRequests().iterator().next();
+		Collection<Lessor> result = lessorRepository.findAllByDeniedRequests();
 		return result;
 	}
 	
-	public Lessor findAllByPendingRequests(){
+	public Collection<Lessor> findAllByPendingRequests(){
 		Assert.notNull(administratorService.findByPrincipal());
-		Lessor result = lessorRepository.findAllByPendingRequests().iterator().next();
+		Collection<Lessor> result = lessorRepository.findAllByPendingRequests();
 		return result;
 	}
 	

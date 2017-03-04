@@ -34,40 +34,46 @@
 	</display:column>
 	<spring:message code="request.property" var="propertyHeader"/>
 	<display:column title="${propertyHeader}">
-		<a href="property/diplay.do?propertyId=${row.property.id}"><spring:message code="request.property"/> </a>
+		<a href="property/display.do?propertyId=${row.property.id}"><spring:message code="request.property"/> </a>
 	</display:column>
 	
 	<security:authorize access="hasRole('TENANT')">
 		<jstl:if test="${!row.invoice.equals(null)}">
 			<spring:message code="request.invoice" var="invoiceHeader"/>
 			<display:column title="${invoiceHeader}">
-				<a href="invoice/diplay.do?invoiceId=${row.invoice.id}"><spring:message code="request.invoice"/> </a>
+				<a href="invoice/display.do?invoiceId=${row.invoice.id}"><spring:message code="request.invoice"/> </a>
 			</display:column>
 		</jstl:if>
 		<jstl:if test="${row.invoice.equals(null)}">
-			<div>
+		<display:column>
 			<a href="invoice/tenant/createInvoice.do"> <spring:message
 					code="request.createInvoice" />
 			</a>
-			</div>
+		</display:column>
 		</jstl:if>
 	</security:authorize>
+	
+	<security:authorize access="hasRole('LESSOR')">
+	<display:column>
+	<jstl:if test="${row.status eq 'PENDING'}">
+		<a href="request/lessor/accept.do?requestId=${row.id}"> <spring:message
+				code="request.accept" />
+		</a>
+	</jstl:if>
+	</display:column>
+	
+	<display:column>
+	<jstl:if test="${row.status eq 'PENDING'}">
+		<a href="request/lessor/deny.do?requestId=${row.id}"> <spring:message
+				code="request.deny" />
+		</a>
+	</jstl:if>
+	</display:column>
+</security:authorize>
+	
+	
+	
 	
 </display:table>
 
 	<!-- Action links -->
-<security:authorize access="hasRole('LESSOR')">
-	<jstl:if test="${row.status.equals(Pending)}">
-	<div>
-		<a href="request/lessor/accept.do"> <spring:message
-				code="request.accept" />
-		</a>
-	</div>
-	
-	<div>
-		<a href="request/lessor/deny.do"> <spring:message
-				code="request.deny" />
-		</a>
-	</div>
-	</jstl:if>
-</security:authorize>
