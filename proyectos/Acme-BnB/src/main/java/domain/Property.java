@@ -26,7 +26,7 @@ public class Property extends DomainEntity {
 	
 	private String name;
 	private String description;
-	private Double rate;
+	private double rate;
 	private String address;
 	
 
@@ -50,10 +50,10 @@ public class Property extends DomainEntity {
 	
 	
 	@Min(0)
-	public Double getRate() {
+	public double getRate() {
 		return rate;
 	}
-	public void setRate(Double rate) {
+	public void setRate(double rate) {
 		this.rate = rate;
 	}
 	

@@ -78,12 +78,12 @@ public class AttributeAdministratorController {
 
 		ModelAndView result;
 
-		attribute = attributeService.reconstruct(attribute, binding);
+		
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(attribute);
 		} else {
-
 			try {
+				attribute = attributeService.reconstruct(attribute, binding);
 				attribute = attributeService.save(attribute);
 				result = new ModelAndView("redirect:/attribute/administrator/list.do");
 

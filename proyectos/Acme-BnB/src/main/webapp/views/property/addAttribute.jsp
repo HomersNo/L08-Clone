@@ -20,7 +20,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="property/lessor/addAttribute.do" modelAttribute="value">
+<form:form action="property/lessor/addAttributes.do" modelAttribute="value">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
