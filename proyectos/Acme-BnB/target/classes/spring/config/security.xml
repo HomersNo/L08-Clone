@@ -88,7 +88,7 @@
 		
 		<security:intercept-url pattern="/commentable/actor/comment.do**" access="isAuthenticated()" />
 		
-		<security:intercept-url pattern="/comment/actor/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/comment/actor/**" access="hasAnyRole('LESSOR', 'TENANT')" />
 		
 		<security:intercept-url pattern="/comment/**" access="permitAll" />
 		

@@ -37,6 +37,7 @@ public class RequestService {
 		Tenant principal = tenantService.findByPrincipal();
 		created = new Request();
 		created.setTenant(principal);
+		created.setStatus("PENDING");
 
 		return created;
 	}
@@ -64,6 +65,24 @@ public class RequestService {
 		saved = requestRepository.save(request);
 		return saved;
 
+	}
+	
+	public Request accept(Request request){
+		
+		Request result;
+		result = request;
+		result.setStatus("ACCEPTED");
+		result = this.save(request);
+		return result;
+	}
+	
+	public Request deny(Request request){
+		
+		Request result;
+		result = request;
+		result.setStatus("DENIED");
+		result = this.save(request);
+		return result;
 	}
 
 	public void delete(Request request) {

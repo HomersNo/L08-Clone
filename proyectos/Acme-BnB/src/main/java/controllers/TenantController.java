@@ -44,7 +44,7 @@ public class TenantController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/lessor/display", method = RequestMethod.GET)
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam(required = false, defaultValue = "0") int tenantId) {
 
 		ModelAndView result;
@@ -58,7 +58,7 @@ public class TenantController extends AbstractController {
 		result = new ModelAndView("tenant/display");
 		result.addObject("tenant", tenant);
 		result.addObject("comments", tenant.getComments());
-		result.addObject("socialIdentitites", tenant.getSocialIdentities());
+		result.addObject("socialIdentities", tenant.getSocialIdentities());
 
 		return result;
 	}

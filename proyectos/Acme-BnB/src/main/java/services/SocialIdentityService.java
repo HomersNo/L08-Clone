@@ -63,6 +63,13 @@ public class SocialIdentityService {
 		result = socialIdentityRepository.findAllByActor(actor.getId());
 		return result;
 	}
+	
+	public Collection<SocialIdentity> findAllByActor(int actorId){
+		
+		Collection<SocialIdentity> result;
+		result = socialIdentityRepository.findAllByActor(actorId);
+		return result;
+	}
 
 	public SocialIdentity save(SocialIdentity socialIdentity) {
 		SocialIdentity result;
@@ -80,7 +87,12 @@ public class SocialIdentityService {
 	public SocialIdentity reconstruct(SocialIdentity socialIdentity, BindingResult binding) {
 		SocialIdentity result;
 		if (socialIdentity.getId() == 0) {
-			result = socialIdentity;
+			result = create();
+			
+			result.setNick(socialIdentity.getNick());
+			result.setSocialNetworkName(socialIdentity.getSocialNetworkName());
+			result.setSocialNetworkLink(socialIdentity.getSocialNetworkLink());
+			
 		} else {
 			result = socialIdentityRepository.findOne(socialIdentity.getId());
 
