@@ -29,7 +29,7 @@
 	
 	<acme:textbox code="comment.title" path="title"/>
 	<acme:textbox code="comment.text " path="text"/>
-	<acme:select items="{0,1,2,3,4,5,6}" itemLabel="SELECT" code="comment.stars" path="stars"/>
+	<acme:select items="{0,1,2,3,4,5}" itemLabel="SELECT" code="comment.stars" path="stars"/>
 <%-- 	<form:label path="stars">
 		<spring:message code="comment.stars" />:
 	</form:label>
