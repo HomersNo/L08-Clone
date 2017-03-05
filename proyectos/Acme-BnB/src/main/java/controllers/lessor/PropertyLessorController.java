@@ -104,7 +104,6 @@ public class PropertyLessorController extends AbstractController {
 
 		ModelAndView result;
 
-		
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(property);
 		} else {
@@ -174,7 +173,7 @@ public class PropertyLessorController extends AbstractController {
 				result = new ModelAndView("redirect:/property/display.do?propertyId=" + value.getProperty().getId());
 
 			} catch (Throwable oops) {
-				result = createValueModelAndView(value, "property.commit.error");
+				result = createValueModelAndView(value, "property.duplicate.error");
 				result.addObject("value", value);
 			}
 		}
