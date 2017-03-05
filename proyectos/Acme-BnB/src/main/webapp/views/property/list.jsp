@@ -40,7 +40,10 @@
 			</jstl:if>
 		</display:column>
 	</security:authorize>
-
+	
+	<display:column>
+		<a href="property/display.do?propertyId=${row.id}"><spring:message code="property.display" /></a>
+	</display:column>
 	
 	<!-- Attributes -->
 	
@@ -55,11 +58,6 @@
 	
 	<spring:message code="property.address" var="addressHeader" />
 	<display:column property="address" title="${addressHeader}" sortable="false" />
-	
-	<spring:message code="property.attributes" var="attributesHeader" />
-	<display:column title="${attributesHeader}">
-		
-	</display:column>
 	
 	<display:column>
 		<a href="lessor/display.do?lessorId=${row.lessor.id}"><spring:message code="property.lessor"/></a>
