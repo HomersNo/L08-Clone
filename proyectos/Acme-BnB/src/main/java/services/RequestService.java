@@ -19,14 +19,17 @@ public class RequestService {
 
 	//managed repository-------------------
 	@Autowired
-	private RequestRepository	requestRepository;
+	private RequestRepository		requestRepository;
 
 	//supporting services-------------------
 	@Autowired
-	private TenantService		tenantService;
-	
+	private TenantService			tenantService;
+
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private LessorService			lessorService;
 
 
 	//Basic CRUD methods-------------------
@@ -66,18 +69,19 @@ public class RequestService {
 		return saved;
 
 	}
-	
-	public Request accept(Request request){
-		
+
+	public Request accept(Request request) {
+		Lessor lessor = lessorService.findByPrincipal();
 		Request result;
 		result = request;
 		result.setStatus("ACCEPTED");
 		result = this.save(request);
+		lessorService.addFee(lessor);
 		return result;
 	}
-	
-	public Request deny(Request request){
-		
+
+	public Request deny(Request request) {
+
 		Request result;
 		result = request;
 		result.setStatus("DENIED");
@@ -95,12 +99,14 @@ public class RequestService {
 
 		return requestRepository.findAll();
 	}
-	
-	public Double[] findAverageAcceptedDeniedPerTenant(){
+
+	public Double[] findAverageAcceptedDeniedPerTenant() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[][] unprocessedAverage = requestRepository.findAverageAcceptedDeniedPerTenant();
-		Double[] result = {0.0,0.0};
-		for(Double[] averageGroup:unprocessedAverage){
+		Double[] result = {
+			0.0, 0.0
+		};
+		for (Double[] averageGroup : unprocessedAverage) {
 			result[0] += averageGroup[0];
 			result[1] += averageGroup[1];
 		}
@@ -108,12 +114,14 @@ public class RequestService {
 		result[1] /= unprocessedAverage.length;
 		return result;
 	}
-	
-	public Double[] findAverageAcceptedDeniedPerLessor(){
+
+	public Double[] findAverageAcceptedDeniedPerLessor() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[][] unprocessedAverage = requestRepository.findAverageAcceptedDeniedPerLessor();
-		Double[] result = {0.0,0.0};
-		for(Double[] averageGroup:unprocessedAverage){
+		Double[] result = {
+			0.0, 0.0
+		};
+		for (Double[] averageGroup : unprocessedAverage) {
 			result[0] += averageGroup[0];
 			result[1] += averageGroup[1];
 		}
@@ -121,25 +129,27 @@ public class RequestService {
 		result[1] /= unprocessedAverage.length;
 		return result;
 	}
-	
-	public Double[] findAvrageByPropertyWithOverWithoutInvoice(){
+
+	public Double[] findAvrageByPropertyWithOverWithoutInvoice() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[] unprocessedAverage = requestRepository.findAverageByPropertyWithInvoice();
-		Double[] result = {0.0,0.0};
+		Double[] result = {
+			0.0, 0.0
+		};
 		Double aux = 0.0;
-		for(Double d:unprocessedAverage){
+		for (Double d : unprocessedAverage) {
 			aux += d;
 		}
-		result[0] = aux/unprocessedAverage.length;
-		
+		result[0] = aux / unprocessedAverage.length;
+
 		unprocessedAverage = requestRepository.findAverageByPropertyWithoutInvoice();
 		aux = 0.0;
-		for(Double d:unprocessedAverage){
+		for (Double d : unprocessedAverage) {
 			aux += d;
 		}
-		result[1] = aux/unprocessedAverage.length;
+		result[1] = aux / unprocessedAverage.length;
 		return result;
-		
+
 	}
 
 }

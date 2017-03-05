@@ -173,6 +173,18 @@ public class LessorService {
 		return result;
 	}
 
+	public Lessor addFee(Lessor lessor) {
+		Assert.notNull(lessor);
+		Assert.isTrue(findByPrincipal().getId() == lessor.getId());
+		Lessor result;
+		result = lessor;
+		Double fee = lessorRepository.feeDelSistema();
+		result.setCumulatedFee(lessor.getCumulatedFee() + fee);
+		result = lessorRepository.save(result);
+
+		return result;
+	}
+
 	public Collection<Lessor> findAllByAcceptedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Lessor> result = lessorRepository.findAllByAcceptedRequests();
