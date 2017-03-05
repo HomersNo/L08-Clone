@@ -22,15 +22,15 @@ public class AttributeService {
 	// Managed Repository ------------------------------------
 
 	@Autowired
-	private AttributeRepository	attributeRepository;
+	private AttributeRepository		attributeRepository;
 
 	// Auxiliary Services -------------------------------------
-	
-	@Autowired
-	private AdministratorService administratorService;
 
 	@Autowired
-	private Validator			validator;
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Constructors -----------------------------------------------------------
@@ -72,7 +72,7 @@ public class AttributeService {
 
 	public Attribute save(Attribute attribute) {
 		Assert.notNull(attribute);
-
+		checkPrincipal();
 		Attribute result;
 
 		result = attributeRepository.save(attribute);
@@ -84,6 +84,7 @@ public class AttributeService {
 		Assert.notNull(attribute);
 		Assert.isTrue(attribute.getId() != 0);
 		Assert.isTrue(attributeRepository.exists(attribute.getId()));
+		checkPrincipal();
 
 		attributeRepository.delete(attribute);
 	}
@@ -105,11 +106,15 @@ public class AttributeService {
 
 		return result;
 	}
-	
-	public Collection<Attribute> findAllOrderedByProperty(){
+
+	public Collection<Attribute> findAllOrderedByProperty() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Attribute> result = attributeRepository.findAllOrderedByProperty();
 		return result;
+	}
+
+	public void checkPrincipal() {
+		Assert.isTrue(administratorService.findByPrincipal() != null);
 	}
 
 }

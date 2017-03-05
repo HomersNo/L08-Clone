@@ -88,7 +88,7 @@ public class PropertyService {
 
 	public Property save(Property property) {
 		Assert.notNull(property);
-		Assert.isTrue(property.getLessor().equals(lessorService.findByPrincipal()));
+		checkPrincipal(property);
 		Property result;
 
 		result = propertyRepository.save(property);
@@ -100,7 +100,7 @@ public class PropertyService {
 		Assert.notNull(property);
 		Assert.isTrue(property.getId() != 0);
 		Assert.isTrue(propertyRepository.exists(property.getId()));
-		Assert.isTrue(property.getLessor().equals(lessorService.findByPrincipal()));
+		checkPrincipal(property);
 
 		propertyRepository.delete(property);
 	}
@@ -186,4 +186,7 @@ public class PropertyService {
 		return result;
 	}
 
+	public void checkPrincipal(Property property) {
+		Assert.isTrue(property.getLessor().equals(lessorService.findByPrincipal()));
+	}
 }

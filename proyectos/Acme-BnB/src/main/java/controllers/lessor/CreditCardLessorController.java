@@ -32,15 +32,28 @@ public class CreditCardLessorController extends AbstractController {
 
 	//Methods
 
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+		CreditCard creditCard;
+
+		creditCard = creditCardService.create();
+		result = createEditModelAndView(creditCard);
+
+		return result;
+	}
+
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit() {
 		ModelAndView result;
 		CreditCard creditCard;
 
 		creditCard = creditCardService.findByPrincipal();
-		result = createEditModelAndView(creditCard);
-
-		result.addObject("creditCard", creditCard);
+		if (creditCard == null) {
+			result = createEditModelAndView(creditCard);
+		} else {
+			result = create();
+		}
 
 		return result;
 	}
