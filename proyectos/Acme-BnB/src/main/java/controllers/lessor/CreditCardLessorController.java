@@ -88,7 +88,7 @@ public class CreditCardLessorController extends AbstractController {
 
 		String requestURI = "creditCard/lessor/edit.do";
 
-		result = new ModelAndView("lessor/edit");
+		result = new ModelAndView("creditCard/edit");
 		result.addObject("creditCard", creditCard);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
