@@ -12,9 +12,6 @@ import domain.Lessor;
 @Repository
 public interface LessorRepository extends JpaRepository<Lessor, Integer> {
 
-	@Query("Select s.fee from SystemConfiguration s")
-	Double feeDelSistema();
-
 	@Query("Select l from Lessor l where l.userAccount.id = ?1")
 	Lessor findByUserAccountId(int userAccountId);
 

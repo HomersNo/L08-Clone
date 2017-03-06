@@ -1,18 +1,22 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
 import security.LoginService;
 import security.UserAccount;
-import domain.Invoice;
 import domain.Lessor;
+import domain.Property;
 import domain.Request;
 import domain.Tenant;
 
@@ -34,16 +38,20 @@ public class RequestService {
 	@Autowired
 	private LessorService			lessorService;
 
+	@Autowired
+	private Validator				validator;
+
 
 	//Basic CRUD methods-------------------
 
-	public Request create() {
+	public Request create(Property property) {
 
 		Request created;
 		Tenant principal = tenantService.findByPrincipal();
 		created = new Request();
 		created.setTenant(principal);
 		created.setStatus("PENDING");
+		created.setProperty(property);
 
 		return created;
 	}
@@ -67,8 +75,14 @@ public class RequestService {
 	}
 
 	public Request save(Request request) {
-
 		Request saved;
+		Date checkTimeIn = request.getCheckInDate();
+		Calendar checkIn = Calendar.getInstance();
+		checkIn.set(checkTimeIn.getYear(), checkTimeIn.getMonth(), checkTimeIn.getDay());
+		Date checkTimeOut = request.getCheckOutDate();
+		Calendar checkOut = Calendar.getInstance();
+		checkIn.set(checkTimeOut.getYear(), checkTimeOut.getMonth(), checkTimeOut.getDay());
+		Assert.isTrue(checkIn.before(checkOut));
 		saved = requestRepository.save(request);
 		return saved;
 
@@ -104,17 +118,43 @@ public class RequestService {
 		return requestRepository.findAll();
 	}
 
-	public Boolean checkPrincipal(Request e){
-		
+	// Other business methods -------------------------------------------------
+
+	public Request reconstruct(Request request, BindingResult binding) {
+		Request result;
+
+		if (request.getId() == 0) {
+			result = request;
+		} else {
+			result = requestRepository.findOne(request.getId());
+
+			result.setCheckInDate(request.getCheckInDate());
+			result.setCheckOutDate(request.getCheckOutDate());
+			result.setCreditCard(request.getCreditCard());
+			result.setInvoice(request.getInvoice());
+			result.setProperty(request.getProperty());
+			result.setSmoker(request.getSmoker());
+			result.setStatus(request.getStatus());
+			result.setTenant(request.getTenant());
+
+			validator.validate(result, binding);
+		}
+
+		return result;
+	}
+
+	public Boolean checkPrincipal(Request e) {
+
 		Boolean result = false;
 		UserAccount tenantUser = e.getTenant().getUserAccount();
 		UserAccount principal = LoginService.getPrincipal();
-		if(tenantUser.equals(principal)){
+		if (tenantUser.equals(principal)) {
 			result = true;
 		}
 		return result;
-		
+
 	}
+
 	public Double[] findAverageAcceptedDeniedPerTenant() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[] result = {
@@ -128,7 +168,7 @@ public class RequestService {
 	public Double[] findAverageAcceptedDeniedPerLessor() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[] result = {
-				0.0, 0.0
+			0.0, 0.0
 		};
 		result[0] = requestRepository.findAverageAcceptedPerLessor();
 		result[1] = requestRepository.findAverageDeniedPerLessor();

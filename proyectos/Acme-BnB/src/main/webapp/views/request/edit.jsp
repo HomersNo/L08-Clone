@@ -11,8 +11,6 @@
 	
 	<form:hidden path="propertyId"/>
 	
-	
-	
 	<form:label path="checkInDate">
 		<spring:message code="request.checkInDate" />:
 	</form:label>

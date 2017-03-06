@@ -25,9 +25,6 @@
 	<spring:message code="request.smoker" var="smokerHeader" />
 	<display:column property="smoker" title="${smokerHeader}" sortable="true" />
 	
-	<spring:message code="request.creditCard" var="creditCardHeader" />
-	<display:column property="creditCard" title="${creditCardHeader}" sortable="true" />
-	
 	<spring:message code="request.tenant" var="tenantHeader"/>
 	<display:column title="${tenantHeader}">
 		<a href="tenant/display.do?tenantId=${row.tenant.id}"><spring:message code="request.tenant"/> </a>
