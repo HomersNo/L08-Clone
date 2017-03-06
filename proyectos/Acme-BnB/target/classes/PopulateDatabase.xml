@@ -168,6 +168,7 @@
 		<property name="name" value="Administrador" />
 		<property name="surname" value="2" />
 		<property name="email" value="admin2@gmail.com" />
+		<property name="phone" value="2345" />
 		<property name="phone" value="9157" />
 		<property name="picture" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
 		<property name="userAccount" ref="userAccount2" />
@@ -234,6 +235,7 @@
 		<property name="name" value="Eduardo" />
 		<property name="surname" value="Gómez" />
 		<property name="email" value="eduGomez@hotmail.com" />
+		<property name="phone" value="3456" />
 		<property name="phone" value="9999" />
 		<property name="picture" value="https://lh3.googleusercontent.com/-lf2P-gVUyxc/AAAAAAAAAAI/AAAAAAAAAa0/Qw3zaySSvH0/photo.jpg" />
 		<property name="cumulatedFee" value="3.0"/>
@@ -251,6 +253,7 @@
 		<property name="name" value="Marisa" />
 		<property name="surname" value="Jiménez" />
 		<property name="email" value="marisa@gmail.com" />
+		<property name="phone" value="4567" />
 		<property name="phone" value="1053" />
 		<property name="picture" value="http://pbs.twimg.com/profile_images/378800000535260046/613fa9904befa8e602d25cbf3b1a0808.png" />
 		<property name="cumulatedFee" value="1.0"/>
@@ -267,6 +270,7 @@
 		<property name="name" value="Clarence" />
 		<property name="surname" value="Portillo" />
 		<property name="email" value="cla123@outlook.com" />
+		<property name="phone" value="5678" />
 		<property name="phone" value="1124" />
 		<property name="picture" value="https://lh4.googleusercontent.com/-lvoki-PF7J4/AAAAAAAAAAI/AAAAAAAABYA/PT89V6BiuYc/photo.jpg" />
 		<property name="cumulatedFee" value="0.0"/>
@@ -322,6 +326,7 @@
 		<property name="name" value="Ale" />
 		<property name="surname" value="Sánchez" />
 		<property name="email" value="aleSa@hotmail.com" />
+		<property name="phone" value="6789" />
 		<property name="phone" value="1235" />
 		<property name="picture" value="http://s3.amazonaws.com/libapps/accounts/41939/profiles/35619/Headshot_Jared.jpeg" />
 		<property name="userAccount" ref="userAccount6" />
@@ -332,6 +337,7 @@
 		<property name="name" value="Larisa" />
 		<property name="surname" value="Clementine" />
 		<property name="email" value="clemen@email.com" />
+		<property name="phone" value="7890" />
 		<property name="phone" value="7716" />
 		<property name="picture" value="https://s-media-cache-ak0.pinimg.com/564x/f8/20/ca/f820ca980c59537992cb431fa2c30e5e.jpg" />
 		<property name="userAccount" ref="userAccount7" />
@@ -342,6 +348,7 @@
 		<property name="name" value="Lola" />
 		<property name="surname" value="Pérez" />
 		<property name="email" value="lola@gmail.com" />
+		<property name="phone" value="8901" />
 		<property name="phone" value="7731" />
 		<property name="picture" value="http://blog.suny.edu/wp-content/uploads/2014/03/Cara-Friedman.jpeg" />
 		<property name="userAccount" ref="userAccount8" />
@@ -353,6 +360,7 @@
 		<property name="name" value="Ignacio" />
 		<property name="surname" value="Vargas" />
 		<property name="email" value="nachoVargas@captio.com" />
+		<property name="phone" value="9012" />
 		<property name="phone" value="1923" />
 		<property name="picture" value="http://pbs.twimg.com/profile_images/741552615259930625/DKNqjoEh.jpg" />
 		<property name="companyName" value="Captio"/>
@@ -363,6 +371,7 @@
 		<property name="name" value="Octavio" />
 		<property name="surname" value="Setafilla" />
 		<property name="email" value="octavio@vive.com" />
+		<property name="phone" value="0123" />
 		<property name="phone" value="1932" />
 		<property name="picture" value="http://uk.hudson.com/portals/uk/images/FindAContact/Paul-Minns-profile.jpg" />
 		<property name="companyName" value="VIVE"/>
@@ -373,6 +382,7 @@
 		<property name="name" value="Cayetana" />
 		<property name="surname" value="Parráez" />
 		<property name="email" value="cayeta@fisa.com" />
+		<property name="phone" value="2222" />
 		<property name="phone" value="7412" />
 		<property name="picture" value="https://media.volinspire.com/images/c8/74/39/c87439d54eb3eb460b33f938da7486c85d6152b6_profile.jpg" />
 		<property name="companyName" value="FISA"/>

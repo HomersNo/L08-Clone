@@ -29,15 +29,15 @@ public class LessorService {
 	// Managed Repository ------------------------------------
 
 	@Autowired
-	private LessorRepository	lessorRepository;
+	private LessorRepository		lessorRepository;
 
 	// Auxiliary Services -------------------------------------
-	
-	@Autowired
-	private AdministratorService administratorService;
 
 	@Autowired
-	private Validator			validator;
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Constructors -----------------------------------------------------------
@@ -90,7 +90,7 @@ public class LessorService {
 
 	public Lessor save(Lessor lessor) {
 		Assert.notNull(lessor);
-
+		Assert.isTrue(findByPrincipal().getId() == lessor.getId());
 		Lessor result;
 
 		result = lessorRepository.save(lessor);
@@ -172,26 +172,38 @@ public class LessorService {
 
 		return result;
 	}
-	
-	public Collection<Lessor> findAllByAcceptedRequests(){
+
+	public Lessor addFee(Lessor lessor) {
+		Assert.notNull(lessor);
+		Assert.isTrue(findByPrincipal().getId() == lessor.getId());
+		Lessor result;
+		result = lessor;
+		Double fee = lessorRepository.feeDelSistema();
+		result.setCumulatedFee(lessor.getCumulatedFee() + fee);
+		result = lessorRepository.save(result);
+
+		return result;
+	}
+
+	public Collection<Lessor> findAllByAcceptedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Lessor> result = lessorRepository.findAllByAcceptedRequests();
 		return result;
 	}
-	
-	public Collection<Lessor> findAllByDeniedRequests(){
+
+	public Collection<Lessor> findAllByDeniedRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Lessor> result = lessorRepository.findAllByDeniedRequests();
 		return result;
 	}
-	
-	public Collection<Lessor> findAllByPendingRequests(){
+
+	public Collection<Lessor> findAllByPendingRequests() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Collection<Lessor> result = lessorRepository.findAllByPendingRequests();
 		return result;
 	}
-	
-	public Lessor findByRequestedAcceptedRatio(){
+
+	public Lessor findByRequestedAcceptedRatio() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Lessor result = lessorRepository.findByRequestedAcceptedRatio();
 		return result;

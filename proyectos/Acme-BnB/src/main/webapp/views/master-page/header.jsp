@@ -44,6 +44,12 @@
 					<li><a href="request/lessor/list.do"><spring:message code="master.page.requests.list" /></a></li>
 				</ul>
 			</li>
+			<li><a class="fNiv"><spring:message code="master.page.creditcard" /></a>
+				<ul>
+					<li><a href="creditcard/lessor/display.do"><spring:message code="master.page.creditcard.display" /></a></li>
+					<li><a href="creditcard/lessor/edit.do"><spring:message code="master.page.creditcard.edit" /></a></li>
+				</ul>
+			</li>
 		</security:authorize>
 		<security:authorize access="hasRole('TENANT')">
 			<li><a class="fNiv"><spring:message	code="master.page.finder" /></a>
@@ -110,7 +116,6 @@
 								<li class="arrow"></li>
 								<li><a href="lessor/display.do"><spring:message code="master.page.lessor.display" /></a></li>
 								<li><a href="lessor/lessor/edit.do"><spring:message code="master.page.lessor.edit" /></a></li>
-								<li><a href="creditcard/lessor/edit.do"><spring:message code="master.page.creditcard.edit" /></a></li>
 							</ul>
 						</li>
 					</security:authorize>	

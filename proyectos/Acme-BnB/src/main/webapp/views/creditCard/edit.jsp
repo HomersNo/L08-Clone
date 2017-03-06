@@ -17,14 +17,14 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="creditCard" action="creditCard/lessor/edit.do">
+<form:form modelAttribute="creditCard" action="creditcard/lessor/edit.do">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 
 	<acme:textbox code="creditCard.holder" path="holderName"/>
  	<acme:textbox code="creditCard.brandName" path="brandName"/>
-  	<acme:textbox code="creditCard.number" path="creditCardNumber"/>
+  	<acme:textbox code="creditCard.Number" path="creditCardNumber"/>
   	<acme:textbox code="creditCard.CVV" path="CVV"/>
   
   	<form:label path="expirationMonth">

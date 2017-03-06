@@ -20,15 +20,15 @@ public class ValueService {
 	// Managed Repository ------------------------------------
 
 	@Autowired
-	private ValueRepository		valueRepository;
+	private ValueRepository	valueRepository;
 
 	// Auxiliary Services -------------------------------------
 
 	@Autowired
-	private AttributeService	attributeService;
+	private PropertyService	propertyService;
 
 	@Autowired
-	private PropertyService		propertyService;
+	private LessorService	lessorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -71,7 +71,7 @@ public class ValueService {
 
 	public Value save(Value value) {
 		Assert.notNull(value);
-
+		checkPrincipal(value);
 		Value result;
 
 		result = valueRepository.save(value);
@@ -83,23 +83,28 @@ public class ValueService {
 		Assert.notNull(value);
 		Assert.isTrue(value.getId() != 0);
 		Assert.isTrue(valueRepository.exists(value.getId()));
-
+		checkPrincipal(value);
 		valueRepository.delete(value);
 	}
-	
-	public Collection<Value> findAllByAttribute(String attributeName){
+
+	public Collection<Value> findAllByAttribute(String attributeName) {
 		return valueRepository.findAllByAttribute(attributeName);
 	}
-	
-	public Collection<Value> findAllByContent(String content){
+
+	public Collection<Value> findAllByContent(String content) {
 		return valueRepository.findAllByContent(content);
 	}
-	
-	public Collection<Value> findAllByProperty(Property property){
+
+	public Collection<Value> findAllByProperty(Property property) {
 		return valueRepository.findAllByProperty(property);
 	}
-	
-	Collection<Property> findAllPropertiesByValueContent(String content, String attributeName){
+
+	public Collection<Property> findAllPropertiesByValueContent(String content, String attributeName) {
 		return valueRepository.findAllPropertiesByValueContent(content, attributeName);
+	}
+
+	public void checkPrincipal(Value value) {
+		Assert.isTrue(propertyService.findOne(value.getProperty().getId()).getLessor().equals(lessorService.findByPrincipal()));
+
 	}
 }

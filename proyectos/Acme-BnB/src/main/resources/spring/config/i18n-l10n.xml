@@ -28,6 +28,7 @@
 		<value>/views/audit/messages</value>
 		<value>/views/auditor/messages</value>
 		<value>/views/comment/messages</value>
+		<value>/views/creditCard/messages</value>
 		<value>/views/finder/messages</value>
 		<value>/views/invoice/messages</value>
 		<value>/views/lessor/messages</value>
