@@ -43,7 +43,7 @@
 		</jstl:if>
 		<jstl:if test="${row.invoice.equals(null)}">
 		<display:column>
-			<a href="invoice/tenant/createInvoice.do"> <spring:message
+			<a href="invoice/tenant/create.do?requestId=${row.id }"> <spring:message
 					code="request.createInvoice" />
 			</a>
 		</display:column>
