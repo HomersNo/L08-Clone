@@ -208,7 +208,7 @@ public class LessorService {
 
 	public Lessor findByRequestedAcceptedRatio() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Lessor result = lessorRepository.findByRequestedAcceptedRatio();
+		Lessor result = lessorRepository.findByRequestedAcceptedRatio().iterator().next();
 		return result;
 	}
 

@@ -21,16 +21,16 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="properties" />
+	<form:hidden path="cache" />
 	<form:hidden path="tenant" />
-	<form:hidden path="lastSearch" />
+	<form:hidden path="lastUpdate" />
 	
-  <acme:textbox code="finder.destination" path="destination"/>
+  <acme:textbox code="finder.destination" path="destinationCity"/>
   <acme:textbox code="finder.minimumPrice" path="minimumPrice"/>
   <acme:textbox code="finder.maximumPrice" path="maximumPrice"/>
-  <acme:textbox code="finder.keyword" path="keyword"/>
+  <acme:textbox code="finder.keyword" path="keyWord"/>
   
   <acme:submit name="save" code="finder.save" />
-  <acme:cancel url="finder/tenant/list.do" code="finder.cancel" />
+  <acme:cancel url="welcome/index.do" code="finder.cancel" />
 
 </form:form>

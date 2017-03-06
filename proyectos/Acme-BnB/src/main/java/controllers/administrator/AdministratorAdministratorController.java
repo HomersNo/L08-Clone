@@ -10,6 +10,8 @@
 
 package controllers.administrator;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 import domain.Administrator;
+import domain.Attribute;
+import domain.Lessor;
+import domain.Property;
+import domain.Tenant;
 import services.AdministratorService;
 
 @Controller
@@ -68,6 +74,7 @@ public class AdministratorAdministratorController extends AbstractController {
 		}
 		return result;
 	}
+	
 	protected ModelAndView createEditModelAndView(Administrator administrator) {
 		ModelAndView result;
 
@@ -87,5 +94,7 @@ public class AdministratorAdministratorController extends AbstractController {
 
 		return result;
 	}
+	
+	
 	
 }

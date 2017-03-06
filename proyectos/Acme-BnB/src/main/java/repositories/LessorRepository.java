@@ -25,6 +25,6 @@ public interface LessorRepository extends JpaRepository<Lessor, Integer> {
 	Collection<Lessor> findAllByPendingRequests();
 
 	@Query("select p.lessor from Property p join p.requests r where r.status = 'ACCEPTED' group by p.lessor order by (count(r)*1.0)/p.requests.size DESC")
-	Lessor findByRequestedAcceptedRatio();
+	Collection<Lessor> findByRequestedAcceptedRatio();
 
 }
