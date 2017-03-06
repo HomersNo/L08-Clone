@@ -62,8 +62,6 @@ public class CommentActorController extends AbstractController {
 	}
 
 	// Creation -----------------------------------------------------------------------
-
-	// Edition ------------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam int commentableId) {
 		ModelAndView result;
@@ -74,6 +72,7 @@ public class CommentActorController extends AbstractController {
 		return result;
 	}
 
+	// Edition ------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid Comment comment, BindingResult binding) {
 		ModelAndView result;

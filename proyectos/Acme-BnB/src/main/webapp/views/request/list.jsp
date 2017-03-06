@@ -27,14 +27,16 @@
 	
 	<spring:message code="request.tenant" var="tenantHeader"/>
 	<display:column title="${tenantHeader}">
-		<a href="tenant/display.do?tenantId=${row.tenant.id}"><spring:message code="request.tenant"/> </a>
+		<a href="tenant/display.do?tenantId=${row.tenant.id}"> ${row.tenant.name} ${row.tenant.surname} </a>
 	</display:column>
 	
 	<spring:message code="request.comment" var="commentHeader"/>
 	<display:column title="${commentHeader}">
-		<a href="comment/actor/create.do?commentableId=${commentable.id}" >
-			<spring:message code="request.comment" />
-		</a>
+		<security:authorize access="hasAnyRole('LESSOR','TENANT')">
+			<a href="comment/actor/create.do?commentableId=${commentable.id}" >
+				<spring:message code="request.write" />
+			</a>
+		</security:authorize>
 	</display:column>
 	
 	<spring:message code="request.property" var="propertyHeader"/>
