@@ -85,13 +85,6 @@ public class FinderService {
 			cal.add(Calendar.HOUR, -1);
 			Date dateOneHourBack = cal.getTime();
 			//lastUpdateTime.getTime() - dateOneHourBack.getTime()<= 3600000 
-			if(principal.equals(finder.getTenant()) && lastUp.after(oneHour)
-					&& principal.getFinder().equals(finder)){
-
-				finder.setLastUpdate(new Date(System.currentTimeMillis() - 1));
-				return finder;
-			}
-			else{
 				
 				//asignamos el tenant al finder si se acaba de crear
 					if(finder.getId() == 0){
@@ -124,9 +117,7 @@ public class FinderService {
 				if(finder.getKeyWord() != null){
 					String keyWord = finder.getKeyWord();
 					Collection<Property> props = propertyService.findAllByContainsKeyWordAddress(keyWord);
-					System.out.println(props);
 					props.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
-					System.out.println(props);
 					filtered.retainAll(props);
 					System.out.println(filtered);
 					
@@ -142,7 +133,7 @@ public class FinderService {
 			
 		
 			
-		}
+		
 		
 		public void delete(Finder finder){
 			
