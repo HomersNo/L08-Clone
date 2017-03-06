@@ -32,6 +32,14 @@
 	<display:column title="${tenantHeader}">
 		<a href="tenant/display.do?tenantId=${row.tenant.id}"><spring:message code="request.tenant"/> </a>
 	</display:column>
+	
+	<spring:message code="request.comment" var="commentHeader"/>
+	<display:column title="${commentHeader}">
+		<a href="comment/actor/create.do?commentableId=${commentable.id}" >
+			<spring:message code="request.comment" />
+		</a>
+	</display:column>
+	
 	<spring:message code="request.property" var="propertyHeader"/>
 	<display:column title="${propertyHeader}">
 		<a href="property/display.do?propertyId=${row.property.id}"><spring:message code="request.property"/> </a>
