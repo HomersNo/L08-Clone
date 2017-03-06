@@ -69,11 +69,11 @@
 				</ul>
 			</li>
 		
-			<li><a class="fNiv"><spring:message	code="master.page.system" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.systemConfiguration" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="system/administrator/edit.do"><spring:message code="master.page.system.edit" /></a></li>
-					<li><a href="system/administrator/dashboard.do"><spring:message code="master.page.dashboard.display" /></a></li>
+					<li><a href="systemConfiguration/administrator/edit.do"><spring:message code="master.page.systemConfiguration.edit" /></a></li>
+					<li><a href="systemConfiguration/administrator/dashboard.do"><spring:message code="master.page.dashboard.display" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

@@ -82,7 +82,7 @@
 		
 		<security:intercept-url pattern="/invoice/tenant/**.do**" access="hasRole('TENANT')"/>
 		
-		<security:intercept-url pattern="/system/administrator/**.do**" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/systemConfiguration/administrator/**.do**" access="hasRole('ADMIN')"/>
 		
 		<security:intercept-url pattern="/socialIdentity/actor/**" access="isAuthenticated()"/>
 		
