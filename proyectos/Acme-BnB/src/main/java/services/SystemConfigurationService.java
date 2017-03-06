@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import repositories.SystemConfigurationRepository;
 import domain.Attribute;
@@ -98,7 +97,6 @@ public class SystemConfigurationService {
 	}
 
 	public Double getActualFee() {
-		Assert.notNull(adminService.findByPrincipal());
 		Double res = systemConfigurationRepository.getActualFee();
 		return res;
 	}
