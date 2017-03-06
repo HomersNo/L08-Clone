@@ -16,11 +16,17 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 	@Query("select r from Request r where r.property.lessor.id = ?1")
 	Collection<Request> findAllByLessorId(int lessorId);
 
-	@Query("select ((select count(r) from Request r where r.tenant = t and r.status = 'ACCEPTED')*1.0)/t.requests.size ,((select count(r) from Request r where r.tenant = t and r.status = 'DENIED')*1.0)/t.requests.size from Tenant t")
-	Double[][] findAverageAcceptedDeniedPerTenant();
+	@Query("select count(ra)*1.0/(select count(t)*1.0 from Tenant t) from Request ra where ra.status='ACCEPTED'")
+	Double findAverageAcceptedPerTenant();
 
-	@Query("select ((select count(r) from Request r where r.property.lessor = l and r.status = 'ACCEPTED')*1.0)/(select count(rp) from Property p join p.requests rp where p.lessor = l) ,((select count(r) from Request r where r.property.lessor = l and r.status = 'DENIED')*1.0)/(select count(rp) from Property p join p.requests rp where p.lessor = l) from Lessor l")
-	Double[][] findAverageAcceptedDeniedPerLessor();
+	@Query("select count(ra)*1.0/(select count(t)*1.0 from Tenant t) from Request ra where ra.status='DENIED'")
+	Double findAverageDeniedPerTenant();
+
+	@Query("select count(ra)*1.0/(select count(l)*1.0 from Lessor l) from Request ra where ra.status='ACCEPTED'")
+	Double findAverageAcceptedPerLessor();
+
+	@Query("select count(ra)*1.0/(select count(l)*1.0 from Lessor l) from Request ra where ra.status='DENIED'")
+	Double findAverageDeniedPerLessor();
 	
 	@Query("select count(r) from Request r where r.property.audits.size > 0 group by r.property")
 	Double[] findAverageByPropertyWithInvoice();

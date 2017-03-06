@@ -71,6 +71,10 @@
 		
 		<bean class="converters.CommentableToStringConverter" />
 		<bean class="converters.StringToCommentableConverter" />
+		
+		<bean class="converters.SystemConfigurationToStringConverter" />
+		<bean class="converters.StringToSystemConfigurationConverter" />
+		
 	</util:list>
 	
 </beans>

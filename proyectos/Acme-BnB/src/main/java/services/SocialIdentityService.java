@@ -113,7 +113,26 @@ public class SocialIdentityService {
 
 	public Double[] findAvgMinAndMaxPerActor() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Double[] result = socialIdentityRepository.findAvgMinAndMaxPerActor();
+		Collection<Double> unprocessedSoicialIdentities = socialIdentityRepository.findAvgMinAndMaxPerActor();
+		Double[] result = {0.0,0.0,0.0};
+		boolean first= true;
+		Double aux = 0.0;
+		for(Double d:unprocessedSoicialIdentities){
+			aux += d;
+			if(first){
+				result[0] = d;
+				result[1] = d;
+				result[2] = d;
+			}else{
+				if(d<result[1]){
+					result[1] = d;
+				}
+				if(d>result[2]){
+					result[2] = d;					
+				}
+			}
+		}
+		result[0] /= unprocessedSoicialIdentities.size();
 		return result;
 	}
 

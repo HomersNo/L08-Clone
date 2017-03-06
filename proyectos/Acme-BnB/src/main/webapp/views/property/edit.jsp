@@ -44,6 +44,6 @@
 			onclick="return confirm('<spring:message code="property.confirm.delete" />')" />&nbsp;
 	</jstl:if>
 	
-	<acme:cancel url="list.do" code="property.cancel"/>
+	<acme:cancel url="property/list.do" code="property.cancel"/>
 
 </form:form>

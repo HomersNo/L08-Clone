@@ -31,7 +31,10 @@
 
 <security:authorize access="hasRole('LESSOR')">
 	<jstl:if test="${lessor.userAccount.username==loggedactor.username}">
+		<p><spring:message code="lessor.fee" />: <jstl:out value="${lessor.cumulatedFee }"></jstl:out> </p>
+		
 		<a href="lessor/lessor/edit.do?"> <spring:message code="lessor.edit" /></a>
+		
 	</jstl:if>
 </security:authorize>
 
