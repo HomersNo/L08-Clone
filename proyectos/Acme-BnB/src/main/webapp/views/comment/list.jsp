@@ -41,11 +41,7 @@
 
 <security:authorize access="hasAnyRole('LESSOR','TENANT')">
 	<div>
-<<<<<<< HEAD
-		<a href="comment/actor/edit.do?actorId=${actorId}"> <spring:message
-=======
 		<a href="comment/actor/create.do?commentableId=${commentable.id}"> <spring:message
->>>>>>> refs/remotes/origin/master
 				code="comment.create" />
 		</a>
 	</div>

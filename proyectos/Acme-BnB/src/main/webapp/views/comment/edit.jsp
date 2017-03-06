@@ -28,15 +28,9 @@
 	<form:hidden path="moment"/>
 	
 	<acme:textbox code="comment.title" path="title"/>
-<<<<<<< HEAD
-	<acme:textbox code="comment.text " path="text"/>
-	<acme:select items="{0,1,2,3,4,5}" itemLabel="SELECT" code="comment.stars" path="stars"/>
-<%-- 	<form:label path="stars">
-=======
 	<acme:textarea code="comment.text" path="text"/>
 	
 <form:label path="stars">
->>>>>>> refs/remotes/origin/master
 		<spring:message code="comment.stars" />:
 	</form:label>
 	<form:select path="stars">
@@ -54,4 +48,3 @@
 	<acme:cancel url="welcome/index.do" code="comment.cancel"/>
 
 </form:form>
-	
