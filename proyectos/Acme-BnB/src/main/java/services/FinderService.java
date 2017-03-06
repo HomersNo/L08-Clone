@@ -49,6 +49,7 @@ public class FinderService {
 			Tenant principal = tenantService.findByPrincipal();
 			Assert.notNull(principal);
 			Assert.isTrue(principal.getId() != 0);
+			created.setTenant(principal);
 			
 			return created;
 		}
@@ -69,18 +70,21 @@ public class FinderService {
 			Assert.isTrue(checkPrincipal(finder));
 			Tenant principal = tenantService.findByPrincipal();
 			
+			Date lastUp = finder.getLastUpdate();
+			Calendar oneHourCal = Calendar.getInstance();
+			oneHourCal.add(Calendar.HOUR, -1);
+			Date oneHour = oneHourCal.getTime();
+			
 			Calendar cal = Calendar.getInstance();
+			Calendar last = Calendar.getInstance();
 			Date now;
 			now = new Date(System.currentTimeMillis() - 3600 * 1000);
 			cal.setTime(now);
+			last.setTime(finder.getLastUpdate());
+			Date lastUpdateTime = last.getTime();
 			cal.add(Calendar.HOUR, -1);
 			Date dateOneHourBack = cal.getTime();
-			if(principal.equals(finder.getTenant()) && finder.getLastUpdate().getTime() - dateOneHourBack.getTime() <= 3600000){
-				saved = this.findByTenant(principal);
-				saved.setLastUpdate(new Date(System.currentTimeMillis() - 1));
-				return saved;
-			}
-			else{
+			//lastUpdateTime.getTime() - dateOneHourBack.getTime()<= 3600000 
 				
 				//asignamos el tenant al finder si se acaba de crear
 					if(finder.getId() == 0){
@@ -96,23 +100,27 @@ public class FinderService {
 				//primero la ciudad de destino
 				String attribute = "City";
 				filtered.addAll(valueService.findAllPropertiesByValueContent(finder.getDestinationCity(), attribute));
+				System.out.println(filtered);
 				//ahora el rate
 				Double min = finder.getMinimumPrice();
 				Double max = finder.getMaximumPrice();
 				if(finder.getMaximumPrice()!= null && finder.getMinimumPrice() != null){
-					filtered.addAll(propertyService.findAllByMinMaxRate(min, max));
+					filtered.retainAll(propertyService.findAllByMinMaxRate(min, max));
 				}
 				if(finder.getMaximumPrice()!= null && finder.getMinimumPrice() == null){
-					filtered.addAll(propertyService.findAllByMinRate(min));
+					filtered.retainAll(propertyService.findAllByMinRate(min));
 				}
 				if(finder.getMaximumPrice()== null && finder.getMinimumPrice() != null){
-					filtered.addAll(propertyService.findAllByMaxRate(max));
+					filtered.retainAll(propertyService.findAllByMaxRate(max));
 				}
 				//por ultimo la KeyWord
 				if(finder.getKeyWord() != null){
 					String keyWord = finder.getKeyWord();
-					filtered.addAll(propertyService.findAllByContainsKeyWordAddress(keyWord));
-					filtered.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
+					Collection<Property> props = propertyService.findAllByContainsKeyWordAddress(keyWord);
+					props.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
+					filtered.retainAll(props);
+					System.out.println(filtered);
+					
 				}
 				//y ya cambiamos las properties a las filtradas
 				finder.setCache(filtered);
@@ -125,7 +133,7 @@ public class FinderService {
 			
 		
 			
-		}
+		
 		
 		public void delete(Finder finder){
 			

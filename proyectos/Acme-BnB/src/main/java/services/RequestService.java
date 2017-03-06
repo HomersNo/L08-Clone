@@ -102,31 +102,21 @@ public class RequestService {
 
 	public Double[] findAverageAcceptedDeniedPerTenant() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Double[][] unprocessedAverage = requestRepository.findAverageAcceptedDeniedPerTenant();
 		Double[] result = {
 			0.0, 0.0
 		};
-		for (Double[] averageGroup : unprocessedAverage) {
-			result[0] += averageGroup[0];
-			result[1] += averageGroup[1];
-		}
-		result[0] /= unprocessedAverage.length;
-		result[1] /= unprocessedAverage.length;
+		result[0] = requestRepository.findAverageAcceptedPerTenant();
+		result[1] = requestRepository.findAverageDeniedPerTenant();
 		return result;
 	}
 
 	public Double[] findAverageAcceptedDeniedPerLessor() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Double[][] unprocessedAverage = requestRepository.findAverageAcceptedDeniedPerLessor();
 		Double[] result = {
-			0.0, 0.0
+				0.0, 0.0
 		};
-		for (Double[] averageGroup : unprocessedAverage) {
-			result[0] += averageGroup[0];
-			result[1] += averageGroup[1];
-		}
-		result[0] /= unprocessedAverage.length;
-		result[1] /= unprocessedAverage.length;
+		result[0] = requestRepository.findAverageAcceptedPerLessor();
+		result[1] = requestRepository.findAverageDeniedPerLessor();
 		return result;
 	}
 

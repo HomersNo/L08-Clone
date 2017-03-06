@@ -24,7 +24,7 @@ public interface SocialIdentityRepository extends JpaRepository<SocialIdentity, 
 	@Query("select si from SocialIdentity si where si.actor.id = ?1")
 	Collection<SocialIdentity> findAllByActor(int id);
 	
-	@Query("select avg(a.socialIdentities.size), min(a.socialIdentities.size), max(a.socialIdentities.size) from Actor a")
-	Double[] findAvgMinAndMaxPerActor();
+	@Query("select count(si)*1.0 from SocialIdentity si group by si.actor")
+	Collection<Double> findAvgMinAndMaxPerActor();
 
 }
