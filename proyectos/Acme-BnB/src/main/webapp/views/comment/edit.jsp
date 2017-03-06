@@ -48,4 +48,3 @@
 	<acme:cancel url="welcome/index.do" code="comment.cancel"/>
 
 </form:form>
-	
