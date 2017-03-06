@@ -14,14 +14,14 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
 	// Devolvemos los comentarios de un Actor, incluidos los que se hizo a si mismo.
 	@Query("select c from Comment c where c.commentable.id = ?1")
-	Collection<Comment> allCommentsOfAnActor(int actorId);
+	Collection<Comment> allCommentsOfACommentable(int commentableId);
 
 	// Devolvemos los comentarios de un Actor que se hizo a si mismo.
 	@Query("select c from Comment c where c.commentable.id = ?1 and c.actor.id = ?1")
 	Collection<Comment> allCommentsOfAnActorDidToHimself(int actorId);
 
 	// Devolvemos los comentarios de un Actor, pero sin incluir los que se hizo a si mismo.
-	@Query("select c from Comment c where c.actor.id = ?1 and not c.commentable.id = ?1")
-	Collection<Comment> allCommentsActorsDidToAnActor(int actorId);
+	@Query("select c from Comment c where not c.actor.id = ?1 and c.commentable.id = ?1")
+	Collection<Comment> allCommentsExceptSelfComments(int actorId);
 
 }

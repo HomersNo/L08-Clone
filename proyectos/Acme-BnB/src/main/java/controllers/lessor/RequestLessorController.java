@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.LessorService;
@@ -47,6 +48,36 @@ public class RequestLessorController {
 		result = new ModelAndView("request/list");
 		result.addObject("requestURI", "request/user/listOwn.do");
 		result.addObject("request", requests);
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/accept", method = RequestMethod.GET)
+	public ModelAndView accept(@RequestParam int requestId) {
+
+		ModelAndView result;
+		Request request;
+
+		request = requestService.findOne(requestId);
+
+		request = requestService.accept(request);
+
+		result = new ModelAndView("redirect:/request/lessor/list.do");
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/deny", method = RequestMethod.GET)
+	public ModelAndView deny(@RequestParam int requestId) {
+
+		ModelAndView result;
+		Request request;
+
+		request = requestService.findOne(requestId);
+
+		request = requestService.deny(request);
+
+		result = new ModelAndView("redirect:/request/lessor/list.do");
 
 		return result;
 	}

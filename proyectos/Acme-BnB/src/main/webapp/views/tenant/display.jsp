@@ -19,7 +19,7 @@
 <p><spring:message code="tenant.email"/>: <jstl:out value="${tenant.email}" /></p> 
 <p><spring:message code="tenant.phone"/>: <jstl:out value="${tenant.phone}" /></p> 
 
-<img src="<jstl:out value='${tenant.picture}'/>" > 
+<img src="<jstl:out value='${tenant.picture}'/>" width="300"> 
 
 <br/>
 
@@ -30,6 +30,8 @@
 </security:authorize>
 
 <br/>
+
+<b><spring:message code="tenant.comments"/></b><br/>
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="comments" requestURI="tenant/display.do" id="row">
@@ -56,6 +58,8 @@
 </display:table>
 
 <br/>
+
+<b><spring:message code="tenant.socials"/></b><br/>
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="socialIdentities" requestURI="tenant/display.do" id="row">

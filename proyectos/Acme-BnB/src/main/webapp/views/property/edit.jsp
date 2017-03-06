@@ -27,9 +27,9 @@
 	
 	<acme:textbox code="property.name" path="name"/>
 
-	<acme:textbox code="property.description" path="description"/>
+	<acme:textarea code="property.description" path="description"/>
 	
-	<acme:textbox code="property.address" path="address"/>
+	<acme:textarea code="property.address" path="address"/>
 
 	<label><spring:message	code="property.rate" /></label>
 	<form:input type="number" min="0" step="any" path="rate" />
@@ -44,6 +44,6 @@
 			onclick="return confirm('<spring:message code="property.confirm.delete" />')" />&nbsp;
 	</jstl:if>
 	
-	<acme:cancel url="list.do" code="property.cancel"/>
+	<acme:cancel url="property/list.do" code="property.cancel"/>
 
 </form:form>

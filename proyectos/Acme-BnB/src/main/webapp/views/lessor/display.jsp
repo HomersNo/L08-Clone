@@ -25,17 +25,22 @@
 <p><spring:message code="lessor.email"/>: <jstl:out value="${lessor.email}" /></p> 
 <p><spring:message code="lessor.phone"/>: <jstl:out value="${lessor.phone}" /></p> 
 
-<img src="<jstl:out value='${lessor.picture}'/>" > 
+<img src="<jstl:out value='${lessor.picture}'/>"  width="300"> 
 
 <br/>
 
 <security:authorize access="hasRole('LESSOR')">
 	<jstl:if test="${lessor.userAccount.username==loggedactor.username}">
+		<p><spring:message code="lessor.fee" />: <jstl:out value="${lessor.cumulatedFee }"></jstl:out> </p>
+		
 		<a href="lessor/lessor/edit.do?"> <spring:message code="lessor.edit" /></a>
+		
 	</jstl:if>
 </security:authorize>
 
 <br/>
+
+<b><spring:message code="lessor.comments"/></b><br/>
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="comments" requestURI="lessor/display.do" id="row">
@@ -61,22 +66,25 @@
 	
 </display:table>
 
+
 <br/>
+
+<b><spring:message code="lessor.socials"/></b><br/>
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="socialIdentities" requestURI="lessor/display.do" id="row">
 
-	<!-- Attributes -->
 	
+	<!-- Attributes -->
 	<spring:message code="socialidentity.nick" var="nickHeader" />
 	<display:column property="nick" title="${nickHeader}" sortable="true" />
+
+	<spring:message code="socialidentity.network.name" var="nameHeader" />
+	<display:column property="socialNetworkName" title="${nameHeader}" sortable="false" />
 
 	<spring:message code="socialidentity.network.link" var="linkHeader" />
 	<display:column title="${linkHeader}" sortable="false" >
 		<a href="${row.socialNetworkLink}"><spring:message code="socialidentity.network.link"/></a>
 	</display:column>
-	
-	<spring:message code="socialidentity.network.name" var="nameHeader" />
-	<display:column property="socialNetworkName" title="${nameHeader}" sortable="false" />
-	
+
 </display:table>

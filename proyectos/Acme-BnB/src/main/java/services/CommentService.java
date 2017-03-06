@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -19,20 +18,19 @@ import domain.Commentable;
 @Transactional
 public class CommentService {
 
-	//managed repository ------------------------------------------------------
+	// managed repository ------------------------------------------------------
 	@Autowired
-	private CommentRepository	commentRepository;
+	private CommentRepository commentRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private CommentableService	commentableService;
+	private CommentableService commentableService;
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService actorService;
 
 	@Autowired
-	private Validator			validator;
-
+	private Validator validator;
 
 	// Constructors -----------------------------------------------------------
 	public CommentService() {
@@ -71,9 +69,31 @@ public class CommentService {
 		commentRepository.delete(comment);
 	}
 
-	//Auxiliary methods ------------------------------------------------------
+	public Collection<Comment> allCommentsOfAnActor(int commentableId) {
 
-	//Our other bussiness methods --------------------------------------------
+		Collection<Comment> result;
+		result = commentRepository.allCommentsOfACommentable(commentableId);
+		return result;
+	}
+
+	public Collection<Comment> allCommentsOfAnActorDidToHimself(int actorId) {
+
+		Collection<Comment> result;
+		result = commentRepository.allCommentsOfAnActorDidToHimself(actorId);
+		return result;
+	}
+
+
+	public Collection<Comment> allCommentsExceptSelfComments(int actorId) {
+
+		Collection<Comment> result;
+		result = commentRepository.allCommentsExceptSelfComments(actorId);
+		return result;
+	}
+
+	// Auxiliary methods ------------------------------------------------------
+
+	// Our other bussiness methods --------------------------------------------
 	public Comment reconstruct(Comment comment, BindingResult binding) {
 		Comment result;
 		if (comment.getId() == 0) {
