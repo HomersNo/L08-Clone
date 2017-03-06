@@ -62,7 +62,7 @@ public class AuditAuditorController extends AbstractController {
 	public ModelAndView edit(@RequestParam int auditId) {
 		ModelAndView result;
 
-		Audit audit = auditService.findOne(auditId);
+		Audit audit = auditService.findOneToEdit(auditId);
 		result = createEditModelAndView(audit);
 
 		result.addObject("audit", audit);
