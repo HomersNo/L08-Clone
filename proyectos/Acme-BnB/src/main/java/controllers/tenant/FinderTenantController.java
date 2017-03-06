@@ -46,7 +46,12 @@ public class FinderTenantController extends AbstractController {
 		Tenant principal = tenantService.findByPrincipal();
 		Finder finder = finderService.findByTenant(principal);
 		ModelAndView result;
-		result = createEditModelAndView(finder, null);
+		if (finder == null) {
+			result = new ModelAndView("redirect:/finder/tenant/create.do");
+		} else {
+			result = createEditModelAndView(finder, null);
+		}
+		
 		return result;
 	}
 	
@@ -58,7 +63,7 @@ public class FinderTenantController extends AbstractController {
 		} else {
 			try {
 				finderService.save(finder);				
-				result = new ModelAndView("redirect:/property/tenant/list.do?finderId="+finder.getId());
+				result = new ModelAndView("redirect:/property/tenant/listFound.do?finderId="+finder.getId());
 				result.addObject("message", "finder.commit.ok");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(finder, "finder.commit.error");				
