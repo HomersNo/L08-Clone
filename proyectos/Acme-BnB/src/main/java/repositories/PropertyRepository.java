@@ -47,5 +47,8 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
 
 	@Query("Select f.cache from Finder f where f.id = ?1")
 	Collection<Property> findAllByFinderId(int id);
+	
+	@Query("Select a.property from Audit a where a.auditor.id= ?1")
+	Collection<Property> findAllAudited(int auditorId);
 
 }

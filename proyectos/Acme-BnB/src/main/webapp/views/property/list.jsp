@@ -76,9 +76,15 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('AUDITOR')">
+	
 		<display:column>
+		<jstl:forEach var="thisAudited" items="${audited}">
+		<jstl:if test="${!(thisAudited.id==row.id)}">
 			<a href="audit/auditor/create.do?propertyId=${row.id}"><spring:message code="property.audit.create" /></a>
+		</jstl:if>
+		</jstl:forEach>
 		</display:column>
+
 	</security:authorize>
 	
 </display:table>
