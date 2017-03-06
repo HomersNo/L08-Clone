@@ -23,18 +23,22 @@
 	name="audits" requestURI="${requestURI}" id="row">
 	<security:authentication property="principal" var ="loggedactor"/>
 	
-	<security:authorize access="hasRole('AUDITOR')">
-	<jstl:if test="${row.auditor.userAccount.username==loggedactor.username}">
-	<display:column>
-		<a href="auditor/audit/edit.do?auditId=${row.id}"><spring:message code="audit.edit"/></a>
-	</display:column>
-	</jstl:if>
-	</security:authorize>
+	
 	
 	<security:authorize access="isAuthenticated()">
 	<display:column>
 		<a href="audit/display.do?auditId=${row.id}">${row.auditor.name} ${row.auditor.surname} -- ${row.property.name}</a>
 	</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('AUDITOR')">
+	<jstl:if test="${row.auditor.userAccount.username==loggedactor.username}">
+	<jstl:if test="${row.draft}">
+	<display:column>
+		<a href="audit/auditor/edit.do?auditId=${row.id}"><spring:message code="audit.edit"/></a>
+	</display:column>
+	</jstl:if>
+	</jstl:if>
 	</security:authorize>
 	
 

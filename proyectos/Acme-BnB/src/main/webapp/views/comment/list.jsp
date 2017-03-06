@@ -36,6 +36,9 @@
 		<a href="actor/display.do?actorId=${row.actor.id}">${row.actor.name} ${row.actor.surname }</a>
 	</display:column>
 	
+	<spring:message code="comment.moment" var="momentHeader" />
+	<display:column property="moment" title="${momentHeader}" sortable="true" />
+	
 </display:table>
 
 

@@ -40,7 +40,7 @@
 		<a href="socialIdentity/actor/create.do"><spring:message code="auditor.social.create"/></a>
 	</jstl:if>
 </security:authorize>
-
+<br/>
 <security:authorize access="hasAnyRole('AUDITOR')">
 	<jstl:if test="${auditor.userAccount.username==loggedactor.username}">
 		<a href="auditor/auditor/edit.do?auditorId=${auditor.id}"><b><spring:message code="auditor.edit"/></b></a>
