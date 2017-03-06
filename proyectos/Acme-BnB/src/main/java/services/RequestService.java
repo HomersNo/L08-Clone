@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.RequestRepository;
+import security.LoginService;
+import security.UserAccount;
+import domain.Invoice;
 import domain.Lessor;
 import domain.Request;
 import domain.Tenant;
@@ -49,6 +52,7 @@ public class RequestService {
 
 		Request retrieved;
 		retrieved = requestRepository.findOne(requestId);
+		Assert.isTrue(checkPrincipal(retrieved));
 		return retrieved;
 	}
 
@@ -100,6 +104,17 @@ public class RequestService {
 		return requestRepository.findAll();
 	}
 
+	public Boolean checkPrincipal(Request e){
+		
+		Boolean result = false;
+		UserAccount tenantUser = e.getTenant().getUserAccount();
+		UserAccount principal = LoginService.getPrincipal();
+		if(tenantUser.equals(principal)){
+			result = true;
+		}
+		return result;
+		
+	}
 	public Double[] findAverageAcceptedDeniedPerTenant() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[] result = {
