@@ -27,20 +27,20 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
 	@Query("Select p from Property p where p.address like ?1")
 	Collection<Property> findAllByContainsKeyWordAddress(String address);
 
-	@Query("select p from Property p where p.lessor.id = 14 order by p.audits.size DESC")
-	Collection<Property> findAllByLessorOrderedByAudits();
+	@Query("select p from Property p where p.lessor.id = ?1 order by p.audits.size DESC")
+	Collection<Property> findAllByLessorOrderedByAudits(int lessorId);
 
-	@Query("select p from Property p where p.lessor.id = 14 order by p.requests.size DESC")
-	Collection<Property> findAllByLessorOrderedByRequests();
+	@Query("select p from Property p where p.lessor.id = ?1 order by p.requests.size DESC")
+	Collection<Property> findAllByLessorOrderedByRequests(int lessorId);
 
-	@Query("select r.property from Request r where r.property.lessor.id = 14 and r.status = 'ACCEPTED' group by r.property order by count(r) DESC")
-	Collection<Property> findAllByLessorOrderByAcceptedRequest();
+	@Query("select r.property from Request r where r.property.lessor.id = ?1 and r.status = 'ACCEPTED' group by r.property order by count(r) DESC")
+	Collection<Property> findAllByLessorOrderByAcceptedRequest(int lessorId);
 
-	@Query("select r.property from Request r where r.property.lessor.id = 14 and r.status = 'DENIED' group by r.property order by count(r) DESC")
-	Collection<Property> findAllByLessorOrderByDeniedRequest();
+	@Query("select r.property from Request r where r.property.lessor.id = ?1 and r.status = 'DENIED' group by r.property order by count(r) DESC")
+	Collection<Property> findAllByLessorOrderByDeniedRequest(int lessorId);
 
-	@Query("select r.property from Request r where r.property.lessor.id = 14 and r.status = 'PENDING' group by r.property order by count(r) DESC")
-	Collection<Property> findAllByLessorOrderByPendingRequest();
+	@Query("select r.property from Request r where r.property.lessor.id = ?1 and r.status = 'PENDING' group by r.property order by count(r) DESC")
+	Collection<Property> findAllByLessorOrderByPendingRequest(int lessorId);
 
 	@Query("Select p from Property p where p.lessor.id = ?1")
 	Collection<Property> findAllByLessorId(int id);

@@ -192,7 +192,7 @@ public class TenantService {
 
 	public Tenant findByRequestedAcceptedRatio() {
 		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findByRequestedAcceptedRatio();
+		Tenant result = tenantRepository.findByRequestedAcceptedRatio().iterator().next();
 		return result;
 	}
 }
