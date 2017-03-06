@@ -153,7 +153,7 @@ public class PropertyService {
 	}
 
 	Collection<Property> findAllByContainsKeyWordAddress(String address) {
-		return propertyRepository.findAllByContainsKeyWordName(address);
+		return propertyRepository.findAllByContainsKeyWordAddress(address);
 	}
 
 	Collection<Property> findAllByLessorOrderedByAudits(int lessorId) {
