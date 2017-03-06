@@ -21,7 +21,7 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer> {
 	@Query("select r.tenant from Request r where r.status = 'PENDING' group by r.tenant order by count(r) DESC")
 	Collection<Tenant> findAllByPendingRequests();
 	
-	@Query("select t,(count(r)*1.0)/t.requests.size from Tenant t join t.requests r where r.status = 'ACCEPTED' group by t order by (count(r)*1.0)/t.requests.size DESC")
-	Tenant findByRequestedAcceptedRatio();
+	@Query("select t from Tenant t join t.requests r where r.status = 'ACCEPTED' group by t order by (count(r)*1.0)/t.requests.size DESC")
+	Collection<Tenant> findByRequestedAcceptedRatio();
 
 }
