@@ -13,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
+import security.LoginService;
+import security.UserAccount;
 import domain.Lessor;
 import domain.Property;
 import domain.Request;
@@ -58,6 +60,7 @@ public class RequestService {
 
 		Request retrieved;
 		retrieved = requestRepository.findOne(requestId);
+		Assert.isTrue(checkPrincipal(retrieved));
 		return retrieved;
 	}
 
@@ -138,6 +141,18 @@ public class RequestService {
 		}
 
 		return result;
+	}
+
+	public Boolean checkPrincipal(Request e) {
+
+		Boolean result = false;
+		UserAccount tenantUser = e.getTenant().getUserAccount();
+		UserAccount principal = LoginService.getPrincipal();
+		if (tenantUser.equals(principal)) {
+			result = true;
+		}
+		return result;
+
 	}
 
 	public Double[] findAverageAcceptedDeniedPerTenant() {
