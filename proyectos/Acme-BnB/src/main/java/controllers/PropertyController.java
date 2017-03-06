@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.AttributeService;
 import services.PropertyService;
+import domain.Actor;
 import domain.Attribute;
+import domain.Auditor;
 import domain.Property;
 import domain.Value;
 import forms.AddAttribute;
@@ -28,6 +32,9 @@ public class PropertyController extends AbstractController {
 
 	@Autowired
 	private AttributeService	attributeService;
+	
+	@Autowired
+	private ActorService	actorService;
 
 
 	//Constructor
@@ -42,12 +49,23 @@ public class PropertyController extends AbstractController {
 
 		ModelAndView result;
 		Collection<Property> properties;
+		Collection<Property> audited = new ArrayList<Property>();
 
 		properties = propertyService.findAll();
+		
+		
+		Actor principal;
+		principal = actorService.findByPrincipal();
+		
+		if(principal instanceof Auditor){
+			
+			audited = propertyService.findAllAudited();
+		}
 
 		result = new ModelAndView("property/list");
 		result.addObject("requestURI", "property/list.do");
 		result.addObject("properties", properties);
+		result.addObject("audited", audited);
 
 		return result;
 	}
