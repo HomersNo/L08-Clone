@@ -68,9 +68,8 @@ public class FinderService {
 			Finder saved;
 			Assert.notNull(finder);
 			Assert.isTrue(checkPrincipal(finder));
-			Tenant principal = tenantService.findByPrincipal();
 			
-			Date lastUp = finder.getLastUpdate();
+			/*Date lastUp = finder.getLastUpdate();
 			Calendar oneHourCal = Calendar.getInstance();
 			oneHourCal.add(Calendar.HOUR, -1);
 			Date oneHour = oneHourCal.getTime();
@@ -83,13 +82,9 @@ public class FinderService {
 			last.setTime(finder.getLastUpdate());
 			Date lastUpdateTime = last.getTime();
 			cal.add(Calendar.HOUR, -1);
-			Date dateOneHourBack = cal.getTime();
+			Date dateOneHourBack = cal.getTime();*/
 			//lastUpdateTime.getTime() - dateOneHourBack.getTime()<= 3600000 
 				
-				//asignamos el tenant al finder si se acaba de crear
-					if(finder.getId() == 0){
-						finder.setTenant(principal);	
-					}
 				//actualizamos la fecha de la última búsqueda
 				Date lastUpdate = new Date(System.currentTimeMillis() - 1);
 				finder.setLastUpdate(lastUpdate);
@@ -119,7 +114,7 @@ public class FinderService {
 					Collection<Property> props = propertyService.findAllByContainsKeyWordAddress(keyWord);
 					props.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
 					filtered.retainAll(props);
-					System.out.println(filtered);
+					
 					
 				}
 				//y ya cambiamos las properties a las filtradas

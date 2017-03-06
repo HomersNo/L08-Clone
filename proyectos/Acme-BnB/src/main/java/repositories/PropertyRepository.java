@@ -21,10 +21,10 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
 	@Query("Select p from Property p where p.rate <= ?1")
 	Collection<Property> findAllByMaxRate(Double max);
 
-	@Query("Select p from Property p where p.name like ?1")
+	@Query("Select p from Property p where p.name like %?1%")
 	Collection<Property> findAllByContainsKeyWordName(String name);
 
-	@Query("Select p from Property p where p.address like ?1")
+	@Query("Select p from Property p where p.address like %?1%")
 	Collection<Property> findAllByContainsKeyWordAddress(String address);
 
 	@Query("select p from Property p where p.lessor.id = ?1 order by p.audits.size DESC")
@@ -47,5 +47,8 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
 
 	@Query("Select f.cache from Finder f where f.id = ?1")
 	Collection<Property> findAllByFinderId(int id);
+	
+	@Query("Select a.property from Audit a where a.auditor.id= ?1")
+	Collection<Property> findAllAudited(int auditorId);
 
 }

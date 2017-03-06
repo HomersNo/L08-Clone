@@ -15,6 +15,8 @@ import org.springframework.validation.Validator;
 
 import repositories.AuditRepository;
 import domain.Audit;
+import domain.Auditor;
+import domain.Property;
 
 @Service
 @Transactional
@@ -45,6 +47,7 @@ public class AuditService {
 	public Audit create(){
 		
 		Audit result = new Audit();
+		result.setAuditor(auditorService.findByPrincipal());
 		Date moment = new Date(System.currentTimeMillis()-100);
 		result.setMoment(moment);
 		return result;
@@ -99,7 +102,12 @@ public class AuditService {
 		Audit result;
 
 		if (audit.getId() == 0) {
-			result = audit;
+			result = create();
+			result.setProperty(audit.getProperty());
+			result.setText(audit.getText());
+			result.setAttachments(audit.getAttachments());
+			result.setMoment(audit.getMoment());
+			result.setDraft(audit.getDraft());
 		} else {
 			result = auditRepository.findOne(audit.getId());
 
@@ -131,6 +139,30 @@ public class AuditService {
 	public Double[] findAvgMinAndMaxPerProperty(){
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[] result = auditRepository.findAvgMinAndMaxPerProperty();
+		return result;
+	}
+	
+	Audit findAuditInCommon(int propertyId){
+		
+		Auditor auditor = auditorService.findByPrincipal();
+		Audit audit;
+		audit = auditRepository.findAuditInCommon(auditor.getId(), propertyId);
+		
+		return audit;
+	}
+	
+	public Boolean hasCommon(int propertyId){
+		
+
+		Audit audit;
+		Boolean result = true;
+		audit= this.findAuditInCommon(propertyId);
+		if(audit == null){
+			
+			result = false;
+		}
+		
+		
 		return result;
 	}
 

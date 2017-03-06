@@ -57,6 +57,7 @@ public class AuditController extends AbstractController {
 		
 		result = new ModelAndView("audit/list");
 		result.addObject("audits", audits);
+		result.addObject("requestURI", "audit/list.do?propertyId="+propertyId);
 
 		return result;
 	}
