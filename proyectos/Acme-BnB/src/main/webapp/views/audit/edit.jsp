@@ -21,6 +21,8 @@
 	<form:hidden path="moment" />
 	<form:hidden path="auditor"/>
 	<form:hidden path="property"/>
+	<form:hidden path="id"/>
+	<form:hidden path="version"/>
 	
 	
 	<acme:textarea code="audit.text" path="text"/>
@@ -36,23 +38,15 @@
 	<br/>
 	
 	<input type="submit" name="save"
-		value="<spring:message code="audit.save" />" onclick="return toggleSubmit()" />&nbsp; 
+		value="<spring:message code="audit.save" />" /> 
 	<jstl:if test="${draft}">
 	<input type="submit" name="delete"
 		value="<spring:message code="audit.delete" />" />&nbsp; 
 	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="audit.cancel" />"
-		onclick="javascript: window.location.replace('${cancelURI}');" />
+		onclick="javascript: window.location.replace('/audit/auditor/list.do');" />
 	<br />
 	
-	<script type="text/javascript">
-		function toggleSubmit() {
-			var drafted = document.getElementById("draft").checked;
-			if(!drafted){
-				return confirm('<spring:message code="audit.save.confirm" />');
-			}		
-		}
-	</script>
 	
 </form:form>

@@ -38,7 +38,7 @@
 		<jstl:if test="${!row.invoice.equals(null)}">
 			<spring:message code="request.invoice" var="invoiceHeader"/>
 			<display:column title="${invoiceHeader}">
-				<a href="invoice/display.do?invoiceId=${row.invoice.id}"><spring:message code="request.invoice"/> </a>
+				<a href="invoice/tenant/display.do?invoiceId=${row.invoice.id}"><spring:message code="request.invoice"/> </a>
 			</display:column>
 		</jstl:if>
 		<jstl:if test="${row.invoice.equals(null)}">

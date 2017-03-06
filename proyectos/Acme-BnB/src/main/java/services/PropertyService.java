@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
 
 import repositories.PropertyRepository;
 import domain.Audit;
+import domain.Auditor;
 import domain.Lessor;
 import domain.Property;
 import domain.Request;
@@ -31,6 +32,9 @@ public class PropertyService {
 
 	@Autowired
 	private LessorService			lessorService;
+	
+	@Autowired
+	private AuditorService			auditorService;
 
 	@Autowired
 	private AdministratorService	administratorService;
@@ -188,5 +192,16 @@ public class PropertyService {
 
 	public void checkPrincipal(Property property) {
 		Assert.isTrue(property.getLessor().equals(lessorService.findByPrincipal()));
+	}
+	
+	public Collection<Property> findAllAudited(){
+		
+		Auditor auditor = auditorService.findByPrincipal();
+		Collection<Property> result;
+		result = propertyRepository.findAllAudited(auditor.getId());
+		
+		return result;
+				
+		
 	}
 }

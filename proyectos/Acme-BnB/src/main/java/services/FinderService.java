@@ -68,7 +68,6 @@ public class FinderService {
 			Finder saved;
 			Assert.notNull(finder);
 			Assert.isTrue(checkPrincipal(finder));
-			Tenant principal = tenantService.findByPrincipal();
 			
 			/*Date lastUp = finder.getLastUpdate();
 			Calendar oneHourCal = Calendar.getInstance();
@@ -115,7 +114,7 @@ public class FinderService {
 					Collection<Property> props = propertyService.findAllByContainsKeyWordAddress(keyWord);
 					props.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
 					filtered.retainAll(props);
-					System.out.println(filtered);
+					
 					
 				}
 				//y ya cambiamos las properties a las filtradas
