@@ -70,7 +70,7 @@ public class FinderService {
 			Assert.isTrue(checkPrincipal(finder));
 			Tenant principal = tenantService.findByPrincipal();
 			
-			Date lastUp = finder.getLastUpdate();
+			/*Date lastUp = finder.getLastUpdate();
 			Calendar oneHourCal = Calendar.getInstance();
 			oneHourCal.add(Calendar.HOUR, -1);
 			Date oneHour = oneHourCal.getTime();
@@ -83,13 +83,9 @@ public class FinderService {
 			last.setTime(finder.getLastUpdate());
 			Date lastUpdateTime = last.getTime();
 			cal.add(Calendar.HOUR, -1);
-			Date dateOneHourBack = cal.getTime();
+			Date dateOneHourBack = cal.getTime();*/
 			//lastUpdateTime.getTime() - dateOneHourBack.getTime()<= 3600000 
 				
-				//asignamos el tenant al finder si se acaba de crear
-					if(finder.getId() == 0){
-						finder.setTenant(principal);	
-					}
 				//actualizamos la fecha de la última búsqueda
 				Date lastUpdate = new Date(System.currentTimeMillis() - 1);
 				finder.setLastUpdate(lastUpdate);
