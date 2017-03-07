@@ -38,9 +38,6 @@ public class LessorService {
 	private AdministratorService		administratorService;
 
 	@Autowired
-	private TenantService				tenantService;
-
-	@Autowired
 	private Validator					validator;
 
 	@Autowired
@@ -217,7 +214,6 @@ public class LessorService {
 	}
 
 	public Set<Lessor> findAllCommentableLessors(int tenantId) {
-		Assert.notNull(tenantService.findByPrincipal().getId() == tenantId);
 		Set<Lessor> result = lessorRepository.findAllCommentableLessors(tenantId);
 		return result;
 	}
