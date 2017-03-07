@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Calendar;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -146,6 +147,12 @@ public class CreditCardService {
 			result = create();
 		else
 			result = lessor.getCreditCard();
+		return result;
+	}
+
+	public Collection<CreditCard> findAll() {
+		Collection<CreditCard> result;
+		result = creditCardRepository.findAll();
 		return result;
 	}
 }
