@@ -58,7 +58,7 @@ public class RequestService {
 
 		Request retrieved;
 		retrieved = requestRepository.findOne(requestId);
-		Assert.isTrue(checkPrincipal(retrieved));
+		Assert.isTrue(checkPrincipal(retrieved) || retrieved.getProperty().getLessor().equals(lessorService.findByPrincipal()));
 		return retrieved;
 	}
 
@@ -89,7 +89,7 @@ public class RequestService {
 		Request result;
 		result = request;
 		result.setStatus("ACCEPTED");
-		result = this.save(request);
+		result = requestRepository.save(request);
 		lessorService.addFee(lessor);
 		return result;
 	}
@@ -99,7 +99,7 @@ public class RequestService {
 		Request result;
 		result = request;
 		result.setStatus("DENIED");
-		result = this.save(request);
+		result = requestRepository.save(request);
 		return result;
 	}
 
