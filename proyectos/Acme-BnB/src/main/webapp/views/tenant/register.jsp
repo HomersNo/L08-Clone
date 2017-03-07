@@ -10,9 +10,9 @@
 
 <form:form action="${requestURI}" modelAttribute="register">
 
-	<acme:textbox code="tenant.username" path="username"/>
+	<acme:textbox code="tenant.useraccount.username" path="username"/>
 	
-    <acme:password code="tenant.password" path="password"/>
+    <acme:password code="tenant.useraccount.password" path="password"/>
     
 	<acme:textbox code="tenant.name" path="name"/>
 	

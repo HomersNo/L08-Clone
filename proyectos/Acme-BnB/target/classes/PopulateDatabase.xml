@@ -279,6 +279,36 @@
 		</property>
 	</bean>
 	
+	
+	
+	<!-- TENANT -->
+	<bean id="tenant1" class="domain.Tenant">
+		<property name="name" value="Ale" />
+		<property name="surname" value="Sánchez" />
+		<property name="email" value="aleSa@hotmail.com" />
+		<property name="phone" value="6789" />
+		<property name="picture" value="http://s3.amazonaws.com/libapps/accounts/41939/profiles/35619/Headshot_Jared.jpeg" />
+		<property name="userAccount" ref="userAccount6" />
+	</bean>
+	
+	<bean id="tenant2" class="domain.Tenant">
+		<property name="name" value="Larisa" />
+		<property name="surname" value="Clementine" />
+		<property name="email" value="clemen@email.com" />
+		<property name="phone" value="7890" />
+		<property name="picture" value="https://s-media-cache-ak0.pinimg.com/564x/f8/20/ca/f820ca980c59537992cb431fa2c30e5e.jpg" />
+		<property name="userAccount" ref="userAccount7" />
+	</bean>
+	
+	<bean id="tenant3" class="domain.Tenant">
+		<property name="name" value="Lola" />
+		<property name="surname" value="Pérez" />
+		<property name="email" value="lola@gmail.com" />
+		<property name="phone" value="8901" />
+		<property name="picture" value="http://blog.suny.edu/wp-content/uploads/2014/03/Cara-Friedman.jpeg" />
+		<property name="userAccount" ref="userAccount8" />
+	</bean>
+	
 	<!-- FINDER -->
 	<!-- Hay 3 finders, uno por cada tenant (en orden) -->
 	<bean id="finder1" class="domain.Finder">
@@ -292,6 +322,7 @@
 				<ref bean="property2"></ref>
 			</list>
 		</property>
+		<property name="tenant" ref="tenant1" />
 	</bean>
 	
 	<bean id="finder2" class="domain.Finder">
@@ -304,6 +335,7 @@
 				<ref bean="property3"></ref>
 			</list>
 		</property>
+		<property name="tenant" ref="tenant2" />
 	</bean>
 	
 	<bean id="finder3" class="domain.Finder">
@@ -315,37 +347,7 @@
 			<list>
 			</list>
 		</property>
-	</bean>
-	
-	<!-- TENANT -->
-	<bean id="tenant1" class="domain.Tenant">
-		<property name="name" value="Ale" />
-		<property name="surname" value="Sánchez" />
-		<property name="email" value="aleSa@hotmail.com" />
-		<property name="phone" value="6789" />
-		<property name="picture" value="http://s3.amazonaws.com/libapps/accounts/41939/profiles/35619/Headshot_Jared.jpeg" />
-		<property name="userAccount" ref="userAccount6" />
-		<property name="finder" ref="finder1" />
-	</bean>
-	
-	<bean id="tenant2" class="domain.Tenant">
-		<property name="name" value="Larisa" />
-		<property name="surname" value="Clementine" />
-		<property name="email" value="clemen@email.com" />
-		<property name="phone" value="7890" />
-		<property name="picture" value="https://s-media-cache-ak0.pinimg.com/564x/f8/20/ca/f820ca980c59537992cb431fa2c30e5e.jpg" />
-		<property name="userAccount" ref="userAccount7" />
-		<property name="finder" ref="finder2" />
-	</bean>
-	
-	<bean id="tenant3" class="domain.Tenant">
-		<property name="name" value="Lola" />
-		<property name="surname" value="Pérez" />
-		<property name="email" value="lola@gmail.com" />
-		<property name="phone" value="8901" />
-		<property name="picture" value="http://blog.suny.edu/wp-content/uploads/2014/03/Cara-Friedman.jpeg" />
-		<property name="userAccount" ref="userAccount8" />
-		<property name="finder" ref="finder3" />
+		<property name="tenant" ref="tenant3" />
 	</bean>
 	
 	<!-- AUDITOR -->
@@ -587,34 +589,7 @@
 		<property name="property" ref="property3"/>
 	</bean>
 	
-	<!-- INVOICE -->
-	<!-- Hay 3 facturas, una por cada tenant -->
-	<bean id="invoice1" class="domain.Invoice">
-		<property name="moment" value="2017/01/02"/> 
-		<property name="VATNumber" value="B41369871"/>
-		<property name="tenantInformation" value="Polite guy."/>
-		<property name="details" value="Without specifying."/>
-		<property name="totalAmount" value="12.0"/>
-		<property name="creditCardCopy" ref="creditCard4"/>
-	</bean>
 	
-	<bean id="invoice2" class="domain.Invoice">
-		<property name="moment" value="2017/01/22"/> 
-		<property name="VATNumber" value="B41369871"/>
-		<property name="tenantInformation" value="Good person."/>
-		<property name="details" value="She was guest during 2 days."/>
-		<property name="totalAmount" value="41.0"/>
-		<property name="creditCardCopy" ref="creditCard5"/>
-	</bean>
-	
-	<bean id="invoice3" class="domain.Invoice">
-		<property name="moment" value="2017/02/06"/> 
-		<property name="VATNumber" value="B41369871"/>
-		<property name="tenantInformation" value="She is a sleepyhead."/>
-		<property name="details" value="Without specifying."/>
-		<property name="totalAmount" value="35.0"/>
-		<property name="creditCardCopy" ref="creditCard6"/>
-	</bean>
 	
 	<!-- REQUEST -->
 	<!-- Las 3 primeras son las que si se alquilaron (estan en ACCEPTED) -->
@@ -627,7 +602,6 @@
 		<property name="creditCard" ref="creditCard4"/>
 		<property name="tenant" ref="tenant1"/>
 		<property name="property" ref="property1"/>
-		<property name="invoice" ref="invoice1"/>
 	</bean>
 	
 	<bean id="request2" class="domain.Request">
@@ -638,7 +612,6 @@
 		<property name="creditCard" ref="creditCard5"/>
 		<property name="tenant" ref="tenant2"/>
 		<property name="property" ref="property2"/>
-		<property name="invoice" ref="invoice2"/>
 	</bean>
 	
 	<bean id="request3" class="domain.Request">
@@ -649,7 +622,6 @@
 		<property name="creditCard" ref="creditCard6"/>
 		<property name="tenant" ref="tenant3"/>
 		<property name="property" ref="property3"/>
-		<property name="invoice" ref="invoice3"/>
 	</bean>
 	
 	<bean id="request4" class="domain.Request">
@@ -680,6 +652,38 @@
 		<property name="creditCard" ref="creditCard6"/>
 		<property name="tenant" ref="tenant3"/>
 		<property name="property" ref="property3"/>
+	</bean>
+	
+	<!-- INVOICE -->
+	<!-- Hay 3 facturas, una por cada tenant -->
+	<bean id="invoice1" class="domain.Invoice">
+		<property name="moment" value="2017/01/02"/> 
+		<property name="VATNumber" value="B41369871"/>
+		<property name="tenantInformation" value="Polite guy."/>
+		<property name="details" value="Without specifying."/>
+		<property name="totalAmount" value="12.0"/>
+		<property name="creditCardCopy" ref="creditCard4"/>
+		<property name="request" ref="request1" />
+	</bean>
+	
+	<bean id="invoice2" class="domain.Invoice">
+		<property name="moment" value="2017/01/22"/> 
+		<property name="VATNumber" value="B41369871"/>
+		<property name="tenantInformation" value="Good person."/>
+		<property name="details" value="She was guest during 2 days."/>
+		<property name="totalAmount" value="41.0"/>
+		<property name="creditCardCopy" ref="creditCard5"/>
+		<property name="request" ref="request2" />
+	</bean>
+	
+	<bean id="invoice3" class="domain.Invoice">
+		<property name="moment" value="2017/02/06"/> 
+		<property name="VATNumber" value="B41369871"/>
+		<property name="tenantInformation" value="She is a sleepyhead."/>
+		<property name="details" value="Without specifying."/>
+		<property name="totalAmount" value="35.0"/>
+		<property name="creditCardCopy" ref="creditCard6"/>
+		<property name="request" ref="request3" />
 	</bean>
 	
 	<!-- AUDIT -->

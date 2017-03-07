@@ -9,14 +9,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="request" requestURI="${requestURI}" id="row">
+	name="requests" requestURI="${requestURI}" id="row">
 
 	<!-- Attributes -->
 	
 	<spring:message code="request.status" var="statusHeader" />
 	<display:column property="status" title="${statusHeader}" sortable="true" />
 	
-	<spring:message code="request.checkInDate" var="openingTimeHeader" />
+	<spring:message code="request.checkInDate" var="checkInDateHeader" />
 	<display:column title="${checkInDateHeader}" property="checkInDate" sortable="true" format="{0,date,dd/MM/yyyy HH:mm}"/>
 	
 	<spring:message code="request.checkOutDate" var="checkOutDateHeader" />
@@ -35,13 +35,13 @@
 	</display:column>
 	
 	<security:authorize access="hasRole('TENANT')">
-		<jstl:if test="${!row.invoice.equals(null)}">
+		<jstl:if test="${not empty row.invoice}">
 			<spring:message code="request.invoice" var="invoiceHeader"/>
 			<display:column title="${invoiceHeader}">
 				<a href="invoice/tenant/display.do?invoiceId=${row.invoice.id}"><spring:message code="request.invoice"/> </a>
 			</display:column>
 		</jstl:if>
-		<jstl:if test="${row.invoice.equals(null)}">
+		<jstl:if test="${empty row.invoice and row.status.equals('ACCEPTED') and currDate.after(row.checkInDate)}">
 		<display:column>
 			<a href="invoice/tenant/create.do?requestId=${row.id }"> <spring:message
 					code="request.createInvoice" />
