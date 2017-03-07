@@ -33,9 +33,6 @@ public class CommentService {
 	private ActorService		actorService;
 
 	@Autowired
-	private TenantService		tenantService;
-
-	@Autowired
 	private LessorService		lessorService;
 
 	@Autowired
@@ -56,6 +53,25 @@ public class CommentService {
 		created.setActor(actor);
 		created.setMoment(moment);
 		created.setCommentable(commentable);
+
+		if (actor instanceof Tenant) {
+			if (commentable instanceof Lessor) {
+				Set<Lessor> commentables = lessorService.findAllCommentableLessors(actor.getId());
+				Assert.isTrue(commentables.contains(commentable));
+			}
+			if (commentable instanceof Tenant) {
+				Assert.isTrue(actor.equals(commentable));
+			}
+		}
+		if (actor instanceof Lessor) {
+			if (commentable instanceof Tenant) {
+				Set<Lessor> commentables = lessorService.findAllCommentableLessors(commentable.getId());
+				Assert.isTrue(commentables.contains(actor));
+			}
+			if (commentable instanceof Lessor) {
+				Assert.isTrue(actor.equals(commentable));
+			}
+		}
 		return created;
 	}
 
@@ -70,18 +86,9 @@ public class CommentService {
 	}
 
 	public Comment save(Comment comment) {
-		Actor actor = actorService.findByPrincipal();
+
 		Comment saved = commentRepository.save(comment);
-		if (actor instanceof Lessor) {
-			Set<Tenant> tenants = tenantService.findAllCommentableTenants(actor.getId());
-			Assert.isTrue(tenants.contains(this) || actor.equals(this));
-			saved = commentRepository.save(comment);
-		}
-		if (actor instanceof Tenant) {
-			Set<Lessor> lessors = lessorService.findAllCommentableLessors(actor.getId());
-			Assert.isTrue(lessors.contains(this) || actor.equals(this));
-			saved = commentRepository.save(comment);
-		}
+
 		return saved;
 	}
 

@@ -64,10 +64,17 @@ public class CommentActorController extends AbstractController {
 	// Creation -----------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam int commentableId) {
+
 		ModelAndView result;
 		Commentable commentable = commentableService.findOne(commentableId);
 		Comment comment = commentService.create(commentable);
-		result = createEditModelAndView(comment);
+
+		try {
+			comment = commentService.create(commentable);
+			result = createEditModelAndView(comment);
+		} catch (Exception e) {
+			result = new ModelAndView("redirect:/welcome/index.do");
+		}
 
 		return result;
 	}
