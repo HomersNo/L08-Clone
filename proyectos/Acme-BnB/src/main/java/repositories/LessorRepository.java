@@ -2,6 +2,7 @@
 package repositories;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +27,8 @@ public interface LessorRepository extends JpaRepository<Lessor, Integer> {
 
 	@Query("select p.lessor from Property p join p.requests r where r.status = 'ACCEPTED' group by p.lessor order by (count(r)*1.0)/p.requests.size DESC")
 	Collection<Lessor> findByRequestedAcceptedRatio();
+
+	@Query("select r.property.lessor from Request r where r.tenant.id = ?1")
+	Set<Lessor> findAllCommentableLessors(int tenantId);
 
 }
