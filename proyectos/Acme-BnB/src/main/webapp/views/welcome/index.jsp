@@ -17,6 +17,15 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+
+
+
+<security:authorize access="isAnonymous()">
+	<p><b><spring:message code="welcome.greeting.anonymous" /> </b></p>
+</security:authorize>
+
+<security:authorize access="isAuthenticated()">
+	<p><b><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></b></p>
+</security:authorize>
 
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 

@@ -67,7 +67,7 @@
 				<a href="invoice/tenant/display.do?invoiceId=${row.invoice.id}"><spring:message code="request.invoice"/> </a>
 			</display:column>
 		</jstl:if>
-		<jstl:if test="${empty row.invoice and row.status.equals('ACCEPTED') and currDate.after(row.checkInDate)}">
+		<jstl:if test="${empty row.invoice and row.status.equals('ACCEPTED')}">
 		<display:column>
 			<a href="invoice/tenant/create.do?requestId=${row.id }"> <spring:message
 					code="request.createInvoice" />
