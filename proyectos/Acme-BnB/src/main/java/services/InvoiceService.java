@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
+import domain.Finder;
 import domain.Invoice;
 import domain.Request;
 
@@ -32,6 +35,9 @@ public class InvoiceService {
 		
 		@Autowired
 		private AdministratorService administratorService;
+		
+		@Autowired
+		private Validator				validator;
 		
 		
 		//Basic CRUD methods-------------------
@@ -97,8 +103,28 @@ public class InvoiceService {
 			
 		}
 		
+		public Finder reconstruct(Invoice invoice, BindingResult binding) {
+			Invoice result;
+
+			if (invoice.getId() == 0) {
+				result = invoice;
+			} else {
+				result = invoiceRepository.findOne(invoice.getId());
+
+				result.setCache(finder.getCache());
+				result.setDestinationCity(finder.getDestinationCity());
+				result.setKeyWord(finder.getKeyWord());
+				result.setLastUpdate(finder.getLastUpdate());
+				result.setMaximumPrice(finder.getMaximumPrice());
+				result.setMinimumPrice(finder.getMinimumPrice());
+				result.setTenant(finder.getTenant());
+				
+
+				validator.validate(result, binding);
+			}
 		
 		
+		}
 		
 		//Auxiliary methods
 
