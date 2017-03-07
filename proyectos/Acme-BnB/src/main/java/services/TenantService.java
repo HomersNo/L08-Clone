@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -37,6 +38,9 @@ public class TenantService {
 
 	@Autowired
 	private Validator				validator;
+
+	@Autowired
+	private LessorService			lessorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -193,6 +197,12 @@ public class TenantService {
 	public Tenant findByRequestedAcceptedRatio() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Tenant result = tenantRepository.findByRequestedAcceptedRatio().iterator().next();
+		return result;
+	}
+
+	public Set<Tenant> findAllCommentableTenants(int lessorId) {
+		Assert.notNull(lessorService.findByPrincipal().getId() == lessorId);
+		Set<Tenant> result = tenantRepository.findAllCommentableTenants(lessorId);
 		return result;
 	}
 }
