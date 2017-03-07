@@ -28,13 +28,13 @@ public class LessorController extends AbstractController {
 	//Services
 
 	@Autowired
-	private LessorService	lessorService;
-	
+	private LessorService			lessorService;
+
 	@Autowired
 	private SocialIdentityService	socialIdentityService;
-	
+
 	@Autowired
-	private CommentService	commentService;
+	private CommentService			commentService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -62,17 +62,16 @@ public class LessorController extends AbstractController {
 		Lessor lessor;
 		Collection<SocialIdentity> socialIdentities;
 		Collection<Comment> comments;
-		
 
 		if (lessorId == 0) {
 			lessor = lessorService.findByPrincipal();
 		} else {
 			lessor = lessorService.findOne(lessorId);
 		}
-		
+
 		socialIdentities = socialIdentityService.findAllByActor(lessor.getId());
 		comments = commentService.allCommentsOfAnActor(lessor.getId());
-		
+
 		result = new ModelAndView("lessor/display");
 		result.addObject("lessor", lessor);
 		result.addObject("comments", comments);

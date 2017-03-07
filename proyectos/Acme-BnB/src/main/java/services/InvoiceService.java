@@ -21,17 +21,20 @@ public class InvoiceService {
 
 	//managed repository-------------------
 	@Autowired
-	private InvoiceRepository		invoiceRepository;
+	private InvoiceRepository			invoiceRepository;
 
 	//supporting services-------------------
 	@Autowired
-	private RequestService			requestService;
+	private RequestService				requestService;
 
 	@Autowired
-	private TenantService			tenantService;
+	private TenantService				tenantService;
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	//Basic CRUD methods-------------------
@@ -42,6 +45,8 @@ public class InvoiceService {
 		created = new Invoice();
 		created.setRequest(request);
 		created.setMoment(new Date(System.currentTimeMillis() - 1));
+		String VATNumber = systemConfigurationService.findMain().getVATNumber();
+		created.setVATNumber(VATNumber);
 		return created;
 	}
 
@@ -58,7 +63,6 @@ public class InvoiceService {
 
 		Assert.notNull(invoice);
 		Assert.isTrue(checkPrincipal(invoice));
-		checkPrincipal(invoice);
 
 		String name;
 		String surname;
@@ -87,17 +91,14 @@ public class InvoiceService {
 	}
 
 	public void delete(Invoice invoice) {
-
 		Assert.notNull(invoice);
 		Assert.isTrue(checkPrincipal(invoice));
 		Assert.isTrue(invoice.getId() != 0);
 		Assert.isTrue(invoiceRepository.exists(invoice.getId()));
 		invoiceRepository.delete(invoice);
-
 	}
 
 	//Auxiliary methods
-
 	public Boolean checkPrincipal(Invoice e) {
 
 		Boolean result = false;
@@ -111,9 +112,7 @@ public class InvoiceService {
 	}
 
 	//Our other bussiness methods
-
 	public Collection<Invoice> findAll() {
-
 		return invoiceRepository.findAll();
 	}
 
@@ -149,5 +148,4 @@ public class InvoiceService {
 		Double result = invoiceRepository.findTotalMoneyDue();
 		return result;
 	}
-
 }
