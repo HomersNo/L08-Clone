@@ -16,9 +16,9 @@
        
 <tiles-definitions>
 	
-	<definition name="finder/display" extends="master.page">
+	<definition name="invoice/display" extends="master.page">
 		<put-attribute name="title" value="Display invoice" />
-		<put-attribute name="body" value="/views/finder/display.jsp" />
+		<put-attribute name="body" value="/views/invoice/display.jsp" />
 	</definition>
 		
 </tiles-definitions>
