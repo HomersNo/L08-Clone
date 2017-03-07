@@ -25,10 +25,19 @@
 	<spring:message code="request.smoker" var="smokerHeader" />
 	<display:column property="smoker" title="${smokerHeader}" sortable="true" />
 	
+	<security:authorize access="hasRole('LESSOR')">
 	<spring:message code="request.tenant" var="tenantHeader"/>
 	<display:column title="${tenantHeader}">
 		<a href="tenant/display.do?tenantId=${row.tenant.id}"> ${row.tenant.name} ${row.tenant.surname} </a>
 	</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('TENANT')">
+	<spring:message code="request.lessor" var="lessorHeader"/>
+	<display:column title="${lessorHeader}">
+		<a href="lessor/display.do?lessorId=${row.property.lessor.id}"> ${row.property.lessor.name} ${row.property.lessor.surname} </a>
+	</display:column>
+	</security:authorize>
 	
 	<spring:message code="request.property" var="propertyHeader"/>
 	<display:column title="${propertyHeader}">
