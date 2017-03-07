@@ -431,6 +431,7 @@
 		<property name="rate" value="12.0"/>
 		<property name="description" value="My home is your home."/>
 		<property name="address" value="calle San Jacinto nº42"/>
+		<property name="deleted" value="false" />
 		<property name="lessor" ref="lessor1"/>
 		<property name="values">
 			<list>
@@ -454,6 +455,7 @@
 		<property name="rate" value="20.5"/>
 		<property name="description" value="Best apartment ever."/>
 		<property name="address" value="calle Torneo nº46 5ºD"/>
+		<property name="deleted" value="false" />
 		<property name="lessor" ref="lessor1"/>
 		<property name="values">
 			<list>
@@ -477,6 +479,7 @@
 		<property name="rate" value="35.0"/>
 		<property name="description" value="If you want to tease a bit."/>
 		<property name="address" value="Hollywood Boulevard nº101"/>
+		<property name="deleted" value="false" />
 		<property name="lessor" ref="lessor2"/>
 		<property name="values">
 			<list>

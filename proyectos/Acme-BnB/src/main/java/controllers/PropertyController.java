@@ -52,7 +52,7 @@ public class PropertyController extends AbstractController {
 		Collection<Property> properties;
 		Collection<Property> audited = new ArrayList<Property>();
 
-		properties = propertyService.findAll();
+		properties = propertyService.findAllNotDeleted();
 
 		Object principalContext = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
