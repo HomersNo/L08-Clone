@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -36,7 +37,7 @@ public class Request extends DomainEntity {
 	private boolean	smoker;
 
 
-	@Pattern (regexp = "^PENDING|ACCEPTED|DENIED$")
+	@Pattern(regexp = "^PENDING|ACCEPTED|DENIED$")
 	@NotBlank
 	public String getStatus() {
 		return status;
@@ -47,7 +48,7 @@ public class Request extends DomainEntity {
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getCheckInDate() {
 		return checkInDate;
 	}
@@ -57,7 +58,7 @@ public class Request extends DomainEntity {
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getCheckOutDate() {
 		return checkOutDate;
 	}
@@ -101,7 +102,7 @@ public class Request extends DomainEntity {
 	}
 
 	@Valid
-	@OneToOne(optional = true)
+	@OneToOne(optional = true, mappedBy = "request")
 	public Invoice getInvoice() {
 		return invoice;
 	}
@@ -110,7 +111,7 @@ public class Request extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne()
+	@OneToOne(cascade = CascadeType.ALL)
 	public CreditCard getCreditCard() {
 		return creditCard;
 	}

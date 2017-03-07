@@ -1,6 +1,7 @@
 
 package controllers.tenant;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CreditCardService;
 import services.PropertyService;
 import services.RequestService;
 import services.TenantService;
 import controllers.AbstractController;
+import domain.CreditCard;
 import domain.Property;
 import domain.Request;
 import domain.Tenant;
@@ -29,13 +32,16 @@ public class RequestTenantController extends AbstractController {
 	//Services
 
 	@Autowired
-	private RequestService	requestService;
+	private RequestService		requestService;
 
 	@Autowired
-	private TenantService	tenantService;
+	private TenantService		tenantService;
 
 	@Autowired
-	private PropertyService	propertyService;
+	private PropertyService		propertyService;
+
+	@Autowired
+	private CreditCardService	creditCardService;
 
 
 	//Constructor
@@ -51,13 +57,16 @@ public class RequestTenantController extends AbstractController {
 		ModelAndView result;
 		Collection<Request> requests;
 
+		Calendar date = Calendar.getInstance();
+
 		Tenant tenant = tenantService.findByPrincipal();
 
 		requests = requestService.findAllByTenant(tenant);
 
 		result = new ModelAndView("request/list");
-		result.addObject("requestURI", "request/user/listOwn.do");
-		result.addObject("request", requests);
+		result.addObject("requestURI", "request/tenant/list.do");
+		result.addObject("requests", requests);
+		result.addObject("currDate", date);
 
 		return result;
 	}
@@ -82,7 +91,6 @@ public class RequestTenantController extends AbstractController {
 		request = requestService.findOne(requestId);
 		Assert.notNull(request);
 		result = createEditModelAndView(request);
-		result.addObject("requestURI", "request/tenant/edit.do");
 
 		return result;
 	}
@@ -91,7 +99,8 @@ public class RequestTenantController extends AbstractController {
 	public ModelAndView edit(@Valid Request request, BindingResult binding) {
 
 		ModelAndView result;
-
+		CreditCard creditCard = request.getCreditCard();
+		CreditCard saved;
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(request);
 		} else {
@@ -100,8 +109,11 @@ public class RequestTenantController extends AbstractController {
 				if (binding.hasErrors()) {
 					result = createEditModelAndView(request);
 				}
+				saved = creditCardService.saveForRequest(creditCard);
+				request.setTenant(tenantService.findByPrincipal());
+				request.setCreditCard(saved);
 				request = requestService.save(request);
-				result = new ModelAndView("redirect:/request/list.do");
+				result = new ModelAndView("redirect:/request/tenant/list.do");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(request, "request.commit.error");
 			}

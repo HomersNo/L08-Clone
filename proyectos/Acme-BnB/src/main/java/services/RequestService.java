@@ -1,9 +1,7 @@
 
 package services;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,13 +74,11 @@ public class RequestService {
 
 	public Request save(Request request) {
 		Request saved;
-		Date checkTimeIn = request.getCheckInDate();
-		Calendar checkIn = Calendar.getInstance();
-		checkIn.set(checkTimeIn.getYear(), checkTimeIn.getMonth(), checkTimeIn.getDay());
-		Date checkTimeOut = request.getCheckOutDate();
-		Calendar checkOut = Calendar.getInstance();
-		checkIn.set(checkTimeOut.getYear(), checkTimeOut.getMonth(), checkTimeOut.getDay());
-		Assert.isTrue(checkIn.before(checkOut));
+
+		long diff = request.getCheckOutDate().getTime() - request.getCheckInDate().getTime();
+		Assert.isTrue(request.getCheckInDate().before(request.getCheckOutDate()));
+		//Checks if there is one day of difference between the check in and the checkout
+		Assert.isTrue((diff * 1.0 / (3600 * 1000 * 24)) >= 1.0);
 		saved = requestRepository.save(request);
 		return saved;
 
