@@ -1,16 +1,14 @@
-/* AdministratorController.java
- *
+/*
+ * AdministratorController.java
+ * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
+ * The use of this project is hereby constrained to the conditions of the
+ * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
- * 
  */
 
 package controllers.administrator;
-
-import java.util.Collection;
 
 import javax.validation.Valid;
 
@@ -21,25 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AdministratorService;
 import controllers.AbstractController;
 import domain.Administrator;
-import domain.Attribute;
-import domain.Lessor;
-import domain.Property;
-import domain.Tenant;
-import services.AdministratorService;
 
 @Controller
 @RequestMapping("/administrator/administrator")
 public class AdministratorAdministratorController extends AbstractController {
-	
+
 	//Service
-	
+
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService	administratorService;
+
 
 	// Constructors -----------------------------------------------------------
-	
+
 	public AdministratorAdministratorController() {
 		super();
 	}
@@ -74,7 +69,7 @@ public class AdministratorAdministratorController extends AbstractController {
 		}
 		return result;
 	}
-	
+
 	protected ModelAndView createEditModelAndView(Administrator administrator) {
 		ModelAndView result;
 
@@ -94,7 +89,5 @@ public class AdministratorAdministratorController extends AbstractController {
 
 		return result;
 	}
-	
-	
-	
+
 }

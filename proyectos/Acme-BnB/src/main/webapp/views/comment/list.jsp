@@ -33,7 +33,7 @@
 
 	<spring:message code="comment.actor" var="actorHeader" />
 	<display:column title="${actorHeader}">
-		<a href="actor/display.do?actorId=${row.actor.id}">${row.actor.name} ${row.actor.surname }</a>
+		<a href="actor/display.do?actorId=${row.actor.id}">${row.actor.name} ${row.actor.surname}</a>
 	</display:column>
 	
 	<spring:message code="comment.moment" var="momentHeader" />
