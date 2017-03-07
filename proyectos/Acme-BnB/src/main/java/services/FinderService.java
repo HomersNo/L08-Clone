@@ -55,7 +55,7 @@ public class FinderService {
 		Assert.notNull(principal);
 		Assert.isTrue(principal.getId() != 0);
 		created.setTenant(principal);
-		principal.setFinder(created);
+		
 
 		Date now;
 		now = new Date(System.currentTimeMillis() - 1);

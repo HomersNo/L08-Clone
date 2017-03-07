@@ -14,6 +14,7 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -46,7 +47,7 @@ public class Tenant extends Actor {
 	}
 
 	@Valid
-	@OneToOne(optional = true, mappedBy = "tenant")
+	@OneToOne(optional = true, mappedBy = "tenant", cascade = CascadeType.ALL)
 	public Finder getFinder() {
 		return finder;
 	}
