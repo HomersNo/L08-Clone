@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
+import domain.Finder;
 import domain.Invoice;
 import domain.Request;
 
@@ -32,6 +35,9 @@ public class InvoiceService {
 		
 		@Autowired
 		private AdministratorService administratorService;
+		
+		@Autowired
+		private Validator				validator;
 		
 		
 		//Basic CRUD methods-------------------
@@ -96,9 +102,6 @@ public class InvoiceService {
 			invoiceRepository.delete(invoice);
 			
 		}
-		
-		
-		
 		
 		//Auxiliary methods
 

@@ -3,10 +3,12 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -14,6 +16,8 @@ import repositories.CommentRepository;
 import domain.Actor;
 import domain.Comment;
 import domain.Commentable;
+import domain.Lessor;
+import domain.Tenant;
 
 @Service
 @Transactional
@@ -23,8 +27,16 @@ public class CommentService {
 	@Autowired
 	private CommentRepository	commentRepository;
 
+	//Services 
+
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private TenantService		tenantService;
+
+	@Autowired
+	private LessorService		lessorService;
 
 	@Autowired
 	private Validator			validator;
@@ -58,8 +70,18 @@ public class CommentService {
 	}
 
 	public Comment save(Comment comment) {
-		Comment saved;
-		saved = commentRepository.save(comment);
+		Actor actor = actorService.findByPrincipal();
+		Comment saved = commentRepository.save(comment);
+		if (actor instanceof Lessor) {
+			Set<Tenant> tenants = tenantService.findAllCommentableTenants(actor.getId());
+			Assert.isTrue(tenants.contains(this) || actor.equals(this));
+			saved = commentRepository.save(comment);
+		}
+		if (actor instanceof Tenant) {
+			Set<Lessor> lessors = lessorService.findAllCommentableLessors(actor.getId());
+			Assert.isTrue(lessors.contains(this) || actor.equals(this));
+			saved = commentRepository.save(comment);
+		}
 		return saved;
 	}
 

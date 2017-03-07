@@ -13,19 +13,19 @@
 <display:table pagesize="10" class="displaytag" keepStatus="true"
 name="invoice" requestURI="${requestURI}" id="row">
 
-	<spring:message code="invoice.moment" var=moment/>
+	<spring:message code="invoice.moment" var="moment"/>
 	<display:column property="moment" title="${moment}"/>
 	
-	<spring:message code="invoice.VATNumber" var=VATNumber/>
+	<spring:message code="invoice.VATNumber" var="VATNumber"/>
 	<display:column property="VATNumber" title="${VATNumber}"/>
 	
-	<spring:message code="invoice.tenantInformation" var=tenantInformation/>
+	<spring:message code="invoice.tenantInformation" var="tenantInformation"/>
 	<display:column property="tenantInformation" title="${tenantInformation}"/>
 	
-	<spring:message code="invoice.details" var=details/>
+	<spring:message code="invoice.details" var="details"/>
 	<display:column property="details" title="${details}"/>
 	
-	<spring:message code="invoice.totalAmount" var=totalAmount/>
+	<spring:message code="invoice.totalAmount" var="totalAmount"/>
 	<display:column property="totalAmount" title="${totalAmount}"/>
 	
 </display:table>

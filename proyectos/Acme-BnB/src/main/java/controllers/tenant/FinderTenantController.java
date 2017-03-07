@@ -65,7 +65,10 @@ public class FinderTenantController extends AbstractController {
 			result = createEditModelAndView(finder);
 		} else {
 			try { 
-				
+				finder = finderService.reconstruct(finder, binding);
+				if (binding.hasErrors()) {
+					result = createEditModelAndView(finder);
+				}
 				if(finderService.checkCache(finder)){
 					result = new ModelAndView("redirect:/property/tenant/listFound.do?finderId="+finder.getId());
 					result.addObject("message", "finder.commit.ok");
