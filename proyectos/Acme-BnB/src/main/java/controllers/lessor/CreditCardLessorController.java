@@ -41,7 +41,7 @@ public class CreditCardLessorController extends AbstractController {
 		creditCard = creditCardService.findByPrincipal();
 		String ccnumber = creditCardService.trimCreditNumber(creditCard);
 
-		result = new ModelAndView("property/display");
+		result = new ModelAndView("creditCard/display");
 		result.addObject("creditCard", creditCard);
 		result.addObject("ccNumber", ccnumber);
 
@@ -65,7 +65,7 @@ public class CreditCardLessorController extends AbstractController {
 		CreditCard creditCard;
 
 		creditCard = creditCardService.findByPrincipal();
-		if (creditCard == null) {
+		if (creditCard != null) {
 			result = createEditModelAndView(creditCard);
 		} else {
 			result = create();
@@ -83,7 +83,7 @@ public class CreditCardLessorController extends AbstractController {
 		} else {
 			try {
 				creditCard = creditCardService.save(creditCard);
-				result = new ModelAndView("redirect:/lessor/display.do?lessorId=" + creditCard.getId());
+				result = new ModelAndView("redirect:/creditcard/lessor/display.do");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(creditCard, "lessor.commit.error");
 			}
@@ -97,7 +97,7 @@ public class CreditCardLessorController extends AbstractController {
 
 		try {
 			creditCardService.delete(creditCard);
-			result = new ModelAndView("redirect:/property/list.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (Throwable oops) {
 			result = createEditModelAndView(creditCard, "property.commit.error");
 		}

@@ -7,80 +7,58 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="request">
+<form:form action="request/tenant/edit.do" modelAttribute="request">
 	
-	<form:hidden path="propertyId"/>
+	<form:hidden path="property"/>
 	
 	
+	<acme:textbox code="request.status" path="status" readonly="true"/>
 	
 	<form:label path="checkInDate">
 		<spring:message code="request.checkInDate" />:
 	</form:label>
-	<form:input type='date' placeholder="dd/MM/yyyy HH:mm" path="checkInDate" />
+	<form:input placeholder="dd/MM/yyyy" path="checkInDate" />
 	<form:errors cssClass="error" path="checkInDate" />
 	<br />
 	
 	<form:label path="checkOutDate">
 		<spring:message code="request.checkOutDate" />:
 	</form:label>
-	<form:input type='date' placeholder="dd/MM/yyyy HH:mm" path="checkOutDate" />
+	<form:input placeholder="dd/MM/yyyy" path="checkOutDate" />
 	<form:errors cssClass="error" path="checkOutDate" />
 	<br />
 	
 	<acme:checkbox code="request.smoker" path="smoker"/>
 	
 	<div style="padding-left: 15px;">
-		<b><font size=5>Falta un message</font></b>
+		<b><font size=5><spring:message code="request.creditCard" /></font></b>
 	</div>
 	<br />
 
-	<form:label path="creditCard.holderName">
-		<spring:message code="request.creditCard.holderName" />:
-	</form:label>
-	<form:input path="creditCard.holderName" />
-	<form:errors cssClass="error" path="creditCard.holderName" />
-	<br />
-	<br />v
-	<form:label path="creditCard.brandName">
-		<spring:message code="request.creditCard.brandName" />:
-	</form:label>
-	<form:input path="creditCard.brandName" />
-	<form:errors cssClass="error" path="creditCard.brandName" />
-	<br />
-	<br />
-	<form:label path="creditCard.creditCardNumber">
-		<spring:message code="request.creditCard.cCNumber" />:
-	</form:label>
-	<form:input path="creditCard.creditCardNumber" />
-	<form:errors cssClass="error" path="creditCard.creditCardNumber" />
-	<br />
-	<br />
-	<form:label path="creditCard.expirationMonth">
-		<spring:message code="request.creditCard.expirationMonth" />:
-	</form:label>
-	<form:input path="creditCard.expirationMonth" />
-	<form:errors cssClass="error" path="creditCard.expirationMonth" />
-	<br />
-	<br />
-	<form:label path="creditCard.expirationYear">
-		<spring:message code="request.creditCard.expirationYear" />:
-	</form:label>
-	<form:input path="creditCard.expirationYear" />
-	<form:errors cssClass="error" path="creditCard.expirationYear" />
-	<br />
-	<br />
-	<form:label path="creditCard.CVV">
-		<spring:message code="request.creditCard.CVV" />:
-	</form:label>
-	<form:input path="creditCard.CVV" />
-	<form:errors cssClass="error" path="creditCard.CVV" />
-	<br />
+	<acme:textbox code="request.creditCard.holderName" path="creditCard.holderName"/>
+	<acme:textbox code="request.creditCard.brandName" path="creditCard.brandName"/>
+	<acme:textbox code="request.creditCard.cCNumber" path="creditCard.creditCardNumber"/>
+	<acme:textbox code="request.creditCard.CVV" path="creditCard.CVV"/>
 	
-	<input type="submit" name="save"
-		value="<spring:message code="request.save" />" />&nbsp;
-	<input type="button" name="cancel"
-		value="<spring:message code="request.cancel" />"
-		onclick="javascript: window.location.replace('${cancelURI}');" />
-	<br />
+	<form:label path="creditCard.expirationMonth">
+  		<spring:message code="creditCard.Month"/>
+  	</form:label>
+  	<form:input type="number" min="1" max="12" step="1"  path="creditCard.expirationMonth"/>
+  	<form:errors path="creditCard.expirationMonth" cssClass="error" />
+  
+  <br/>
+  
+  	<form:label path="creditCard.expirationYear">
+  		<spring:message code="creditCard.Year"/>
+  	</form:label>
+  	<form:input type="number" min="00" max="99" step="1" path="creditCard.expirationYear"/>
+  	<form:errors path="creditCard.expirationYear" cssClass="error" />
+  	
+  	<br/>
+	
+	
+	
+	<acme:submit name="save" code="request.save"/>
+	<acme:cancel url="property/list.do" code="request.cancel"/>
 	
 </form:form>
