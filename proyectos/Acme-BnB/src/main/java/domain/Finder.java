@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -87,7 +88,7 @@ public class Finder extends DomainEntity {
 
 
 	@Valid
-	@OneToOne(optional = true)
+	@OneToOne(optional = false)
 	public Tenant getTenant() {
 		return tenant;
 	}
@@ -96,6 +97,7 @@ public class Finder extends DomainEntity {
 	}
 
 	@Valid
+	@NotNull
 	@ManyToMany()
 	public Collection<Property> getCache() {
 		return cache;
