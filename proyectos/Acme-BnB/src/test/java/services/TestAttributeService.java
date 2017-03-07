@@ -15,9 +15,6 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Attribute;
 
-// TODO: this file provides an incomplete template; complete it with the appropriate annotations and method implementations.
-// TODO: do not forget to add appropriate sectioning comments, e.g., "System under test" and "Tests".
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"

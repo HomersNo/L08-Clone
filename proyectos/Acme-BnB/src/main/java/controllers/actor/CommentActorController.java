@@ -46,7 +46,7 @@ public class CommentActorController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Comment> comments;
-		
+
 		Actor principal = actorService.findByPrincipal();
 		Commentable commentable;
 		commentable = commentableService.findOne(principal.getId());
@@ -73,8 +73,6 @@ public class CommentActorController extends AbstractController {
 
 		return result;
 	}
-	
-	
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid Comment comment, BindingResult binding) {

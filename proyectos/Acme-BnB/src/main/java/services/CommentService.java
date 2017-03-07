@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -20,17 +21,14 @@ public class CommentService {
 
 	// managed repository ------------------------------------------------------
 	@Autowired
-	private CommentRepository commentRepository;
-
-	// Supporting services ----------------------------------------------------
-	@Autowired
-	private CommentableService commentableService;
+	private CommentRepository	commentRepository;
 
 	@Autowired
-	private ActorService actorService;
+	private ActorService		actorService;
 
 	@Autowired
-	private Validator validator;
+	private Validator			validator;
+
 
 	// Constructors -----------------------------------------------------------
 	public CommentService() {
@@ -82,7 +80,6 @@ public class CommentService {
 		result = commentRepository.allCommentsOfAnActorDidToHimself(actorId);
 		return result;
 	}
-
 
 	public Collection<Comment> allCommentsExceptSelfComments(int actorId) {
 
