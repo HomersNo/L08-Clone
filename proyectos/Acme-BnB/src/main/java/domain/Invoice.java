@@ -86,7 +86,7 @@ public class Invoice extends DomainEntity {
 
 
 	@Valid
-	@OneToOne(optional = true)
+	@OneToOne(optional = false)
 	public Request getRequest() {
 		return request;
 	}
@@ -95,7 +95,7 @@ public class Invoice extends DomainEntity {
 	}
 
 	@Valid
-	@OneToOne()
+	@OneToOne(optional = false)
 	public CreditCard getCreditCardCopy() {
 		return creditCardCopy;
 	}

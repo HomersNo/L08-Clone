@@ -55,6 +55,7 @@ public class FinderService {
 		Assert.notNull(principal);
 		Assert.isTrue(principal.getId() != 0);
 		created.setTenant(principal);
+		principal.setFinder(created);
 
 		Date now;
 		now = new Date(System.currentTimeMillis() - 1);
@@ -116,7 +117,7 @@ public class FinderService {
 			filtered.retainAll(propertyService.findAllByMaxRate(max));
 		}
 		//por ultimo la KeyWord
-		if (finder.getKeyWord() != null) {
+		if (finder.getKeyWord() == "") {
 			String keyWord = finder.getKeyWord();
 			Collection<Property> props = propertyService.findAllByContainsKeyWordAddress(keyWord);
 			props.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
@@ -207,7 +208,7 @@ public class FinderService {
 			maxPrice = true;
 			key = true;
 
-			if (finder.getDestinationCity() != null) {
+			if (finder.getDestinationCity()  != "") {
 				city = tenantFinder.getDestinationCity().equals(finder.getDestinationCity());
 			}
 
@@ -219,7 +220,7 @@ public class FinderService {
 				maxPrice = tenantFinder.getMaximumPrice().equals(finder.getMaximumPrice());
 			}
 
-			if (finder.getKeyWord() != null) {
+			if (finder.getKeyWord() != "") {
 				key = tenantFinder.getKeyWord().equals(finder.getKeyWord());
 			}
 
@@ -230,7 +231,8 @@ public class FinderService {
 			} else {
 				res = false;
 			}
-		} else {
+		} 
+		else {
 			res = false;
 		}
 
