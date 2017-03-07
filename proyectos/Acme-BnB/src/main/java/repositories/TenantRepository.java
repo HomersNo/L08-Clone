@@ -2,7 +2,6 @@
 package repositories;
 
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,7 +25,7 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer> {
 	@Query("select t from Tenant t join t.requests r where r.status = 'ACCEPTED' group by t order by (count(r)*1.0)/t.requests.size DESC")
 	Collection<Tenant> findByRequestedAcceptedRatio();
 
-	@Query("select r.tenant from Request r where r.property member of (select l.properties from Lessor l)")
-	Set<Tenant> findAllCommentableTenants(int lessorId);
+	//	@Query("select r.tenant from Request r where r.property member of (select l.properties from Lessor l)")
+	//	Set<Tenant> findAllCommentableTenants(int lessorId);
 
 }

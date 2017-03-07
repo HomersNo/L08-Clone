@@ -27,10 +27,6 @@ public class CommentService {
 	@Autowired
 	private CommentRepository	commentRepository;
 
-	// Supporting services ----------------------------------------------------
-	@Autowired
-	private CommentableService	commentableService;
-
 	@Autowired
 	private ActorService		actorService;
 
@@ -73,7 +69,7 @@ public class CommentService {
 
 	public Comment save(Comment comment) {
 		Actor actor = actorService.findByPrincipal();
-		Comment saved = null;
+		Comment saved = commentRepository.save(comment);
 		if (actor instanceof Lessor) {
 			Set<Tenant> tenants = tenantService.findAllCommentableTenants(actor.getId());
 			Assert.isTrue(tenants.contains(this) || actor.equals(this));
