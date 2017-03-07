@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.Finder;
 import domain.Property;
+import domain.Request;
 import domain.Tenant;
 
 import repositories.FinderRepository;
@@ -39,6 +42,9 @@ public class FinderService {
 		
 		@Autowired
 		private AdministratorService administratorService;
+		
+		@Autowired
+		private Validator				validator;
 		
 		//Basic CRUD methods-------------------
 		
@@ -89,9 +95,6 @@ public class FinderService {
 			Date dateOneHourBack = cal.getTime();*/
 			//lastUpdateTime.getTime() - dateOneHourBack.getTime()<= 3600000 
 				
-				//actualizamos la fecha de la última búsqueda
-				Date lastUpdate = new Date(System.currentTimeMillis() - 1);
-				finder.setLastUpdate(lastUpdate);
 				//inicializamos la colección filtrada de properties
 				Collection<Property> filtered;
 				filtered = new ArrayList<Property>();
@@ -123,6 +126,10 @@ public class FinderService {
 				//y ya cambiamos las properties a las filtradas
 				finder.setCache(filtered);
 				
+				//actualizamos la fecha de la última búsqueda
+				Date lastUpdate = new Date(System.currentTimeMillis() - 1);
+				finder.setLastUpdate(lastUpdate);
+				
 				//guardamos
 				saved = finderRepository.save(finder);
 			return saved;
@@ -141,6 +148,29 @@ public class FinderService {
 			Assert.isTrue(finderRepository.exists(finder.getId()));
 			finderRepository.delete(finder);
 			
+		}
+		
+		public Finder reconstruct(Finder finder, BindingResult binding) {
+			Finder result;
+
+			if (finder.getId() == 0) {
+				result = finder;
+			} else {
+				result = finderRepository.findOne(finder.getId());
+
+				result.setCache(finder.getCache());
+				result.setDestinationCity(finder.getDestinationCity());
+				result.setKeyWord(finder.getKeyWord());
+				result.setLastUpdate(finder.getLastUpdate());
+				result.setMaximumPrice(finder.getMaximumPrice());
+				result.setMinimumPrice(finder.getMinimumPrice());
+				result.setTenant(finder.getTenant());
+				
+
+				validator.validate(result, binding);
+			}
+
+			return result;
 		}
 		
 		
@@ -187,19 +217,19 @@ public class FinderService {
 				key = true;
 				
 				if(finder.getDestinationCity() != null){
-					city = tenantFinder.getDestinationCity()==(finder.getDestinationCity());
+					city = tenantFinder.getDestinationCity().equals(finder.getDestinationCity());
 				}
 				
 				if(finder.getMinimumPrice() != null){
-					minPrice = tenantFinder.getMinimumPrice()==(finder.getMinimumPrice());
+					minPrice = tenantFinder.getMinimumPrice().equals(finder.getMinimumPrice());
 				}
 				
 				if(finder.getMaximumPrice() != null){
-					maxPrice = tenantFinder.getMaximumPrice()==(finder.getMaximumPrice());
+					maxPrice = tenantFinder.getMaximumPrice().equals(finder.getMaximumPrice());
 				}
 				
 				if(finder.getKeyWord() != null){
-					key = tenantFinder.getKeyWord()==(finder.getKeyWord());
+					key = tenantFinder.getKeyWord().equals(finder.getKeyWord());
 				}
 				
 				Boolean isEqual = city && minPrice && maxPrice && key;

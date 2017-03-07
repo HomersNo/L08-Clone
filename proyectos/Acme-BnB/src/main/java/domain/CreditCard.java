@@ -12,6 +12,7 @@ package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
@@ -59,6 +60,7 @@ public class CreditCard extends DomainEntity {
 	}
 
 	@CreditCardNumber
+	@Column(length = 16)
 	@NotBlank
 	public String getCreditCardNumber() {
 		return creditCardNumber;
