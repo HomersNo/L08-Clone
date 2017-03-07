@@ -7,8 +7,10 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -16,6 +18,9 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "rate"), @Index(columnList = "name"), @Index(columnList = "address"), @Index(columnList = "deleted"), @Index(columnList = "lessor_id")
+})
 public class Property extends DomainEntity {
 
 	//Constructor
