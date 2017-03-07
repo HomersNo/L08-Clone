@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -24,99 +25,99 @@ import domain.SocialIdentity;
 public class AuditorService {
 
 	//Constructor
-	public AuditorService(){
+	public AuditorService() {
 		super();
 	}
-	
+
+
 	//Managed Repository
 	@Autowired
-	private AuditorRepository auditorRepository;
-	
+	private AuditorRepository		auditorRepository;
+
 	//Auxiliary Services
-	
+
 	@Autowired
-	private AdministratorService adminService;
-	
+	private AdministratorService	adminService;
+
 	@Autowired
-	private Validator validator;
-	
-	
+	private Validator				validator;
+
+
 	//CRUD
-	
-	public Auditor create(){
-		
+
+	public Auditor create() {
+
 		Auditor result = new Auditor();
-		
+
 		result.setSocialIdentities(new ArrayList<SocialIdentity>());
-		
+
 		UserAccount userAccount = new UserAccount();
 		Authority authority = new Authority();
 		authority.setAuthority(Authority.AUDITOR);
 		Collection<Authority> authorities = new ArrayList<Authority>();
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		
+
 		result.setUserAccount(userAccount);
 		return result;
 	}
 
-	
-	public Auditor findOneToEdit(int id){
+	public Auditor findOneToEdit(int id) {
 		Auditor result;
 		result = auditorRepository.findOne(id);
 		checkPrincipal(result);
 		return result;
 	}
-	
-	public Auditor findOne(int id){
+
+	public Auditor findOne(int id) {
 		Auditor result;
 		result = auditorRepository.findOne(id);
 		return result;
 	}
-	
-	public Auditor save(Auditor auditor){
-		Auditor result;		
-		
-		if(auditor.getId()<=0){
+
+	public Auditor save(Auditor auditor) {
+		Auditor result;
+
+		if (auditor.getId() <= 0) {
 			adminService.checkAdministrator();
 			String password = auditor.getUserAccount().getPassword();
 			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 			password = encoder.encodePassword(password, null);
 			auditor.getUserAccount().setPassword(password);
-		}else{
+		} else {
 			checkPrincipal(auditor);
 		}
 		result = auditorRepository.save(auditor);
 		return result;
 	}
-	
-	public void delete(Auditor auditor){
+
+	public void delete(Auditor auditor) {
 		adminService.checkAdministrator();
 		auditorRepository.delete(auditor);
 	}
-	
-	public Auditor findByUserAccount(UserAccount userAccount){
+
+	public Auditor findByUserAccount(UserAccount userAccount) {
 		Auditor result;
 		result = auditorRepository.findByUserAccountId(userAccount.getId());
 		return result;
 	}
-	
-	public Auditor findByPrincipal(){
+
+	public Auditor findByPrincipal() {
 		Auditor result;
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
 		result = findByUserAccount(userAccount);
 		return result;
 	}
-	
+
 	//Business Methods
-	
-	public void checkPrincipal(Auditor auditor){
+
+	public void checkPrincipal(Auditor auditor) {
 		Auditor prin;
 		prin = findByPrincipal();
-		Assert.isTrue(auditor.getId()== prin.getId());
+		Assert.isTrue(auditor.getId() == prin.getId());
 	}
-	
+
 	public Auditor reconstruct(Auditor auditor, BindingResult binding) {
 		Auditor result;
 
@@ -137,20 +138,25 @@ public class AuditorService {
 
 		return result;
 	}
-	
-	public void checkAuditor(){
+
+	public void checkAuditor() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
 		Boolean checker = false;
 		userAccount = LoginService.getPrincipal();
-		for(Authority a: userAccount.getAuthorities()){
-			if(a.getAuthority().equals(Authority.AUDITOR)){
+		for (Authority a : userAccount.getAuthorities()) {
+			if (a.getAuthority().equals(Authority.AUDITOR)) {
 				checker = true;
 				break;
 			}
 		}
-		Assert.isTrue(checker); 
+		Assert.isTrue(checker);
 	}
-	
+
+	public Collection<Auditor> findAll() {
+		Collection<Auditor> result;
+		result = auditorRepository.findAll();
+		return result;
+	}
 
 }
