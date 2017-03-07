@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AttributeService;
+import services.FinderService;
 import services.LessorService;
 import services.PropertyService;
 import services.ValueService;
@@ -41,6 +42,9 @@ public class PropertyLessorController extends AbstractController {
 
 	@Autowired
 	private AttributeService	attributeService;
+
+	@Autowired
+	private FinderService		finderService;
 
 
 	// Constructor
@@ -126,6 +130,7 @@ public class PropertyLessorController extends AbstractController {
 		ModelAndView result;
 
 		try {
+			property = propertyService.reconstruct(property, binding);
 			propertyService.delete(property);
 			result = new ModelAndView("redirect:/property/list.do");
 		} catch (Throwable oops) {
@@ -216,7 +221,7 @@ public class PropertyLessorController extends AbstractController {
 
 		result = new ModelAndView("property/edit");
 		result.addObject("property", property);
-		result.addObject("errorMessage", message);
+		result.addObject("message", message);
 
 		return result;
 	}

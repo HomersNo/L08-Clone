@@ -80,15 +80,11 @@
 </display:table>
 
 <security:authorize access="hasRole('TENANT')">
+	<jstl:if test="${!property.deleted}">
 		<a href="request/tenant/create.do?propertyId=${property.id}" onclick="return confirm('<spring:message code="property.confirm.request" />')">
 			<spring:message	code="property.request" />
 		</a>
-</security:authorize>
-
-<security:authorize access="hasRole('LESSOR')">
-	<jstl:if test="${propertylessor.userAccount.username==loggedactor.username}">
-		<a href="property/lessor/delete.do?propertyId=${property.id}" onclick="return confirm('<spring:message code="property.confirm.delete" />')">
-			<spring:message	code="property.delete" />
-		</a>
 	</jstl:if>
 </security:authorize>
+
+

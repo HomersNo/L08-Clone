@@ -39,8 +39,12 @@ public class CreditCardLessorController extends AbstractController {
 		CreditCard creditCard;
 
 		creditCard = creditCardService.findByPrincipal();
-		String ccnumber = creditCardService.trimCreditNumber(creditCard);
-
+		String ccnumber = "";
+		if (creditCard.getId() != 0) {
+			ccnumber = creditCardService.trimCreditNumber(creditCard);
+		} else {
+			creditCard = null;
+		}
 		result = new ModelAndView("creditCard/display");
 		result.addObject("creditCard", creditCard);
 		result.addObject("ccNumber", ccnumber);
