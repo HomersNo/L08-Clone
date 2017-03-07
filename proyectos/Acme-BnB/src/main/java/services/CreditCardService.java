@@ -2,7 +2,6 @@
 package services;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,9 @@ public class CreditCardService {
 
 	@Autowired
 	private LessorService	lessorService;
+
+	@Autowired
+	private TenantService	tenantService;
 
 
 	// CRUD
@@ -69,6 +71,17 @@ public class CreditCardService {
 		return result;
 	}
 
+	public CreditCard saveForRequest(CreditCard creditCard) {
+		Assert.notNull(creditCard);
+		CreditCard result;
+		Assert.isTrue(checkCCNumber(creditCard.getCreditCardNumber()));
+		Assert.isTrue(expirationDate(creditCard));
+		Assert.notNull(tenantService.findByPrincipal());
+		result = creditCardRepository.save(creditCard);
+
+		return result;
+	}
+
 	public void delete(CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		Assert.isTrue(creditCard.getId() != 0);
@@ -81,17 +94,18 @@ public class CreditCardService {
 
 	public String trimCreditNumber(CreditCard creditCard) {
 		String result;
+		String asterisks;
 		String last4;
 
 		last4 = creditCard.getCreditCardNumber().substring(12);
-		result = "************";
-		result.concat(last4);
+		asterisks = "************";
+		result = asterisks.concat(last4);
 
 		return result;
 	}
 
 	//Luhn's Algorithm
-	public static boolean checkCCNumber(String ccNumber) {
+	public boolean checkCCNumber(String ccNumber) {
 		int sum = 0;
 		boolean alternate = false;
 		for (int i = ccNumber.length() - 1; i >= 0; i--) {
@@ -108,17 +122,17 @@ public class CreditCardService {
 		return (sum % 10 == 0);
 	}
 
-	private boolean expirationDate(CreditCard creditCard) {
+	public boolean expirationDate(CreditCard creditCard) {
 		boolean res = false;
-		Calendar moment = new GregorianCalendar();
-		if (creditCard.getExpirationYear() == moment.get(Calendar.YEAR)) {
+		Calendar moment = Calendar.getInstance();
+		if ((2000 + creditCard.getExpirationYear()) == moment.get(Calendar.YEAR)) {
 			if (creditCard.getExpirationMonth() > moment.get(Calendar.MONTH)) {
 				res = true;
 			} else if (creditCard.getExpirationMonth() == moment.get(Calendar.MONTH)) {
 				if (moment.get(Calendar.DAY_OF_MONTH) < 21)
 					res = true;
 			}
-		} else if (creditCard.getExpirationYear() > moment.get(Calendar.YEAR)) {
+		} else if ((2000 + creditCard.getExpirationYear()) > moment.get(Calendar.YEAR)) {
 			res = true;
 		}
 		return res;

@@ -26,18 +26,18 @@
  	<acme:textbox code="creditCard.brandName" path="brandName"/>
   	<acme:textbox code="creditCard.Number" path="creditCardNumber"/>
   	<acme:textbox code="creditCard.CVV" path="CVV"/>
-  
+
   	<form:label path="expirationMonth">
   		<spring:message code="creditCard.Month"/>
   	</form:label>
-  	<input type="number" min="1" max="12" step="1"  value="1" name="expirationMonth"/>
+  	<form:input type="number" min="1" max="12" step="1"  path="expirationMonth"/>
   	<form:errors path="expirationMonth" cssClass="error" />
   
-  
+  <br>
   	<form:label path="expirationYear">
   		<spring:message code="creditCard.Year"/>
   	</form:label>
-  	<input type="number" min="00" max="99" step="1"  value="17" name="expirationYear"/>
+  	<form:input type="number" min="00" max="99" step="1" path="expirationYear"/>
   	<form:errors path="expirationYear" cssClass="error" />
   
   
