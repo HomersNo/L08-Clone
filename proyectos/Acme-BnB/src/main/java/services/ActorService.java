@@ -20,7 +20,6 @@ import org.springframework.util.Assert;
 import repositories.ActorRepository;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountService;
 import domain.Actor;
 import domain.Administrator;
 import domain.Auditor;
@@ -36,11 +35,7 @@ public class ActorService {
 	@Autowired
 	private ActorRepository			actorRepository;
 
-	// Supporting services ----------------------------------------------------
-
-	@Autowired
-	private UserAccountService		userAccountService;
-
+	// Supporting services ----------------------------------------------------s
 	@Autowired
 	private AdministratorService	administratorService;
 

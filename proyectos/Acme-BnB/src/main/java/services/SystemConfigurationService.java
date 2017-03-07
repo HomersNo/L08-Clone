@@ -26,34 +26,34 @@ public class SystemConfigurationService {
 	//supporting services -------------------
 
 	@Autowired
-	private AdministratorService			adminService;@Autowired
-	
-	private RequestService requestService;
-	
-	@Autowired
-	private LessorService lessorService;
-	
-	@Autowired
-	private TenantService tenantService;
-	
-	@Autowired
-	private FinderService finderService;
-	
-	@Autowired
-	private AuditService auditService;
-	
-	@Autowired
-	private AttributeService attributeService;
-	
-	@Autowired
-	private PropertyService propertyService;
-	
-	@Autowired
-	private SocialIdentityService socialIdentityService;
-	
-	@Autowired
-	private InvoiceService invoiceService;
+	private AdministratorService			adminService;
 
+	@Autowired
+	private RequestService					requestService;
+
+	@Autowired
+	private LessorService					lessorService;
+
+	@Autowired
+	private TenantService					tenantService;
+
+	@Autowired
+	private FinderService					finderService;
+
+	@Autowired
+	private AuditService					auditService;
+
+	@Autowired
+	private AttributeService				attributeService;
+
+	@Autowired
+	private PropertyService					propertyService;
+
+	@Autowired
+	private SocialIdentityService			socialIdentityService;
+
+	@Autowired
+	private InvoiceService					invoiceService;
 
 
 	//Basic CRUD methods --------------------
@@ -100,113 +100,113 @@ public class SystemConfigurationService {
 		Double res = systemConfigurationRepository.getActualFee();
 		return res;
 	}
-	
-	public Double[] findAverageAcceptedDeniedPerTenant(){
+
+	public Double[] findAverageAcceptedDeniedPerTenant() {
 		Double[] result = requestService.findAverageAcceptedDeniedPerTenant();
 		return result;
 	}
-	
-	public Double[] findAverageAcceptedDeniedPerLessor(){
+
+	public Double[] findAverageAcceptedDeniedPerLessor() {
 		Double[] result = requestService.findAverageAcceptedDeniedPerLessor();
 		return result;
 	}
-	
-	public Collection<Lessor> findAllLessorsByAcceptedRequests(){
+
+	public Collection<Lessor> findAllLessorsByAcceptedRequests() {
 		Collection<Lessor> result = lessorService.findAllByAcceptedRequests();
 		return result;
 	}
-	
-	public Collection<Lessor> findAllLessorsByDeniedRequests(){
+
+	public Collection<Lessor> findAllLessorsByDeniedRequests() {
 		Collection<Lessor> result = lessorService.findAllByDeniedRequests();
 		return result;
 	}
-	
-	public Collection<Lessor> findAllLessorsByPendingRequests(){
+
+	public Collection<Lessor> findAllLessorsByPendingRequests() {
 		Collection<Lessor> result = lessorService.findAllByPendingRequests();
 		return result;
 	}
-	
-	public Collection<Tenant> findAllTenantsByAcceptedRequests(){
+
+	public Collection<Tenant> findAllTenantsByAcceptedRequests() {
 		Collection<Tenant> result = tenantService.findAllByAcceptedRequests();
 		return result;
 	}
-	
-	public Collection<Tenant> findAllTenantsByDeniedRequests(){
+
+	public Collection<Tenant> findAllTenantsByDeniedRequests() {
 		Collection<Tenant> result = tenantService.findAllByDeniedRequests();
 		return result;
 	}
-	
-	public Collection<Tenant> findAllTenantsByPendingRequests(){
+
+	public Collection<Tenant> findAllTenantsByPendingRequests() {
 		Collection<Tenant> result = tenantService.findAllByAcceptedRequests();
 		return result;
 	}
-	
-	public Lessor findLessorByRequestedAcceptedRatio(){
+
+	public Lessor findLessorByRequestedAcceptedRatio() {
 		Lessor result = lessorService.findByRequestedAcceptedRatio();
 		return result;
 	}
-	
-	public Tenant findTenantByRequestedAcceptedRatio(){
+
+	public Tenant findTenantByRequestedAcceptedRatio() {
 		Tenant result = tenantService.findByRequestedAcceptedRatio();
 		return result;
 	}
-	
-	public Double[] findAvgMinAndMaxPerFinder(){
+
+	public Double[] findAvgMinAndMaxPerFinder() {
 		Double[] result = finderService.findAvgMinAndMaxPerFinder();
 		return result;
 	}
-	
-	public Double[] findAvgMinAndMaxPerProperty(){
+
+	public Double[] findAvgMinAndMaxPerProperty() {
 		Double[] result = auditService.findAvgMinAndMaxPerProperty();
 		return result;
 	}
-	
-	public Collection<Attribute> findAllOrderedByProperty(){
+
+	public Collection<Attribute> findAllOrderedByProperty() {
 		Collection<Attribute> result = attributeService.findAllOrderedByProperty();
 		return result;
 	}
-	
-	public Collection<Property> findAllByLessorOrderedByAudits(int lessorId){
+
+	public Collection<Property> findAllByLessorOrderedByAudits(int lessorId) {
 		Collection<Property> result = propertyService.findAllByLessorOrderedByAudits(lessorId);
 		return result;
 	}
-	
-	public Collection<Property> findAllByLessorOrderedByRequests(int lessorId){
+
+	public Collection<Property> findAllByLessorOrderedByRequests(int lessorId) {
 		Collection<Property> result = propertyService.findAllByLessorOrderedByRequests(lessorId);
 		return result;
 	}
-	
-	public Collection<Property> findAllByLessorOrderByAcceptedRequest(int lessorId){
+
+	public Collection<Property> findAllByLessorOrderByAcceptedRequest(int lessorId) {
 		Collection<Property> result = propertyService.findAllByLessorOrderByAcceptedRequest(lessorId);
 		return result;
 	}
-	
-	public Collection<Property> findAllByLessorOrderByDeniedRequest(int lessorId){
+
+	public Collection<Property> findAllByLessorOrderByDeniedRequest(int lessorId) {
 		Collection<Property> result = propertyService.findAllByLessorOrderByDeniedRequest(lessorId);
 		return result;
 	}
-	
-	public Collection<Property> findAllByLessorOrderByPendingRequest(int lessorId){
+
+	public Collection<Property> findAllByLessorOrderByPendingRequest(int lessorId) {
 		Collection<Property> result = propertyService.findAllByLessorOrderByPendingRequest(lessorId);
 		return result;
 	}
-	
-	public Double[] findAvgMinAndMaxPerActor(){
+
+	public Double[] findAvgMinAndMaxPerActor() {
 		Double[] result = socialIdentityService.findAvgMinAndMaxPerActor();
 		return result;
 	}
-	
-	public Double[] findAvgMinMaxPerTenant(){
+
+	public Double[] findAvgMinMaxPerTenant() {
 		Double[] result = invoiceService.findAvgMinMaxPerTenant();
 		return result;
 	}
-	
-	public Double findTotalMoneyDue(){
+
+	public Double findTotalMoneyDue() {
 		Double result = invoiceService.findTotalMoneyDue();
 		return result;
 	}
-	
-	public Double[] findAvrageByPropertyWithOverWithoutInvoice(){
+
+	public Double[] findAvrageByPropertyWithOverWithoutInvoice() {
 		Double[] result = requestService.findAvrageByPropertyWithOverWithoutInvoice();
 		return result;
 	}

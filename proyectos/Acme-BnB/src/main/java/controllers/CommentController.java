@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CommentService;
 import services.CommentableService;
 import domain.Comment;
 import domain.Commentable;
@@ -20,9 +19,6 @@ import domain.Commentable;
 public class CommentController extends AbstractController {
 
 	// Services -----------------------------------------------------------------------
-	@Autowired
-	private CommentService		commentService;
-
 	@Autowired
 	private CommentableService	commentableService;
 
