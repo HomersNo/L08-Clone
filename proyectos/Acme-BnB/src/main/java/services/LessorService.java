@@ -29,15 +29,18 @@ public class LessorService {
 	// Managed Repository ------------------------------------
 
 	@Autowired
-	private LessorRepository		lessorRepository;
+	private LessorRepository			lessorRepository;
 
 	// Auxiliary Services -------------------------------------
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private Validator				validator;
+	private Validator					validator;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -178,7 +181,7 @@ public class LessorService {
 		Assert.isTrue(findByPrincipal().getId() == lessor.getId());
 		Lessor result;
 		result = lessor;
-		Double fee = lessorRepository.feeDelSistema();
+		Double fee = systemConfigurationService.getActualFee();
 		result.setCumulatedFee(lessor.getCumulatedFee() + fee);
 		result = lessorRepository.save(result);
 
