@@ -103,29 +103,6 @@ public class InvoiceService {
 			
 		}
 		
-		public Finder reconstruct(Invoice invoice, BindingResult binding) {
-			Invoice result;
-
-			if (invoice.getId() == 0) {
-				result = invoice;
-			} else {
-				result = invoiceRepository.findOne(invoice.getId());
-
-				result.setCache(finder.getCache());
-				result.setDestinationCity(finder.getDestinationCity());
-				result.setKeyWord(finder.getKeyWord());
-				result.setLastUpdate(finder.getLastUpdate());
-				result.setMaximumPrice(finder.getMaximumPrice());
-				result.setMinimumPrice(finder.getMinimumPrice());
-				result.setTenant(finder.getTenant());
-				
-
-				validator.validate(result, binding);
-			}
-		
-		
-		}
-		
 		//Auxiliary methods
 
 		public Boolean checkPrincipal(Invoice e){
