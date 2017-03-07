@@ -51,6 +51,10 @@ public class FinderService {
 			Assert.isTrue(principal.getId() != 0);
 			created.setTenant(principal);
 			
+			Date now;
+			now = new Date(System.currentTimeMillis() - 1);
+			created.setLastUpdate(now);
+			
 			return created;
 		}
 		
@@ -68,7 +72,6 @@ public class FinderService {
 			Finder saved;
 			Assert.notNull(finder);
 			Assert.isTrue(checkPrincipal(finder));
-			Tenant principal = tenantService.findByPrincipal();
 			
 			/*Date lastUp = finder.getLastUpdate();
 			Calendar oneHourCal = Calendar.getInstance();
@@ -96,7 +99,6 @@ public class FinderService {
 				//primero la ciudad de destino
 				String attribute = "City";
 				filtered.addAll(valueService.findAllPropertiesByValueContent(finder.getDestinationCity(), attribute));
-				System.out.println(filtered);
 				//ahora el rate
 				Double min = finder.getMinimumPrice();
 				Double max = finder.getMaximumPrice();
@@ -115,7 +117,7 @@ public class FinderService {
 					Collection<Property> props = propertyService.findAllByContainsKeyWordAddress(keyWord);
 					props.addAll(propertyService.findAllByContainsKeyWordName(keyWord));
 					filtered.retainAll(props);
-					System.out.println(filtered);
+					
 					
 				}
 				//y ya cambiamos las properties a las filtradas
@@ -156,6 +158,67 @@ public class FinderService {
 			}
 			return result;
 			
+		}
+		
+		public Boolean checkCache(Finder finder){
+			
+			Boolean res = true;
+			
+			Calendar cal = Calendar.getInstance();
+			Calendar last = Calendar.getInstance();
+			Date now;
+			now = new Date(System.currentTimeMillis() - 3600 * 1000);
+			cal.setTime(now);
+			last.setTime(finder.getLastUpdate());
+			Date lastUpdateTime = last.getTime();
+			cal.add(Calendar.HOUR, -1);
+			Date dateOneHourBack = cal.getTime();
+			Tenant principal = tenantService.findByPrincipal();
+			Finder tenantFinder = principal.getFinder();
+			if(tenantFinder != null){
+				Boolean city;
+				Boolean minPrice;
+				Boolean maxPrice;
+				Boolean key;
+				
+				city = true;
+				minPrice = true;
+				maxPrice = true;
+				key = true;
+				
+				if(finder.getDestinationCity() != null){
+					city = tenantFinder.getDestinationCity()==(finder.getDestinationCity());
+				}
+				
+				if(finder.getMinimumPrice() != null){
+					minPrice = tenantFinder.getMinimumPrice()==(finder.getMinimumPrice());
+				}
+				
+				if(finder.getMaximumPrice() != null){
+					maxPrice = tenantFinder.getMaximumPrice()==(finder.getMaximumPrice());
+				}
+				
+				if(finder.getKeyWord() != null){
+					key = tenantFinder.getKeyWord()==(finder.getKeyWord());
+				}
+				
+				Boolean isEqual = city && minPrice && maxPrice && key;
+				
+				
+				
+				if(dateOneHourBack.getTime() - lastUpdateTime.getTime() <= 3600000 && isEqual){
+					res = true;
+				}
+				else{
+					res = false;
+				}
+			}
+			else{
+				res = false;
+			}
+			
+			
+			return res;
 		}
 		//Our other bussiness methods
 

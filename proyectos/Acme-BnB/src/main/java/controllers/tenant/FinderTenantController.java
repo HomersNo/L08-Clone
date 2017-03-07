@@ -1,5 +1,8 @@
 package controllers.tenant;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +64,18 @@ public class FinderTenantController extends AbstractController {
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(finder);
 		} else {
-			try {
-				finderService.save(finder);				
-				result = new ModelAndView("redirect:/property/tenant/listFound.do?finderId="+finder.getId());
-				result.addObject("message", "finder.commit.ok");
+			try { 
+				
+				if(finderService.checkCache(finder)){
+					result = new ModelAndView("redirect:/property/tenant/listFound.do?finderId="+finder.getId());
+					result.addObject("message", "finder.commit.ok");
+				}
+				else{
+					finderService.save(finder);				
+					result = new ModelAndView("redirect:/property/tenant/listFound.do?finderId="+finder.getId());
+					result.addObject("message", "finder.commit.ok");
+				}
+				
 			} catch (Throwable oops) {
 				result = createEditModelAndView(finder, "finder.commit.error");				
 			}

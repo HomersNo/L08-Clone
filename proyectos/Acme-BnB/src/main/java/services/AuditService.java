@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -16,88 +17,85 @@ import org.springframework.validation.Validator;
 import repositories.AuditRepository;
 import domain.Audit;
 import domain.Auditor;
-import domain.Property;
 
 @Service
 @Transactional
 public class AuditService {
 
 	//Constructor
-	public AuditService(){
+	public AuditService() {
 		super();
 	}
-	
+
+
 	//Managed Repository
 	@Autowired
-	private AuditRepository auditRepository;
-	
+	private AuditRepository			auditRepository;
+
 	//Auxiliary Services
 	@Autowired
-	private AuditorService auditorService;
-	
+	private AuditorService			auditorService;
+
 	@Autowired
-	private AdministratorService administratorService;
-	
+	private AdministratorService	administratorService;
+
 	@Autowired
-	private Validator validator;
-	
-	
+	private Validator				validator;
+
+
 	//CRUD
-	
-	public Audit create(){
-		
+
+	public Audit create() {
+
 		Audit result = new Audit();
 		result.setAuditor(auditorService.findByPrincipal());
-		Date moment = new Date(System.currentTimeMillis()-100);
+		Date moment = new Date(System.currentTimeMillis() - 100);
 		result.setMoment(moment);
 		return result;
 	}
-	
-	public Audit findOneToEdit(int id){
+
+	public Audit findOneToEdit(int id) {
 		Audit result;
 		result = auditRepository.findOne(id);
 		Assert.isTrue(result.getDraft());
 		return result;
 	}
-	
-	public Audit findOne(int id){
+
+	public Audit findOne(int id) {
 		Audit result;
 		result = auditRepository.findOne(id);
 		return result;
 	}
-	
-	public Audit save(Audit audit){
-		Audit result;	
+
+	public Audit save(Audit audit) {
+		Audit result;
 		auditorService.checkAuditor();
-		Date moment = new Date(System.currentTimeMillis()-100);
+		Date moment = new Date(System.currentTimeMillis() - 100);
 		audit.setMoment(moment);
 		result = auditRepository.save(audit);
 		return result;
 	}
-	
-	public void delete(Audit audit){
-		
+
+	public void delete(Audit audit) {
+
 		auditorService.checkAuditor();
 		auditRepository.delete(audit);
 	}
-	
-	public Collection<Audit> findAllByProperty(int propertyId){
-		
+
+	public Collection<Audit> findAllByProperty(int propertyId) {
+
 		Collection<Audit> result = auditRepository.findAllByProperty(propertyId);
 		return result;
 	}
-	
-	public Collection<Audit> findAllByAuditor(int auditorId){
-		
+
+	public Collection<Audit> findAllByAuditor(int auditorId) {
+
 		Collection<Audit> result = auditRepository.findAllByAuditor(auditorId);
 		return result;
 	}
-	
-	
-	
+
 	//Business Methods
-	
-	
+
 	public Audit reconstruct(Audit audit, BindingResult binding) {
 		Audit result;
 
@@ -121,48 +119,51 @@ public class AuditService {
 
 		return result;
 	}
-	
-	public List<String> urlsFromString(String attachments){
-		
+
+	public List<String> urlsFromString(String attachments) {
+
 		List<String> result = new ArrayList<String>();
 		String[] parts = attachments.split(",");
-		for(int i =0; i<parts.length;i++){
-			
+		for (int i = 0; i < parts.length; i++) {
+
 			String s = parts[i].trim();
 			result.add(s);
 		}
-		
-		
+
 		return result;
 	}
-	
-	public Double[] findAvgMinAndMaxPerProperty(){
+
+	public Double[] findAvgMinAndMaxPerProperty() {
 		Assert.notNull(administratorService.findByPrincipal());
 		Double[] result = auditRepository.findAvgMinAndMaxPerProperty();
 		return result;
 	}
-	
-	Audit findAuditInCommon(int propertyId){
-		
+
+	Audit findAuditInCommon(int propertyId) {
+
 		Auditor auditor = auditorService.findByPrincipal();
 		Audit audit;
 		audit = auditRepository.findAuditInCommon(auditor.getId(), propertyId);
-		
+
 		return audit;
 	}
-	
-	public Boolean hasCommon(int propertyId){
-		
+
+	public Boolean hasCommon(int propertyId) {
 
 		Audit audit;
 		Boolean result = true;
-		audit= this.findAuditInCommon(propertyId);
-		if(audit == null){
-			
+		audit = this.findAuditInCommon(propertyId);
+		if (audit == null) {
+
 			result = false;
 		}
-		
-		
+
+		return result;
+	}
+
+	public Collection<Audit> findAll() {
+		Collection<Audit> result;
+		result = auditRepository.findAll();
 		return result;
 	}
 

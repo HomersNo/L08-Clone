@@ -50,7 +50,7 @@ public class InvoiceService {
 			Assert.isTrue(invoiceId != 0);
 			Invoice retrieved;
 			retrieved = invoiceRepository.findOne(invoiceId);
-			Assert.isTrue(checkPrincipal(retrieved));
+			Assert.isTrue(this.checkPrincipal(retrieved));
 			return retrieved;
 		}
 

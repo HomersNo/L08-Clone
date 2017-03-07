@@ -1,3 +1,4 @@
+
 package controllers.auditor;
 
 import java.util.Collection;
@@ -27,13 +28,14 @@ public class AuditAuditorController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private AuditService auditService;
-	
+	private AuditService	auditService;
+
 	@Autowired
-	private AuditorService auditorService;
-	
+	private AuditorService	auditorService;
+
 	@Autowired
-	private PropertyService propertyService;
+	private PropertyService	propertyService;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -48,7 +50,7 @@ public class AuditAuditorController extends AbstractController {
 		ModelAndView result;
 		Audit audit;
 		Property property = propertyService.findOne(propertyId);
-		Auditor  principal = auditorService.findByPrincipal();
+		Auditor principal = auditorService.findByPrincipal();
 
 		audit = auditService.create();
 		audit.setProperty(property);
@@ -57,7 +59,7 @@ public class AuditAuditorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam int auditId) {
 		ModelAndView result;
@@ -69,58 +71,76 @@ public class AuditAuditorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid Audit audit, BindingResult binding) {
-		
+
 		ModelAndView result;
-		
+
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(audit);
 		} else {
-				try {
-					audit = auditService.reconstruct(audit, binding);
-					audit = auditService.save(audit);
-					result = new ModelAndView("redirect:/audit/display.do?auditId="+audit.getId());					
-				} catch (Throwable oops) {
-					result = createEditModelAndView(audit, "audit.commit.error");
-				}
+			try {
+				audit = auditService.reconstruct(audit, binding);
+				audit.setDraft(false);
+				audit = auditService.save(audit);
+				result = new ModelAndView("redirect:/audit/display.do?auditId=" + audit.getId());
+			} catch (Throwable oops) {
+				result = createEditModelAndView(audit, "audit.commit.error");
+			}
 		}
 		return result;
 	}
-	
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "savedraft")
+	public ModelAndView saveDraft(@Valid Audit audit, BindingResult binding) {
+
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			result = createEditModelAndView(audit);
+		} else {
+			try {
+				audit = auditService.reconstruct(audit, binding);
+				audit.setDraft(true);
+				audit = auditService.save(audit);
+				result = new ModelAndView("redirect:/audit/display.do?auditId=" + audit.getId());
+			} catch (Throwable oops) {
+				result = createEditModelAndView(audit, "audit.commit.error");
+			}
+		}
+		return result;
+	}
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(@Valid Audit audit, BindingResult binding) {
-		
+
 		ModelAndView result;
-		
+
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(audit);
 		} else {
-				try {
-					auditService.delete(audit);
-					result = new ModelAndView("redirect:/welcome/index.do");					
-				} catch (Throwable oops) {
-					result = createEditModelAndView(audit, "audit.commit.error");
-				}
+			try {
+				auditService.delete(audit);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (Throwable oops) {
+				result = createEditModelAndView(audit, "audit.commit.error");
+			}
 		}
 		return result;
 	}
-	
-	
+
 	protected ModelAndView createEditModelAndView(Audit audit) {
 		ModelAndView result;
 
 		result = createEditModelAndView(audit, null);
-		
+
 		return result;
-	}	
-	
-	
-	
+	}
+
 	protected ModelAndView createEditModelAndView(Audit audit, String message) {
 		ModelAndView result;
-		
+
 		result = new ModelAndView("audit/edit");
 		result.addObject("audit", audit);
 		result.addObject("errorMessage", message);
@@ -129,17 +149,17 @@ public class AuditAuditorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		
+
 		ModelAndView result;
 		Auditor auditor;
 		auditor = auditorService.findByPrincipal();
 		Collection<Audit> audits;
-		
-		audits= auditService.findAllByAuditor(auditor.getId());
-		
+
+		audits = auditService.findAllByAuditor(auditor.getId());
+
 		result = new ModelAndView("audit/list");
 		result.addObject("audits", audits);
 		result.addObject("requestURI", "audit/auditor/list.do");

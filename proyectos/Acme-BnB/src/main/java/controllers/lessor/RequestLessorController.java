@@ -46,12 +46,12 @@ public class RequestLessorController {
 		requests = requestService.findAllByLessor(lessor);
 
 		result = new ModelAndView("request/list");
-		result.addObject("requestURI", "request/user/listOwn.do");
-		result.addObject("request", requests);
+		result.addObject("requestURI", "request/lessor/list.do");
+		result.addObject("requests", requests);
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/accept", method = RequestMethod.GET)
 	public ModelAndView accept(@RequestParam int requestId) {
 
@@ -66,7 +66,7 @@ public class RequestLessorController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/deny", method = RequestMethod.GET)
 	public ModelAndView deny(@RequestParam int requestId) {
 
