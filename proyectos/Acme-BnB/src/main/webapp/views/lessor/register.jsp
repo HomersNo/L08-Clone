@@ -32,7 +32,7 @@
 	
 	<br/>
 	
-	<button type="submit" name="save" class="btn btn-primary" id="save" disabled onload="javascript: toggleSubmit()">
+	<button type="submit" name="save" class="btn btn-primary" id="save" disabled>
 		<spring:message code="lessor.save" />
 	</button>
 
