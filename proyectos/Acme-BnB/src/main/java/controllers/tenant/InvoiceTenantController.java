@@ -40,11 +40,12 @@ public class InvoiceTenantController {
 			
 			ModelAndView result;
 			Invoice invoice;
-			
+			String requestURI = "invoice/tenant/display.do";
 			invoice = invoiceService.findOne(invoiceId);
 
 			result = new ModelAndView("invoice/display");
 			result.addObject("invoice", invoice);
+			result.addObject("requestURI", requestURI);
 
 			return result;
 		}

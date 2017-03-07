@@ -46,7 +46,7 @@ public class CommentActorController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Comment> comments;
-		
+
 		Actor principal = actorService.findByPrincipal();
 		Commentable commentable;
 		commentable = commentableService.findOne(principal.getId());
@@ -62,8 +62,6 @@ public class CommentActorController extends AbstractController {
 	}
 
 	// Creation -----------------------------------------------------------------------
-
-	// Edition ------------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam int commentableId) {
 		ModelAndView result;
@@ -73,9 +71,8 @@ public class CommentActorController extends AbstractController {
 
 		return result;
 	}
-	
-	
 
+	// Edition ------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid Comment comment, BindingResult binding) {
 		ModelAndView result;
