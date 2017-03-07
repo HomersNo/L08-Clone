@@ -37,6 +37,9 @@ public class InvoiceService {
 		private AdministratorService administratorService;
 		
 		@Autowired
+		private SystemConfigurationService systemConfigurationService;
+		
+		@Autowired
 		private Validator				validator;
 		
 		
@@ -48,6 +51,8 @@ public class InvoiceService {
 			created = new Invoice();
 			created.setRequest(request);
 			created.setMoment(new Date(System.currentTimeMillis() - 1));
+			String VATNumber = systemConfigurationService.findMain().getVATNumber();
+			created.setVATNumber(VATNumber);
 			return created;
 		}
 		
@@ -64,7 +69,6 @@ public class InvoiceService {
 			
 			Assert.notNull(invoice);
 			Assert.isTrue(checkPrincipal(invoice));
-			checkPrincipal(invoice);
 			
 			String name;
 			String surname;
