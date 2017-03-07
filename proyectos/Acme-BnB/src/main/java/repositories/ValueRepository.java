@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Attribute;
 import domain.Property;
 import domain.Value;
 
@@ -16,13 +15,13 @@ public interface ValueRepository extends JpaRepository<Value, Integer> {
 
 	@Query("Select v from Value v where v.attribute.attributeName= ?1")
 	Collection<Value> findAllByAttribute(String attributeName);
-	
+
 	@Query("Select v from Value v where v.content = ?1")
 	Collection<Value> findAllByContent(String content);
-	
+
 	@Query("Select v from Value v where v.property = ?1")
 	Collection<Value> findAllByProperty(Property property);
-	
+
 	@Query("Select v.property from Value v where v.content = ?1 and v.attribute.attributeName = ?2")
 	Collection<Property> findAllPropertiesByValueContent(String content, String attributeName);
 }

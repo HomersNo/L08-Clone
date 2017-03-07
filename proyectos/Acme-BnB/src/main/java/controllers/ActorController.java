@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.TenantService;
 import domain.Actor;
 import domain.Auditor;
 import domain.Lessor;
@@ -20,10 +19,6 @@ import domain.Tenant;
 public class ActorController extends AbstractController {
 
 	//Services
-
-	@Autowired
-	private TenantService	tenantService;
-
 	@Autowired
 	private ActorService	actorService;
 
