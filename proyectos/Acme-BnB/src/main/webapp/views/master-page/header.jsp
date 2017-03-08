@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<img src="images/logo.png" alt="Acme-BnB Co., Inc." />
+	<a href="welcome/index.do"><img src="images/logo.png" alt="Acme-BnB Co., Inc." /> </a> &nbsp <a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
 
 <div>
@@ -152,6 +152,6 @@
 </div>
 
 <div>
-	<a href="?language=en">en</a> | <a href="?language=es">es</a>
+	
 </div>
 

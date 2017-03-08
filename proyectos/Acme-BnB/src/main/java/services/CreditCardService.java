@@ -87,10 +87,16 @@ public class CreditCardService {
 		Assert.notNull(creditCard);
 		Assert.isTrue(creditCard.getId() != 0);
 		Assert.isTrue(creditCardRepository.exists(creditCard.getId()));
+		Lessor lessor;
+		lessor = lessorService.findByPrincipal();
+
+		Assert.notNull(lessor);
+
+		lessor.setCreditCard(null);
+		lessorService.save(lessor);
 
 		creditCardRepository.delete(creditCard);
 	}
-
 	// Auxiliary Methods
 
 	public String trimCreditNumber(CreditCard creditCard) {
