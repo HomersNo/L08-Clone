@@ -25,13 +25,39 @@
 	<spring:message code="request.smoker" var="smokerHeader" />
 	<display:column property="smoker" title="${smokerHeader}" sortable="true" />
 	
+	<security:authorize access="hasRole('LESSOR')">
 	<spring:message code="request.tenant" var="tenantHeader"/>
 	<display:column title="${tenantHeader}">
-		<a href="tenant/display.do?tenantId=${row.tenant.id}"><spring:message code="request.tenant"/> </a>
+		<a href="tenant/display.do?tenantId=${row.tenant.id}"> ${row.tenant.name} ${row.tenant.surname} </a>
 	</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('TENANT')">
+	<spring:message code="request.lessor" var="lessorHeader"/>
+	<display:column title="${lessorHeader}">
+		<a href="lessor/display.do?lessorId=${row.property.lessor.id}"> ${row.property.lessor.name} ${row.property.lessor.surname} </a>
+	</display:column>
+	</security:authorize>
+	
 	<spring:message code="request.property" var="propertyHeader"/>
 	<display:column title="${propertyHeader}">
 		<a href="property/display.do?propertyId=${row.property.id}"><spring:message code="request.property"/> </a>
+	</display:column>
+	
+	<display:column title="${commentHeader}">
+		<security:authorize access="hasAnyRole('LESSOR')">
+			<a href="comment/actor/create.do?commentableId=${row.tenant.id}" >
+				<spring:message code="request.write" />
+			</a>
+		</security:authorize>
+	</display:column>
+	
+	<display:column title="${commentHeader}">
+		<security:authorize access="hasAnyRole('TENANT')">
+			<a href="comment/actor/create.do?commentableId=${row.property.lessor.id}" >
+				<spring:message code="request.write" />
+			</a>
+		</security:authorize>
 	</display:column>
 	
 	<security:authorize access="hasRole('TENANT')">
@@ -41,7 +67,7 @@
 				<a href="invoice/tenant/display.do?invoiceId=${row.invoice.id}"><spring:message code="request.invoice"/> </a>
 			</display:column>
 		</jstl:if>
-		<jstl:if test="${empty row.invoice and row.status.equals('ACCEPTED') and currDate.after(row.checkInDate)}">
+		<jstl:if test="${empty row.invoice and row.status.equals('ACCEPTED')}">
 		<display:column>
 			<a href="invoice/tenant/create.do?requestId=${row.id }"> <spring:message
 					code="request.createInvoice" />

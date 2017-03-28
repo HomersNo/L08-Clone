@@ -195,4 +195,5 @@ public class TenantService {
 		Tenant result = tenantRepository.findByRequestedAcceptedRatio().iterator().next();
 		return result;
 	}
+
 }

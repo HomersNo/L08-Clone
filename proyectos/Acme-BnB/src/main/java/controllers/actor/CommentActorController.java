@@ -46,7 +46,7 @@ public class CommentActorController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Comment> comments;
-		
+
 		Actor principal = actorService.findByPrincipal();
 		Commentable commentable;
 		commentable = commentableService.findOne(principal.getId());
@@ -62,20 +62,24 @@ public class CommentActorController extends AbstractController {
 	}
 
 	// Creation -----------------------------------------------------------------------
-
-	// Edition ------------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam int commentableId) {
+
 		ModelAndView result;
 		Commentable commentable = commentableService.findOne(commentableId);
 		Comment comment = commentService.create(commentable);
-		result = createEditModelAndView(comment);
+
+		try {
+			comment = commentService.create(commentable);
+			result = createEditModelAndView(comment);
+		} catch (Exception e) {
+			result = new ModelAndView("redirect:/welcome/index.do");
+		}
 
 		return result;
 	}
-	
-	
 
+	// Edition ------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid Comment comment, BindingResult binding) {
 		ModelAndView result;

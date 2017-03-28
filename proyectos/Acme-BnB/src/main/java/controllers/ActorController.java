@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.TenantService;
 import domain.Actor;
 import domain.Auditor;
 import domain.Lessor;
@@ -20,10 +19,6 @@ import domain.Tenant;
 public class ActorController extends AbstractController {
 
 	//Services
-
-	@Autowired
-	private TenantService	tenantService;
-	
 	@Autowired
 	private ActorService	actorService;
 
@@ -34,35 +29,31 @@ public class ActorController extends AbstractController {
 		super();
 	}
 
-
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam int actorId) {
 
 		ModelAndView result;
 		Actor actor;
-		
+
 		actor = actorService.findOne(actorId);
-		
+
 		result = new ModelAndView("redirect:/welcome/index.do");
-		
-		if (actor instanceof Tenant ) {
+
+		if (actor instanceof Tenant) {
 			result = new ModelAndView("redirect:/tenant/display.do?tenantId=" + actor.getId());
 			result.addObject("tenant", actor);
 			result.addObject("comments", actor.getComments());
 			result.addObject("socialIdentitites", actor.getSocialIdentities());
-		} else if(actor instanceof Lessor) {
+		} else if (actor instanceof Lessor) {
 			result = new ModelAndView("redirect:/lessor/display.do?lessorId=" + actor.getId());
 			result.addObject("comments", actor.getComments());
 			result.addObject("lessor", actor);
 			result.addObject("socialIdentitites", actor.getSocialIdentities());
-		}else if(actor instanceof Auditor) {
+		} else if (actor instanceof Auditor) {
 			result = new ModelAndView("redirect:/auditor/display.do?auditorId=" + actor.getId());
 			result.addObject("auditor", actor);
 			result.addObject("socialIdentitites", actor.getSocialIdentities());
 		}
-
-		
-
 		return result;
 	}
 }

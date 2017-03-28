@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Calendar;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,10 +87,16 @@ public class CreditCardService {
 		Assert.notNull(creditCard);
 		Assert.isTrue(creditCard.getId() != 0);
 		Assert.isTrue(creditCardRepository.exists(creditCard.getId()));
+		Lessor lessor;
+		lessor = lessorService.findByPrincipal();
+
+		Assert.notNull(lessor);
+
+		lessor.setCreditCard(null);
+		lessorService.save(lessor);
 
 		creditCardRepository.delete(creditCard);
 	}
-
 	// Auxiliary Methods
 
 	public String trimCreditNumber(CreditCard creditCard) {
@@ -146,6 +153,12 @@ public class CreditCardService {
 			result = create();
 		else
 			result = lessor.getCreditCard();
+		return result;
+	}
+
+	public Collection<CreditCard> findAll() {
+		Collection<CreditCard> result;
+		result = creditCardRepository.findAll();
 		return result;
 	}
 }

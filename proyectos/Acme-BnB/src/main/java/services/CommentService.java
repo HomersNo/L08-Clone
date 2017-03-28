@@ -1,11 +1,14 @@
+
 package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -13,6 +16,8 @@ import repositories.CommentRepository;
 import domain.Actor;
 import domain.Comment;
 import domain.Commentable;
+import domain.Lessor;
+import domain.Tenant;
 
 @Service
 @Transactional
@@ -20,17 +25,19 @@ public class CommentService {
 
 	// managed repository ------------------------------------------------------
 	@Autowired
-	private CommentRepository commentRepository;
+	private CommentRepository	commentRepository;
 
-	// Supporting services ----------------------------------------------------
-	@Autowired
-	private CommentableService commentableService;
+	//Services 
 
 	@Autowired
-	private ActorService actorService;
+	private ActorService		actorService;
 
 	@Autowired
-	private Validator validator;
+	private LessorService		lessorService;
+
+	@Autowired
+	private Validator			validator;
+
 
 	// Constructors -----------------------------------------------------------
 	public CommentService() {
@@ -46,6 +53,25 @@ public class CommentService {
 		created.setActor(actor);
 		created.setMoment(moment);
 		created.setCommentable(commentable);
+
+		if (actor instanceof Tenant) {
+			if (commentable instanceof Lessor) {
+				Set<Lessor> commentables = lessorService.findAllCommentableLessors(actor.getId());
+				Assert.isTrue(commentables.contains(commentable));
+			}
+			if (commentable instanceof Tenant) {
+				Assert.isTrue(actor.equals(commentable));
+			}
+		}
+		if (actor instanceof Lessor) {
+			if (commentable instanceof Tenant) {
+				Set<Lessor> commentables = lessorService.findAllCommentableLessors(commentable.getId());
+				Assert.isTrue(commentables.contains(actor));
+			}
+			if (commentable instanceof Lessor) {
+				Assert.isTrue(actor.equals(commentable));
+			}
+		}
 		return created;
 	}
 
@@ -60,8 +86,9 @@ public class CommentService {
 	}
 
 	public Comment save(Comment comment) {
-		Comment saved;
-		saved = commentRepository.save(comment);
+
+		Comment saved = commentRepository.save(comment);
+
 		return saved;
 	}
 
@@ -82,7 +109,6 @@ public class CommentService {
 		result = commentRepository.allCommentsOfAnActorDidToHimself(actorId);
 		return result;
 	}
-
 
 	public Collection<Comment> allCommentsExceptSelfComments(int actorId) {
 

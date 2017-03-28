@@ -32,7 +32,7 @@ public class PropertyService {
 
 	@Autowired
 	private LessorService			lessorService;
-	
+
 	@Autowired
 	private AuditorService			auditorService;
 
@@ -59,6 +59,7 @@ public class PropertyService {
 		result.setLessor(lessorService.findByPrincipal());
 		result.setRequests(new ArrayList<Request>());
 		result.setValues(new ArrayList<Value>());
+		result.setDeleted(false);
 
 		return result;
 	}
@@ -105,8 +106,8 @@ public class PropertyService {
 		Assert.isTrue(property.getId() != 0);
 		Assert.isTrue(propertyRepository.exists(property.getId()));
 		checkPrincipal(property);
-
-		propertyRepository.delete(property);
+		property.setDeleted(true);
+		propertyRepository.save(property);
 	}
 
 	// Other business methods -------------------------------------------------
@@ -193,15 +194,20 @@ public class PropertyService {
 	public void checkPrincipal(Property property) {
 		Assert.isTrue(property.getLessor().equals(lessorService.findByPrincipal()));
 	}
-	
-	public Collection<Property> findAllAudited(){
-		
+
+	public Collection<Property> findAllAudited() {
+
 		Auditor auditor = auditorService.findByPrincipal();
 		Collection<Property> result;
 		result = propertyRepository.findAllAudited(auditor.getId());
-		
+
 		return result;
-				
-		
+
+	}
+
+	public Collection<Property> findAllNotDeleted() {
+		Collection<Property> result;
+		result = propertyRepository.findAllNotDeleted();
+		return result;
 	}
 }

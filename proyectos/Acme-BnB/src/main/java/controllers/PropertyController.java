@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,9 +33,9 @@ public class PropertyController extends AbstractController {
 
 	@Autowired
 	private AttributeService	attributeService;
-	
+
 	@Autowired
-	private ActorService	actorService;
+	private ActorService		actorService;
 
 
 	//Constructor
@@ -51,15 +52,18 @@ public class PropertyController extends AbstractController {
 		Collection<Property> properties;
 		Collection<Property> audited = new ArrayList<Property>();
 
-		properties = propertyService.findAll();
-		
-		
-		Actor principal;
-		principal = actorService.findByPrincipal();
-		
-		if(principal instanceof Auditor){
-			
-			audited = propertyService.findAllAudited();
+		properties = propertyService.findAllNotDeleted();
+
+		Object principalContext = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principalContext != "anonymousUser") {
+			Actor principal;
+			principal = actorService.findByPrincipal();
+
+			if (principal instanceof Auditor) {
+
+				audited = propertyService.findAllAudited();
+			}
 		}
 
 		result = new ModelAndView("property/list");
