@@ -115,7 +115,7 @@ public class RequestTenantController extends AbstractController {
 				request = requestService.save(request);
 				result = new ModelAndView("redirect:/request/tenant/list.do");
 			} catch (Throwable oops) {
-				result = createEditModelAndView(request, "request.commit.error");
+				result = createEditModelAndView(request, oops.getMessage());
 			}
 		}
 

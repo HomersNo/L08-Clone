@@ -76,7 +76,7 @@ public class RequestService {
 		Request saved;
 		Assert.notNull(tenantService.findByPrincipal());
 		long diff = request.getCheckOutDate().getTime() - request.getCheckInDate().getTime();
-		Assert.isTrue(request.getCheckInDate().before(request.getCheckOutDate()));
+		Assert.isTrue(request.getCheckInDate().before(request.getCheckOutDate()), "date.before.error");
 		//Checks if there is one day of difference between the check in and the checkout
 		Assert.isTrue((diff * 1.0 / (3600 * 1000 * 24)) >= 1.0);
 		saved = requestRepository.save(request);
@@ -185,10 +185,13 @@ public class RequestService {
 
 		unprocessedAverage = requestRepository.findAverageByPropertyWithoutInvoice();
 		aux = 0.0;
-		for (Double d : unprocessedAverage) {
-			aux += d;
+		if (unprocessedAverage != null) {
+			for (Double d : unprocessedAverage) {
+				aux += d;
+			}
+
+			result[1] = aux / unprocessedAverage.length;
 		}
-		result[1] = aux / unprocessedAverage.length;
 		return result;
 
 	}

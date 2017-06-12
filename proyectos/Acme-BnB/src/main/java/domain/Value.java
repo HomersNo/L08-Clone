@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {
 	"attribute_id", "property_id"
 }), indexes = {
-	@Index(columnList = "content"), @Index(columnList = "property_id"), @Index(columnList = "attribute_id")
+	@Index(columnList = "content")
 })
 public class Value extends DomainEntity {
 
