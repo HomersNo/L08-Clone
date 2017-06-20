@@ -20,7 +20,7 @@
 
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="systemConfigurations" requestURI="systemConfiguration/administrato/rdisplay.do" id="row">	 
+	name="systemConfigurations" requestURI="systemConfiguration/administrator/display.do" id="row">	 
 	<display:column>
 			<a href="systemConfiguration/administrator/edit.do?systemConfigurationId=${row.id}">
 				<spring:message	code="systemConfiguration.edit" />
