@@ -36,25 +36,25 @@ public class SocialIdentity extends DomainEntity {
 
 	@NotBlank
 	public String getNick() {
-		return nick;
+		return this.nick;
 	}
-	public void setNick(String nick) {
+	public void setNick(final String nick) {
 		this.nick = nick;
 	}
 	@NotBlank
 	public String getSocialNetworkName() {
-		return socialNetworkName;
+		return this.socialNetworkName;
 	}
-	public void setSocialNetworkName(String socialNetworkName) {
+	public void setSocialNetworkName(final String socialNetworkName) {
 		this.socialNetworkName = socialNetworkName;
 	}
 
 	@URL
 	@NotBlank
 	public String getSocialNetworkLink() {
-		return socialNetworkLink;
+		return this.socialNetworkLink;
 	}
-	public void setSocialNetworkLink(String socialNetworkLink) {
+	public void setSocialNetworkLink(final String socialNetworkLink) {
 		this.socialNetworkLink = socialNetworkLink;
 	}
 
@@ -68,9 +68,9 @@ public class SocialIdentity extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Actor getActor() {
-		return actor;
+		return this.actor;
 	}
-	public void setActor(Actor actor) {
+	public void setActor(final Actor actor) {
 		this.actor = actor;
 	}
 

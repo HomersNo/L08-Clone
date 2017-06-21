@@ -18,7 +18,7 @@ import domain.Lessor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestCreditCardService extends AbstractTest {
@@ -34,17 +34,17 @@ public class TestCreditCardService extends AbstractTest {
 	//Tests----------------------------
 	@Test
 	public void testCreate() {
-		authenticate("lessor1");
-		CreditCard creditCard = creditCardService.create();
+		this.authenticate("lessor1");
+		final CreditCard creditCard = this.creditCardService.create();
 		Assert.isTrue(creditCard != null);
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testDelete() {
-		authenticate("lessor1");
+		this.authenticate("lessor1");
 
-		CreditCard creditCard = creditCardService.create();
+		final CreditCard creditCard = this.creditCardService.create();
 		creditCard.setHolderName("Francis");
 		creditCard.setBrandName("VISA");
 		creditCard.setCreditCardNumber("378169103769185");
@@ -54,37 +54,38 @@ public class TestCreditCardService extends AbstractTest {
 
 		CreditCard saved;
 
-		saved = creditCardService.save(creditCard);
+		saved = this.creditCardService.save(creditCard);
 
-		creditCardService.delete(saved);
+		this.creditCardService.delete(saved);
 
-		Collection<CreditCard> allCreditCards = creditCardService.findAll();
+		final Collection<CreditCard> allCreditCards = this.creditCardService.findAll();
 		Assert.isTrue(!allCreditCards.contains(creditCard));
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSave() {
-		authenticate("lessor1");
-		Lessor lessor = lessorService.findByPrincipal();
-		CreditCard creditCard = creditCardService.create();
+		this.authenticate("lessor1");
+		final Lessor lessor = this.lessorService.findByPrincipal();
+		final CreditCard creditCard = this.creditCardService.create();
 		creditCard.setHolderName("Francis");
 		creditCard.setBrandName("VISA");
 		creditCard.setCreditCardNumber("378169103769185");
 		creditCard.setExpirationMonth(12);
 		creditCard.setExpirationYear(19);
 		creditCard.setCVV(842);
-		CreditCard saved = creditCardService.save(creditCard);
+
+		final CreditCard saved = this.creditCardService.save(creditCard);
 
 		Assert.isTrue(lessor.getCreditCard().equals(saved));
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSaveNegative() {
-		authenticate("lessor1");
+		this.authenticate("lessor1");
 
-		CreditCard creditCard = creditCardService.create();
+		final CreditCard creditCard = this.creditCardService.create();
 		creditCard.setHolderName(null);
 		creditCard.setBrandName("VISA");
 		creditCard.setCreditCardNumber("1424756987411236");
@@ -92,46 +93,46 @@ public class TestCreditCardService extends AbstractTest {
 		creditCard.setExpirationYear(16);
 		creditCard.setCVV(842);
 		try {
-			creditCardService.save(creditCard);
-		} catch (Exception e) {
+			this.creditCardService.save(creditCard);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSaveForRequest() {
-		authenticate("tenant1");
-		CreditCard creditCard = creditCardService.create();
+		this.authenticate("tenant1");
+		final CreditCard creditCard = this.creditCardService.create();
 		creditCard.setHolderName("Francis");
 		creditCard.setBrandName("VISA");
 		creditCard.setCreditCardNumber("378169103769185");
 		creditCard.setExpirationMonth(12);
 		creditCard.setExpirationYear(19);
 		creditCard.setCVV(842);
-		creditCardService.save(creditCard);
+		this.creditCardService.saveForRequest(creditCard);
 
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSaveForRequestNegative() {
-		authenticate("tenant1");
+		this.authenticate("tenant1");
 
-		CreditCard creditCard = creditCardService.create();
+		final CreditCard creditCard = this.creditCardService.create();
 		creditCard.setHolderName(null);
 		creditCard.setBrandName("VISA");
 		creditCard.setCreditCardNumber("378169103769185");
 		creditCard.setExpirationMonth(12);
 		creditCard.setExpirationYear(19);
 		creditCard.setCVV(842);
-		unauthenticate();
+		this.unauthenticate();
 		try {
-			creditCardService.save(creditCard);
-		} catch (Exception e) {
+			this.creditCardService.save(creditCard);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 }

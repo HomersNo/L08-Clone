@@ -15,7 +15,7 @@ import domain.Auditor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestAuditorService extends AbstractTest {
@@ -30,8 +30,8 @@ public class TestAuditorService extends AbstractTest {
 
 	@Test
 	public void testCreate() {
-		authenticate(null);
-		Auditor auditor = auditorService.create();
+		this.authenticate(null);
+		final Auditor auditor = this.auditorService.create();
 		Assert.isTrue(auditor.getSocialIdentities().isEmpty());
 		Assert.isTrue(auditor.getComments().isEmpty());
 		Assert.isTrue(auditor.getAudits().isEmpty());
@@ -40,16 +40,18 @@ public class TestAuditorService extends AbstractTest {
 
 	@Test
 	public void testSavePositive() {
-		authenticate(null);
-		Auditor auditor = auditorService.create();
+		this.authenticate("admin");
+		final Auditor auditor = this.auditorService.create();
 
 		auditor.setEmail("rgreg@hotmail.com");
 		auditor.setName("blae");
 		auditor.setSurname("miswe");
 		auditor.setPhone("1234");
+		auditor.setPicture("http://fseifs.com");
+		auditor.setCompanyName("hole");
 
-		Auditor saved = auditorService.save(auditor);
-		Assert.isTrue(auditorService.findAll().contains(saved));
+		final Auditor saved = this.auditorService.save(auditor);
+		Assert.isTrue(this.auditorService.findAll().contains(saved));
 	}
 
 	//		@Test

@@ -18,7 +18,7 @@ import domain.Property;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestAuditService extends AbstractTest {
@@ -35,80 +35,80 @@ public class TestAuditService extends AbstractTest {
 
 	@Test
 	public void testCreatePositive() {
-		authenticate("auditor1");
-		Audit audit = auditService.create();
+		this.authenticate("auditor1");
+		final Audit audit = this.auditService.create();
 		Assert.notNull(audit);
 		Assert.notNull(audit.getAuditor());
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSavePositive() {
-		authenticate("auditor1");
+		this.authenticate("auditor1");
 		Property property;
-		Audit audit = auditService.create();
-		property = propertyService.findAll().iterator().next();
+		final Audit audit = this.auditService.create();
+		property = this.propertyService.findAll().iterator().next();
 		audit.setProperty(property);
 		audit.setAttachments("http://enlace.com, http://enlace.es");
 		audit.setText("Texto");
 		audit.setDraft(true);
-		Audit saved = auditService.save(audit);
+		final Audit saved = this.auditService.save(audit);
 
-		Collection<Audit> allAudits = auditService.findAll();
+		final Collection<Audit> allAudits = this.auditService.findAll();
 
 		Assert.isTrue(allAudits.contains(saved));
-		unauthenticate();
+		this.unauthenticate();
 
 	}
 
 	@Test
 	public void testSaveNegative() {
-		Audit audit = auditService.create();
+		final Audit audit = this.auditService.create();
 		try {
-			auditService.save(audit);
-		} catch (Exception e) {
+			this.auditService.save(audit);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
 	}
 
 	@Test
 	public void testDeletePositive() {
-		authenticate("admin");
+		this.authenticate("auditor1");
 		Property property;
-		Audit audit = auditService.create();
-		property = propertyService.findAll().iterator().next();
+		final Audit audit = this.auditService.create();
+		property = this.propertyService.findAll().iterator().next();
 		audit.setProperty(property);
 		audit.setAttachments("http://enlace.com, http://enlace.es");
 		audit.setText("Texto");
 		audit.setDraft(true);
 
-		Audit saved = auditService.save(audit);
+		final Audit saved = this.auditService.save(audit);
 
-		auditService.delete(saved);
+		this.auditService.delete(saved);
 
-		Collection<Audit> allAudits = auditService.findAll();
+		final Collection<Audit> allAudits = this.auditService.findAll();
 
 		Assert.isTrue(!(allAudits.contains(saved)));
 
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testDeleteNegative() {
-		authenticate("auditor1");
-		Audit audit = auditService.create();
+		this.authenticate("auditor1");
+		final Audit audit = this.auditService.create();
 		Property property;
-		property = propertyService.findAll().iterator().next();
+		property = this.propertyService.findAll().iterator().next();
 		audit.setProperty(property);
 		audit.setAttachments("http://enlace.com, http://enlace.es");
 		audit.setText("Texto");
 		audit.setDraft(false);
-		Audit saved = auditService.save(audit);
+		final Audit saved = this.auditService.save(audit);
 		try {
-			auditService.delete(saved);
-		} catch (Throwable oops) {
+			this.auditService.delete(saved);
+		} catch (final Throwable oops) {
 
 		}
-		unauthenticate();
+		this.unauthenticate();
 	}
 }

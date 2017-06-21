@@ -15,7 +15,7 @@ import domain.Tenant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestTenantService extends AbstractTest {
@@ -30,8 +30,8 @@ public class TestTenantService extends AbstractTest {
 
 	@Test
 	public void testCreate() {
-		authenticate(null);
-		Tenant tenant = tenantService.create();
+		this.authenticate(null);
+		final Tenant tenant = this.tenantService.create();
 		Assert.isTrue(tenant.getSocialIdentities().isEmpty());
 		Assert.isTrue(tenant.getComments().isEmpty());
 		Assert.isTrue(tenant.getRequests().isEmpty());
@@ -41,16 +41,17 @@ public class TestTenantService extends AbstractTest {
 
 	@Test
 	public void testSavePositive() {
-		authenticate(null);
-		Tenant tenant = tenantService.create();
+		this.authenticate(null);
+		final Tenant tenant = this.tenantService.create();
 
 		tenant.setEmail("rgreg@hotmail.com");
 		tenant.setName("blae");
 		tenant.setSurname("miswe");
 		tenant.setPhone("1234");
+		tenant.setPicture("http://dfsdf.com");
 
-		Tenant saved = tenantService.save(tenant);
-		Assert.isTrue(tenantService.findAll().contains(saved));
+		final Tenant saved = this.tenantService.save(tenant);
+		Assert.isTrue(this.tenantService.findAll().contains(saved));
 	}
 
 	//		@Test

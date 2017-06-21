@@ -28,9 +28,9 @@ public class Value extends DomainEntity {
 
 	@NotBlank
 	public String getContent() {
-		return content;
+		return this.content;
 	}
-	public void setContent(String content) {
+	public void setContent(final String content) {
 		this.content = content;
 	}
 
@@ -44,18 +44,18 @@ public class Value extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Property getProperty() {
-		return property;
+		return this.property;
 	}
-	public void setProperty(Property property) {
+	public void setProperty(final Property property) {
 		this.property = property;
 	}
 
 	@Valid
 	@ManyToOne(optional = false)
 	public Attribute getAttribute() {
-		return attribute;
+		return this.attribute;
 	}
-	public void setAttribute(Attribute attribute) {
+	public void setAttribute(final Attribute attribute) {
 		this.attribute = attribute;
 	}
 

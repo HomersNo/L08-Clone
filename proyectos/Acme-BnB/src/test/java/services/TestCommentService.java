@@ -18,7 +18,7 @@ import domain.Lessor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestCommentService extends AbstractTest {
@@ -35,81 +35,81 @@ public class TestCommentService extends AbstractTest {
 
 	@Test
 	public void testCreatePositive() {
-		authenticate("lessor1");
-		Lessor lessor = lessorService.findByPrincipal();
-		Comment comment = commentService.create(lessor);
+		this.authenticate("lessor1");
+		final Lessor lessor = this.lessorService.findByPrincipal();
+		final Comment comment = this.commentService.create(lessor);
 		Assert.notNull(comment);
 		Assert.isTrue(comment.getActor().getClass().equals(lessor.getClass()));
 		Assert.isTrue(comment.getCommentable().getClass().equals(lessor.getClass()));
 
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSavePositive() {
-		authenticate("lessor1");
-		Lessor lessor = lessorService.findByPrincipal();
-		Comment comment = commentService.create(lessor);
+		this.authenticate("lessor1");
+		final Lessor lessor = this.lessorService.findByPrincipal();
+		final Comment comment = this.commentService.create(lessor);
 		comment.setText("Texto");
 		comment.setStars(4);
 		comment.setTitle("Title");
-		Comment saved = commentService.save(comment);
+		final Comment saved = this.commentService.save(comment);
 
-		Collection<Comment> allComments = commentService.findAll();
+		final Collection<Comment> allComments = this.commentService.findAll();
 
 		Assert.isTrue(allComments.contains(saved));
-		unauthenticate();
+		this.unauthenticate();
 
 	}
 
 	@Test
 	public void testSaveNegative() {
-		authenticate("lessor1");
-		Lessor lessor = lessorService.findByPrincipal();
-		unauthenticate();
+		this.authenticate("lessor1");
+		final Lessor lessor = this.lessorService.findByPrincipal();
+		this.unauthenticate();
 		try {
-			Comment comment = commentService.create(lessor);
-			commentService.save(comment);
-		} catch (Exception e) {
+			final Comment comment = this.commentService.create(lessor);
+			this.commentService.save(comment);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
 	}
 
 	@Test
 	public void testDeletePositive() {
-		authenticate("lessor1");
-		Lessor lessor = lessorService.findByPrincipal();
-		Comment comment = commentService.create(lessor);
+		this.authenticate("lessor1");
+		final Lessor lessor = this.lessorService.findByPrincipal();
+		final Comment comment = this.commentService.create(lessor);
 		comment.setText("Texto");
 		comment.setStars(4);
 		comment.setTitle("Title");
-		Comment saved = commentService.save(comment);
+		final Comment saved = this.commentService.save(comment);
 
-		commentService.delete(saved);
+		this.commentService.delete(saved);
 
-		Collection<Comment> allComments = commentService.findAll();
+		final Collection<Comment> allComments = this.commentService.findAll();
 
 		Assert.isTrue(!(allComments.contains(saved)));
 
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testDeleteNegative() {
-		authenticate("lessor1");
-		Lessor lessor = lessorService.findByPrincipal();
-		Comment comment = commentService.create(lessor);
+		this.authenticate("lessor1");
+		final Lessor lessor = this.lessorService.findByPrincipal();
+		final Comment comment = this.commentService.create(lessor);
 		comment.setText("Texto");
 		comment.setStars(4);
 		comment.setTitle("Title");
-		Comment saved = commentService.save(comment);
-		unauthenticate();
+		final Comment saved = this.commentService.save(comment);
+		this.unauthenticate();
 
 		try {
-			commentService.delete(saved);
-		} catch (Throwable oops) {
+			this.commentService.delete(saved);
+		} catch (final Throwable oops) {
 
 		}
-		unauthenticate();
+		this.unauthenticate();
 	}
 }

@@ -3,7 +3,7 @@
 <!-- 
  * datasource.xml
  *
- * Copyright (C) 2016 Universidad de Sevilla
+ * Copyright (C) 2017 Universidad de Sevilla
  * 
  * The use of this project is hereby constrained to the conditions of the 
  * TDG Licence, a copy of which you may download from 
@@ -20,11 +20,13 @@
 
 	<import resource="config/data.xml" />
 
-	<tx:annotation-driven transaction-manager="transactionManager"
-		proxy-target-class="true" mode="proxy" />
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" mode="proxy" />
+	
+	<bean id="persistenceProvider" class="org.hibernate.jpa.HibernatePersistenceProvider" />	
 
-	<bean id="entityManagerFactory"
+	<bean id="entityManagerFactory" 
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceProvider" ref="persistenceProvider" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="persistenceUnitName" ref="persistenceUnit" />
@@ -34,17 +36,14 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 		<property name="dataSource" ref="dataSource" />
-		<property name="globalRollbackOnParticipationFailure" value="true" />
 	</bean>
 
-	<bean id="jpaVendorAdapter"
-		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="databasePlatform" ref="sqlDialect" />
 	</bean>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />		
 	</bean>
 	
 	<bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator" />

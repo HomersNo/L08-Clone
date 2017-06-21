@@ -18,7 +18,7 @@ import domain.Tenant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestFinderService extends AbstractTest {
@@ -34,69 +34,61 @@ public class TestFinderService extends AbstractTest {
 	//Tests----------------------------
 	@Test
 	public void testCreate() {
-		authenticate("tenant1");
+		this.authenticate("tenant1");
 		Tenant tenant;
-		Finder finder = finderService.create();
-		tenant = tenantService.findByPrincipal();
+		final Finder finder = this.finderService.create();
+		tenant = this.tenantService.findByPrincipal();
 		Assert.isTrue(finder != null);
 		Assert.isTrue(finder.getTenant().equals(tenant));
 		Assert.isTrue(finder.getCache().isEmpty());
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testDelete() {
-		authenticate("tenant1");
+		this.authenticate("tenant1");
+		final Tenant tenant = this.tenantService.findByPrincipal();
+		final Finder finder = this.finderService.findByTenant(tenant);
 
-		Finder finder = finderService.create();
-		finder.setDestinationCity("Cevilla");
-		finder.setKeyWord("calor");
-		finder.setMaximumPrice(120.0);
-		finder.setMinimumPrice(20.0);
+		this.finderService.delete(finder);
 
-		Finder saved;
-
-		saved = finderService.save(finder);
-
-		finderService.delete(saved);
-
-		Collection<Finder> allFinders = finderService.findAll();
+		final Collection<Finder> allFinders = this.finderService.findAll();
 		Assert.isTrue(!allFinders.contains(finder));
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSave() {
-		authenticate("tenant1");
-		Finder finder = finderService.create();
-		finder.setDestinationCity("Cevilla");
+		this.authenticate("tenant1");
+		final Finder finder = this.finderService.create();
+		finder.setDestinationCity("Sevilla");
 		finder.setKeyWord("calor");
 		finder.setMaximumPrice(120.0);
 		finder.setMinimumPrice(20.0);
 
-		Finder saved = finderService.save(finder);
+		final Finder saved = this.finderService.save(finder);
 
 		Assert.notEmpty(saved.getCache());
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSaveNegative() {
-		authenticate("tenant1");
+		this.authenticate("tenant1");
 
-		Finder finder = finderService.create();
+		final Finder finder = this.finderService.create();
 		finder.setDestinationCity("Cevilla");
 		finder.setKeyWord("calor");
 		finder.setMaximumPrice(120.0);
 		finder.setMinimumPrice(20.0);
 
-		unauthenticate();
+		this.unauthenticate();
 		try {
-			finderService.save(finder);
-		} catch (Exception e) {
+			this.finderService.save(finder);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 }

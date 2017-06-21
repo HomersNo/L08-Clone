@@ -15,7 +15,7 @@ import domain.Invoice;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestInvoiceService extends AbstractTest {
@@ -34,39 +34,39 @@ public class TestInvoiceService extends AbstractTest {
 	//Tests----------------------------
 	@Test
 	public void testCreate() {
-		authenticate("tenant1");
+		this.authenticate("tenant3");
 
-		Invoice invoice = invoiceService.create(60);
+		final Invoice invoice = this.invoiceService.create(60);
 		Assert.isTrue(invoice != null);
 		Assert.notNull(invoice.getCreditCardCopy());
 		Assert.notNull(invoice.getRequest());
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSave() {
-		authenticate("tenant1");
-		Invoice invoice = invoiceService.create(60);
+		this.authenticate("tenant3");
+		final Invoice invoice = this.invoiceService.create(60);
 
-		Invoice saved = invoiceService.save(invoice);
+		final Invoice saved = this.invoiceService.save(invoice);
 
 		Assert.isTrue(saved.getId() != 0);
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testSaveNegative() {
-		authenticate("tenant1");
+		this.authenticate("tenant1");
 
-		Invoice invoice = invoiceService.create(55);
+		final Invoice invoice = this.invoiceService.create(55);
 
-		unauthenticate();
+		this.unauthenticate();
 		try {
-			invoiceService.save(invoice);
-		} catch (Exception e) {
+			this.invoiceService.save(invoice);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 }

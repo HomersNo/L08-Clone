@@ -41,40 +41,40 @@ public class Property extends DomainEntity {
 
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	@NotBlank
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
 	@Min(0)
 	public double getRate() {
-		return rate;
+		return this.rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(final double rate) {
 		this.rate = rate;
 	}
 
 	@NotBlank
 	public String getAddress() {
-		return address;
+		return this.address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(final String address) {
 		this.address = address;
 	}
 
 	public boolean getDeleted() {
-		return deleted;
+		return this.deleted;
 	}
-	public void setDeleted(boolean deleted) {
+	public void setDeleted(final boolean deleted) {
 		this.deleted = deleted;
 	}
 
@@ -90,36 +90,36 @@ public class Property extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Lessor getLessor() {
-		return lessor;
+		return this.lessor;
 	}
-	public void setLessor(Lessor lessor) {
+	public void setLessor(final Lessor lessor) {
 		this.lessor = lessor;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "property", cascade = CascadeType.REMOVE)
 	public Collection<Request> getRequests() {
-		return requests;
+		return this.requests;
 	}
-	public void setRequests(Collection<Request> requests) {
+	public void setRequests(final Collection<Request> requests) {
 		this.requests = requests;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "property", cascade = CascadeType.REMOVE)
 	public Collection<Audit> getAudits() {
-		return audits;
+		return this.audits;
 	}
-	public void setAudits(Collection<Audit> audits) {
+	public void setAudits(final Collection<Audit> audits) {
 		this.audits = audits;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "property", cascade = CascadeType.REMOVE)
 	public Collection<Value> getValues() {
-		return values;
+		return this.values;
 	}
-	public void setValues(Collection<Value> values) {
+	public void setValues(final Collection<Value> values) {
 		this.values = values;
 	}
 

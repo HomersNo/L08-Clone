@@ -17,7 +17,7 @@ import domain.Attribute;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestAttributeService extends AbstractTest {
@@ -31,7 +31,7 @@ public class TestAttributeService extends AbstractTest {
 
 	@Test
 	public void testCreatePositive() {
-		Attribute attribute = attributeService.create();
+		final Attribute attribute = this.attributeService.create();
 		Assert.notNull(attribute);
 		Assert.isTrue(attribute.getValues().isEmpty());
 
@@ -39,59 +39,60 @@ public class TestAttributeService extends AbstractTest {
 
 	@Test
 	public void testSavePositive() {
-		authenticate("admin");
-		Attribute attribute = attributeService.create();
+		this.authenticate("admin");
+		final Attribute attribute = this.attributeService.create();
 
 		attribute.setAttributeName("SEÑORA");
 
-		Attribute saved = attributeService.save(attribute);
+		final Attribute saved = this.attributeService.save(attribute);
 
-		Collection<Attribute> allAttributes = attributeService.findAll();
+		final Collection<Attribute> allAttributes = this.attributeService.findAll();
 
 		Assert.isTrue(allAttributes.contains(saved));
-		unauthenticate();
+		this.unauthenticate();
 
 	}
 
 	@Test
 	public void testSaveNegative() {
-		Attribute attribute = attributeService.create();
+		final Attribute attribute = this.attributeService.create();
 		try {
-			attributeService.save(attribute);
-		} catch (Exception e) {
+			this.attributeService.save(attribute);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
 	}
 
 	@Test
 	public void testDeletePositive() {
-		authenticate("admin");
-		Attribute attribute = attributeService.create();
+		this.authenticate("admin");
+		final Attribute attribute = this.attributeService.create();
 
 		attribute.setAttributeName("apetecán");
-		Attribute saved = attributeService.save(attribute);
+		final Attribute saved = this.attributeService.save(attribute);
 
-		attributeService.delete(saved);
+		this.attributeService.delete(saved);
 
-		Collection<Attribute> allAttributes = attributeService.findAll();
+		final Collection<Attribute> allAttributes = this.attributeService.findAll();
 
 		Assert.isTrue(!(allAttributes.contains(saved)));
 
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testDeleteNegative() {
-
-		Attribute attribute = attributeService.create();
+		this.authenticate("admin");
+		final Attribute attribute = this.attributeService.create();
 
 		attribute.setAttributeName("apetecán");
-		Attribute saved = attributeService.save(attribute);
+		final Attribute saved = this.attributeService.save(attribute);
 		try {
-			attributeService.delete(saved);
-		} catch (Throwable oops) {
+			this.attributeService.delete(saved);
+		} catch (final Throwable oops) {
 
 		}
+		this.unauthenticate();
 
 	}
 

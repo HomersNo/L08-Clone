@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(indexes = {
-	@Index(columnList = "status"), @Index(columnList = "tenant_id"),
+	@Index(columnList = "status"), @Index(columnList = "tenant_id")
 })
 public class Request extends DomainEntity {
 
@@ -45,9 +45,9 @@ public class Request extends DomainEntity {
 	@Pattern(regexp = "^PENDING|ACCEPTED|DENIED$")
 	@NotBlank
 	public String getStatus() {
-		return status;
+		return this.status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 
@@ -55,9 +55,9 @@ public class Request extends DomainEntity {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getCheckInDate() {
-		return checkInDate;
+		return this.checkInDate;
 	}
-	public void setCheckInDate(Date checkInDate) {
+	public void setCheckInDate(final Date checkInDate) {
 		this.checkInDate = checkInDate;
 	}
 
@@ -65,17 +65,17 @@ public class Request extends DomainEntity {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getCheckOutDate() {
-		return checkOutDate;
+		return this.checkOutDate;
 	}
-	public void setCheckOutDate(Date checkOutDate) {
+	public void setCheckOutDate(final Date checkOutDate) {
 		this.checkOutDate = checkOutDate;
 	}
 
 	@NotNull
 	public boolean getSmoker() {
-		return smoker;
+		return this.smoker;
 	}
-	public void setSmoker(boolean smoker) {
+	public void setSmoker(final boolean smoker) {
 		this.smoker = smoker;
 	}
 
@@ -91,36 +91,36 @@ public class Request extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Tenant getTenant() {
-		return tenant;
+		return this.tenant;
 	}
-	public void setTenant(Tenant tenant) {
+	public void setTenant(final Tenant tenant) {
 		this.tenant = tenant;
 	}
 
 	@Valid
 	@ManyToOne(optional = false)
 	public Property getProperty() {
-		return property;
+		return this.property;
 	}
-	public void setProperty(Property property) {
+	public void setProperty(final Property property) {
 		this.property = property;
 	}
 
 	@Valid
 	@OneToOne(optional = true, mappedBy = "request")
 	public Invoice getInvoice() {
-		return invoice;
+		return this.invoice;
 	}
-	public void setInvoice(Invoice invoice) {
+	public void setInvoice(final Invoice invoice) {
 		this.invoice = invoice;
 	}
 
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL)
 	public CreditCard getCreditCard() {
-		return creditCard;
+		return this.creditCard;
 	}
-	public void setCreditCard(CreditCard creditCard) {
+	public void setCreditCard(final CreditCard creditCard) {
 		this.creditCard = creditCard;
 	}
 

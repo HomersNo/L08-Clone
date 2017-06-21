@@ -22,7 +22,7 @@ import domain.Request;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestRequestService extends AbstractTest {
@@ -50,9 +50,9 @@ public class TestRequestService extends AbstractTest {
 	@Test
 	public void testCreatePositive() {
 		super.authenticate("tenant1");
-		Property property = propertyService.findAll().iterator().next();
-		Request request = requestService.create(property);
-		Assert.isTrue(tenantService.findByPrincipal().equals(request.getTenant()));
+		final Property property = this.propertyService.findAll().iterator().next();
+		final Request request = this.requestService.create(property);
+		Assert.isTrue(this.tenantService.findByPrincipal().equals(request.getTenant()));
 		Assert.notNull(request.getProperty());
 		Assert.notNull(request.getStatus());
 
@@ -60,21 +60,21 @@ public class TestRequestService extends AbstractTest {
 
 	@Test
 	public void testSavePositive() {
-		authenticate("tenant1");
-		Property property = propertyService.findAll().iterator().next();
-		Request request = requestService.create(property);
+		this.authenticate("tenant1");
+		final Property property = this.propertyService.findAll().iterator().next();
+		final Request request = this.requestService.create(property);
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date checkin = null;
 		Date checkout = null;
 		try {
 			checkin = formatter.parse("14/12/2017");
 			checkout = formatter.parse("16/12/2017");
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 
-		CreditCard creditCard = creditCardService.create();
+		final CreditCard creditCard = this.creditCardService.create();
 
 		creditCard.setBrandName("Brand");
 		creditCard.setCreditCardNumber("378169103769185");
@@ -83,15 +83,15 @@ public class TestRequestService extends AbstractTest {
 		creditCard.setExpirationYear(17);
 		creditCard.setHolderName("Pepe palotes");
 
-		CreditCard savedcc = creditCardService.saveForRequest(creditCard);
+		final CreditCard savedcc = this.creditCardService.saveForRequest(creditCard);
 
 		request.setCheckInDate(checkin);
 		request.setCheckOutDate(checkout);
 		request.setSmoker(true);
 		request.setCreditCard(savedcc);
-		Request saved = requestService.save(request);
+		final Request saved = this.requestService.save(request);
 
-		Collection<Request> allRequests = requestService.findAll();
+		final Collection<Request> allRequests = this.requestService.findAll();
 
 		Assert.isTrue(allRequests.contains(saved));
 
@@ -99,21 +99,21 @@ public class TestRequestService extends AbstractTest {
 
 	@Test
 	public void testSaveNegative() {
-		authenticate("lessor1");
-		Property property = propertyService.findAll().iterator().next();
-		Request request = requestService.create(property);
+		this.authenticate("lessor1");
+		final Property property = this.propertyService.findAll().iterator().next();
+		final Request request = this.requestService.create(property);
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date checkin = null;
 		Date checkout = null;
 		try {
 			checkin = formatter.parse("14/12/2017");
 			checkout = formatter.parse("16/12/2017");
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 
-		CreditCard creditCard = creditCardService.create();
+		final CreditCard creditCard = this.creditCardService.create();
 
 		creditCard.setBrandName("Brand");
 		creditCard.setCreditCardNumber("378169103769185");
@@ -122,46 +122,46 @@ public class TestRequestService extends AbstractTest {
 		creditCard.setExpirationYear(17);
 		creditCard.setHolderName("Pepe palotes");
 		try {
-			CreditCard savedcc = creditCardService.saveForRequest(creditCard);
+			final CreditCard savedcc = this.creditCardService.saveForRequest(creditCard);
 
 			request.setCheckInDate(checkin);
 			request.setCheckOutDate(checkout);
 			request.setSmoker(true);
 			request.setCreditCard(savedcc);
-			Request saved = requestService.save(request);
+			final Request saved = this.requestService.save(request);
 
-			Collection<Request> allRequests = requestService.findAll();
+			final Collection<Request> allRequests = this.requestService.findAll();
 
 			Assert.isTrue(allRequests.contains(saved));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 
 		}
 	}
 
 	@Test
 	public void testAccept() {
-		authenticate("lessor1");
+		this.authenticate("lessor1");
 
-		Request request = requestService.findOne(59);
+		final Request request = this.requestService.findOne(59);
 
-		Request saved = requestService.accept(request);
+		final Request saved = this.requestService.accept(request);
 
 		Assert.isTrue(saved.getStatus() == "ACCEPTED");
 
-		unauthenticate();
+		this.unauthenticate();
 	}
 
 	@Test
 	public void testDeny() {
-		authenticate("lessor1");
+		this.authenticate("lessor1");
 
-		Request request = requestService.findOne(59);
+		final Request request = this.requestService.findOne(59);
 
-		Request saved = requestService.deny(request);
+		final Request saved = this.requestService.deny(request);
 
 		Assert.isTrue(saved.getStatus() == "DENIED");
 
-		unauthenticate();
+		this.unauthenticate();
 
 	}
 

@@ -7,10 +7,8 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -22,9 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(indexes = {
-	@Index(columnList = "tenant_id")
-})
 public class Finder extends DomainEntity {
 
 	//Constructor
@@ -45,32 +40,32 @@ public class Finder extends DomainEntity {
 
 	@NotBlank
 	public String getDestinationCity() {
-		return destinationCity;
+		return this.destinationCity;
 	}
-	public void setDestinationCity(String destinationCity) {
+	public void setDestinationCity(final String destinationCity) {
 		this.destinationCity = destinationCity;
 	}
 
 	public Double getMinimumPrice() {
-		return minimumPrice;
+		return this.minimumPrice;
 	}
-	public void setMinimumPrice(Double minimumPrice) {
+	public void setMinimumPrice(final Double minimumPrice) {
 		this.minimumPrice = minimumPrice;
 	}
 
 	public Double getMaximumPrice() {
-		return maximumPrice;
+		return this.maximumPrice;
 	}
-	public void setMaximumPrice(Double maximumPrice) {
+	public void setMaximumPrice(final Double maximumPrice) {
 		this.maximumPrice = maximumPrice;
 	}
 
 	public String getKeyWord() {
 
-		return keyWord;
+		return this.keyWord;
 	}
 
-	public void setKeyWord(String keyWord) {
+	public void setKeyWord(final String keyWord) {
 
 		this.keyWord = keyWord;
 	}
@@ -79,9 +74,9 @@ public class Finder extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getLastUpdate() {
-		return lastUpdate;
+		return this.lastUpdate;
 	}
-	public void setLastUpdate(Date lastUpdate) {
+	public void setLastUpdate(final Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 
@@ -95,9 +90,9 @@ public class Finder extends DomainEntity {
 	@Valid
 	@OneToOne(optional = false)
 	public Tenant getTenant() {
-		return tenant;
+		return this.tenant;
 	}
-	public void setTenant(Tenant tenant) {
+	public void setTenant(final Tenant tenant) {
 		this.tenant = tenant;
 	}
 
@@ -105,9 +100,9 @@ public class Finder extends DomainEntity {
 	@NotNull
 	@ManyToMany()
 	public Collection<Property> getCache() {
-		return cache;
+		return this.cache;
 	}
-	public void setCache(Collection<Property> cache) {
+	public void setCache(final Collection<Property> cache) {
 		this.cache = cache;
 
 	}

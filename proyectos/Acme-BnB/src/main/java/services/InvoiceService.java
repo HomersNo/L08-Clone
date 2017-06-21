@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import repositories.InvoiceRepository;
 import security.LoginService;
 import security.UserAccount;
+import domain.CreditCard;
 import domain.Invoice;
 import domain.Request;
 
@@ -36,107 +37,110 @@ public class InvoiceService {
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
 
+	@Autowired
+	private CreditCardService			creditCardService;
+
 
 	//Basic CRUD methods-------------------
 
-	public Invoice create(int requestId) {
-		Request request = requestService.findOne(requestId);
+	public Invoice create(final int requestId) {
+		final Request request = this.requestService.findOne(requestId);
 		Invoice created;
 		created = new Invoice();
 		created.setRequest(request);
 		created.setMoment(new Date(System.currentTimeMillis() - 1));
-		String VATNumber = systemConfigurationService.findMain().getVATNumber();
+		final String VATNumber = this.systemConfigurationService.findMain().getVATNumber();
 		created.setVATNumber(VATNumber);
+		final CreditCard copy = this.creditCardService.create(request.getCreditCard());
+		final CreditCard saved = this.creditCardService.saveForRequest(copy);
+		created.setCreditCardCopy(saved);
 		return created;
 	}
 
-	public Invoice findOne(int invoiceId) {
+	public Invoice findOne(final int invoiceId) {
 
 		Assert.isTrue(invoiceId != 0);
 		Invoice retrieved;
-		retrieved = invoiceRepository.findOne(invoiceId);
+		retrieved = this.invoiceRepository.findOne(invoiceId);
 		Assert.isTrue(this.checkPrincipal(retrieved));
 		return retrieved;
 	}
 
-	public Invoice save(Invoice invoice) {
+	public Invoice save(final Invoice invoice) {
 
 		Assert.notNull(invoice);
-		Assert.isTrue(checkPrincipal(invoice));
+		Assert.isTrue(this.checkPrincipal(invoice));
 
 		String name;
 		String surname;
 		String email;
 		String phone;
 
-		name = tenantService.findByPrincipal().getName();
-		surname = tenantService.findByPrincipal().getSurname();
-		email = tenantService.findByPrincipal().getEmail();
-		phone = tenantService.findByPrincipal().getPhone();
+		name = this.tenantService.findByPrincipal().getName();
+		surname = this.tenantService.findByPrincipal().getSurname();
+		email = this.tenantService.findByPrincipal().getEmail();
+		phone = this.tenantService.findByPrincipal().getPhone();
 		invoice.setTenantInformation(name + ", " + surname + ", " + email + ", " + phone);
 
-		Request request = invoice.getRequest();
-		Date in = request.getCheckInDate();
-		Date out = request.getCheckOutDate();
+		final Request request = invoice.getRequest();
+		final Date in = request.getCheckInDate();
+		final Date out = request.getCheckOutDate();
 
 		invoice.setDetails(in.toString() + "-" + out.toString());
 
-		Double days = (double) ((out.getTime() - in.getTime()) / 150000);
-		Double totalAmount = invoice.getRequest().getProperty().getRate() * days;
+		final Double days = (double) ((out.getTime() - in.getTime()) / 150000);
+		final Double totalAmount = invoice.getRequest().getProperty().getRate() * days;
 		invoice.setTotalAmount(totalAmount);
 
-		Invoice saved = invoiceRepository.save(invoice);
+		final Invoice saved = this.invoiceRepository.save(invoice);
 		return saved;
 
 	}
 
-	public void delete(Invoice invoice) {
+	public void delete(final Invoice invoice) {
 		Assert.notNull(invoice);
-		Assert.isTrue(checkPrincipal(invoice));
+		Assert.isTrue(this.checkPrincipal(invoice));
 		Assert.isTrue(invoice.getId() != 0);
-		Assert.isTrue(invoiceRepository.exists(invoice.getId()));
-		invoiceRepository.delete(invoice);
+		Assert.isTrue(this.invoiceRepository.exists(invoice.getId()));
+		this.invoiceRepository.delete(invoice);
 	}
 
 	//Auxiliary methods
-	public Boolean checkPrincipal(Invoice e) {
+	public Boolean checkPrincipal(final Invoice e) {
 
 		Boolean result = false;
-		UserAccount tenantUser = e.getRequest().getTenant().getUserAccount();
-		UserAccount principal = LoginService.getPrincipal();
-		if (tenantUser.equals(principal)) {
+		final UserAccount tenantUser = e.getRequest().getTenant().getUserAccount();
+		final UserAccount principal = LoginService.getPrincipal();
+		if (tenantUser.equals(principal))
 			result = true;
-		}
 		return result;
 
 	}
 
 	//Our other bussiness methods
 	public Collection<Invoice> findAll() {
-		return invoiceRepository.findAll();
+		return this.invoiceRepository.findAll();
 	}
 
 	public Double[] findAvgMinMaxPerTenant() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Double> unprocessedInvoices = invoiceRepository.findAvgMinMaxPerTenant();
-		Double[] result = {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Double> unprocessedInvoices = this.invoiceRepository.findAvgMinMaxPerTenant();
+		final Double[] result = {
 			0.0, 0.0, 0.0
 		};
-		boolean first = true;
+		final boolean first = true;
 		Double aux = 0.0;
-		for (Double d : unprocessedInvoices) {
+		for (final Double d : unprocessedInvoices) {
 			aux += d;
 			if (first) {
 				result[0] = d;
 				result[1] = d;
 				result[2] = d;
 			} else {
-				if (d < result[1]) {
+				if (d < result[1])
 					result[1] = d;
-				}
-				if (d > result[2]) {
+				if (d > result[2])
 					result[2] = d;
-				}
 			}
 		}
 		result[0] /= unprocessedInvoices.size();
@@ -144,8 +148,8 @@ public class InvoiceService {
 	}
 
 	public Double findTotalMoneyDue() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Double result = invoiceRepository.findTotalMoneyDue();
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Double result = this.invoiceRepository.findTotalMoneyDue();
 		return result;
 	}
 }

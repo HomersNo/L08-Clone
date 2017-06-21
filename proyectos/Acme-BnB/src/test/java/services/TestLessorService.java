@@ -15,7 +15,7 @@ import domain.Lessor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestLessorService extends AbstractTest {
@@ -30,8 +30,8 @@ public class TestLessorService extends AbstractTest {
 
 	@Test
 	public void testCreate() {
-		authenticate(null);
-		Lessor lessor = lessorService.create();
+		this.authenticate(null);
+		final Lessor lessor = this.lessorService.create();
 		Assert.isTrue(lessor.getSocialIdentities().isEmpty());
 		Assert.isTrue(lessor.getComments().isEmpty());
 		Assert.isNull(lessor.getCreditCard());
@@ -41,16 +41,17 @@ public class TestLessorService extends AbstractTest {
 
 	@Test
 	public void testSavePositive() {
-		authenticate(null);
-		Lessor lessor = lessorService.create();
+		this.authenticate(null);
+		final Lessor lessor = this.lessorService.create();
 
 		lessor.setEmail("rgreg@hotmail.com");
 		lessor.setName("blae");
 		lessor.setSurname("miswe");
 		lessor.setPhone("1234");
+		lessor.setPicture("http://www.asdasd.com");
 
-		Lessor saved = lessorService.save(lessor);
-		Assert.isTrue(lessorService.findAll().contains(saved));
+		final Lessor saved = this.lessorService.register(lessor);
+		Assert.isTrue(this.lessorService.findAll().contains(saved));
 	}
 
 	//		@Test

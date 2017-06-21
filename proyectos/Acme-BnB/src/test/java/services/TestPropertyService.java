@@ -17,7 +17,7 @@ import domain.Property;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class TestPropertyService extends AbstractTest {
@@ -36,8 +36,8 @@ public class TestPropertyService extends AbstractTest {
 	@Test
 	public void testCreatePositive() {
 		super.authenticate("lessor1");
-		Property property = propertyService.create();
-		Assert.isTrue(lessorService.findByPrincipal().equals(property.getLessor()));
+		final Property property = this.propertyService.create();
+		Assert.isTrue(this.lessorService.findByPrincipal().equals(property.getLessor()));
 		Assert.notNull(property.getAudits());
 		Assert.notNull(property.getRequests());
 		Assert.notNull(property.getValues());
@@ -46,16 +46,16 @@ public class TestPropertyService extends AbstractTest {
 
 	@Test
 	public void testSavePositive() {
-		authenticate("lessor1");
-		Property property = propertyService.create();
+		this.authenticate("lessor1");
+		final Property property = this.propertyService.create();
 
 		property.setAddress("Direccion");
 		property.setDescription("Description");
 		property.setName("name");
 		property.setRate(5.2);
-		Property saved = propertyService.save(property);
+		final Property saved = this.propertyService.save(property);
 
-		Collection<Property> allPropertys = propertyService.findAll();
+		final Collection<Property> allPropertys = this.propertyService.findAll();
 
 		Assert.isTrue(allPropertys.contains(saved));
 
@@ -63,11 +63,11 @@ public class TestPropertyService extends AbstractTest {
 
 	@Test
 	public void testSaveNegative() {
-		super.authenticate("user1");
-		Property property = propertyService.create();
+		this.authenticate("lessor1");
+		final Property property = this.propertyService.create();
 		try {
-			propertyService.save(property);
-		} catch (Exception e) {
+			this.propertyService.save(property);
+		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
 
@@ -75,39 +75,42 @@ public class TestPropertyService extends AbstractTest {
 
 	@Test
 	public void testDeletePositive() {
-		authenticate("lessor1");
+		this.authenticate("lessor1");
 
-		Property property = propertyService.create();
+		final Property property = this.propertyService.create();
 
 		property.setAddress("Direccion");
 		property.setDescription("Description");
 		property.setName("name");
 		property.setRate(5.2);
-		Property saved = propertyService.save(property);
+		final Property saved = this.propertyService.save(property);
 
-		propertyService.delete(saved);
+		this.propertyService.delete(saved);
 
-		Collection<Property> allPropertys = propertyService.findAll();
+		final Collection<Property> allPropertys = this.propertyService.findAll();
 
-		Assert.isTrue(!allPropertys.contains(saved));
+		Assert.isTrue(allPropertys.contains(saved));
+		Assert.isTrue(saved.getDeleted());
+
+		this.unauthenticate();
 
 	}
 
 	@Test
 	public void testDeleteNegative() {
-		authenticate("lessor1");
+		this.authenticate("lessor1");
 
-		Property property = propertyService.create();
+		final Property property = this.propertyService.create();
 
 		property.setAddress("Direccion");
 		property.setDescription("Description");
 		property.setName("name");
 		property.setRate(5.2);
-		Property saved = propertyService.save(property);
+		final Property saved = this.propertyService.save(property);
 
 		try {
-			propertyService.delete(saved);
-		} catch (Exception e) {
+			this.propertyService.delete(saved);
+		} catch (final Exception e) {
 
 		}
 

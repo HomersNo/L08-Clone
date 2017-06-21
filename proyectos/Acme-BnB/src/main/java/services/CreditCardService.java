@@ -46,60 +46,60 @@ public class CreditCardService {
 		return result;
 	}
 
-	public CreditCard findOne(int creditCardId) {
+	public CreditCard findOne(final int creditCardId) {
 		Assert.isTrue(creditCardId != 0);
 
 		CreditCard result;
 
-		result = creditCardRepository.findOne(creditCardId);
+		result = this.creditCardRepository.findOne(creditCardId);
 		Assert.notNull(result);
 
 		return result;
 	}
 
-	public CreditCard save(CreditCard creditCard) {
+	public CreditCard save(final CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		CreditCard result;
 		Lessor lessor;
-		Assert.isTrue(checkCCNumber(creditCard.getCreditCardNumber()));
-		Assert.isTrue(expirationDate(creditCard));
+		Assert.isTrue(this.checkCCNumber(creditCard.getCreditCardNumber()));
+		Assert.isTrue(this.expirationDate(creditCard));
 
-		result = creditCardRepository.save(creditCard);
+		result = this.creditCardRepository.save(creditCard);
 
-		lessor = lessorService.findByPrincipal();
-		lessor.setCreditCard(creditCard);
-		lessorService.save(lessor);
+		lessor = this.lessorService.findByPrincipal();
+		lessor.setCreditCard(result);
+		this.lessorService.save(lessor);
 		return result;
 	}
 
-	public CreditCard saveForRequest(CreditCard creditCard) {
+	public CreditCard saveForRequest(final CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		CreditCard result;
-		Assert.isTrue(checkCCNumber(creditCard.getCreditCardNumber()));
-		Assert.isTrue(expirationDate(creditCard));
-		Assert.notNull(tenantService.findByPrincipal());
-		result = creditCardRepository.save(creditCard);
+		Assert.isTrue(this.checkCCNumber(creditCard.getCreditCardNumber()));
+		Assert.isTrue(this.expirationDate(creditCard));
+		Assert.notNull(this.tenantService.findByPrincipal());
+		result = this.creditCardRepository.save(creditCard);
 
 		return result;
 	}
 
-	public void delete(CreditCard creditCard) {
+	public void delete(final CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		Assert.isTrue(creditCard.getId() != 0);
-		Assert.isTrue(creditCardRepository.exists(creditCard.getId()));
+		Assert.isTrue(this.creditCardRepository.exists(creditCard.getId()));
 		Lessor lessor;
-		lessor = lessorService.findByPrincipal();
+		lessor = this.lessorService.findByPrincipal();
 
 		Assert.notNull(lessor);
 
 		lessor.setCreditCard(null);
-		lessorService.save(lessor);
+		this.lessorService.save(lessor);
 
-		creditCardRepository.delete(creditCard);
+		this.creditCardRepository.delete(creditCard);
 	}
 	// Auxiliary Methods
 
-	public String trimCreditNumber(CreditCard creditCard) {
+	public String trimCreditNumber(final CreditCard creditCard) {
 		String result;
 		String asterisks;
 		String last4;
@@ -112,16 +112,15 @@ public class CreditCardService {
 	}
 
 	//Luhn's Algorithm
-	public boolean checkCCNumber(String ccNumber) {
+	public boolean checkCCNumber(final String ccNumber) {
 		int sum = 0;
 		boolean alternate = false;
 		for (int i = ccNumber.length() - 1; i >= 0; i--) {
 			int n = Integer.parseInt(ccNumber.substring(i, i + 1));
 			if (alternate) {
 				n *= 2;
-				if (n > 9) {
+				if (n > 9)
 					n = (n % 10) + 1;
-				}
 			}
 			sum += n;
 			alternate = !alternate;
@@ -129,28 +128,26 @@ public class CreditCardService {
 		return (sum % 10 == 0);
 	}
 
-	public boolean expirationDate(CreditCard creditCard) {
+	public boolean expirationDate(final CreditCard creditCard) {
 		boolean res = false;
-		Calendar moment = Calendar.getInstance();
+		final Calendar moment = Calendar.getInstance();
 		if ((2000 + creditCard.getExpirationYear()) == moment.get(Calendar.YEAR)) {
-			if (creditCard.getExpirationMonth() > moment.get(Calendar.MONTH)) {
+			if (creditCard.getExpirationMonth() > moment.get(Calendar.MONTH))
 				res = true;
-			} else if (creditCard.getExpirationMonth() == moment.get(Calendar.MONTH)) {
+			else if (creditCard.getExpirationMonth() == moment.get(Calendar.MONTH))
 				if (moment.get(Calendar.DAY_OF_MONTH) < 21)
 					res = true;
-			}
-		} else if ((2000 + creditCard.getExpirationYear()) > moment.get(Calendar.YEAR)) {
+		} else if ((2000 + creditCard.getExpirationYear()) > moment.get(Calendar.YEAR))
 			res = true;
-		}
 		return res;
 	}
 
 	public CreditCard findByPrincipal() {
 		CreditCard result;
 		Lessor lessor;
-		lessor = lessorService.findByPrincipal();
+		lessor = this.lessorService.findByPrincipal();
 		if (lessor.getCreditCard() == null)
-			result = create();
+			result = this.create();
 		else
 			result = lessor.getCreditCard();
 		return result;
@@ -158,7 +155,18 @@ public class CreditCardService {
 
 	public Collection<CreditCard> findAll() {
 		Collection<CreditCard> result;
-		result = creditCardRepository.findAll();
+		result = this.creditCardRepository.findAll();
+		return result;
+	}
+
+	public CreditCard create(final CreditCard creditCard) {
+		final CreditCard result = new CreditCard();
+		result.setBrandName(creditCard.getBrandName());
+		result.setCreditCardNumber(creditCard.getCreditCardNumber());
+		result.setCVV(creditCard.getCVV());
+		result.setExpirationMonth(creditCard.getExpirationMonth());
+		result.setExpirationYear(creditCard.getExpirationYear());
+		result.setHolderName(creditCard.getHolderName());
 		return result;
 	}
 }
