@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -35,6 +36,7 @@ public class SocialIdentity extends DomainEntity {
 
 
 	@NotBlank
+	@SafeHtml
 	public String getNick() {
 		return this.nick;
 	}
@@ -42,6 +44,7 @@ public class SocialIdentity extends DomainEntity {
 		this.nick = nick;
 	}
 	@NotBlank
+	@SafeHtml
 	public String getSocialNetworkName() {
 		return this.socialNetworkName;
 	}
@@ -51,6 +54,7 @@ public class SocialIdentity extends DomainEntity {
 
 	@URL
 	@NotBlank
+	@SafeHtml
 	public String getSocialNetworkLink() {
 		return this.socialNetworkLink;
 	}

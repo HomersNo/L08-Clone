@@ -46,26 +46,26 @@ public class AuditAuditorController extends AbstractController {
 	// Listing ----------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam int propertyId) {
+	public ModelAndView create(@RequestParam final int propertyId) {
 		ModelAndView result;
 		Audit audit;
-		Property property = propertyService.findOne(propertyId);
-		Auditor principal = auditorService.findByPrincipal();
+		final Property property = this.propertyService.findOne(propertyId);
+		final Auditor principal = this.auditorService.findByPrincipal();
 
-		audit = auditService.create();
+		audit = this.auditService.create();
 		audit.setProperty(property);
 		audit.setAuditor(principal);
-		result = createEditModelAndView(audit);
+		result = this.createEditModelAndView(audit);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int auditId) {
+	public ModelAndView edit(@RequestParam final int auditId) {
 		ModelAndView result;
 
-		Audit audit = auditService.findOneToEdit(auditId);
-		result = createEditModelAndView(audit);
+		final Audit audit = this.auditService.findOneToEdit(auditId);
+		result = this.createEditModelAndView(audit);
 
 		result.addObject("audit", audit);
 
@@ -73,77 +73,77 @@ public class AuditAuditorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(@Valid Audit audit, BindingResult binding) {
+	public ModelAndView edit(@Valid Audit audit, final BindingResult binding) {
 
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(audit);
-		} else {
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(audit);
+		else if (!(this.auditService.isAttachment(audit.getAttachments()))) {
+			result = this.createEditModelAndView(audit);
+			result.addObject("message", "audit.error.url");
+		} else
 			try {
-				audit = auditService.reconstruct(audit, binding);
+				audit = this.auditService.reconstruct(audit, binding);
 				audit.setDraft(false);
-				audit = auditService.save(audit);
+				audit = this.auditService.save(audit);
 				result = new ModelAndView("redirect:/audit/display.do?auditId=" + audit.getId());
-			} catch (Throwable oops) {
-				result = createEditModelAndView(audit, "audit.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(audit, "audit.commit.error");
 			}
-		}
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "savedraft")
-	public ModelAndView saveDraft(@Valid Audit audit, BindingResult binding) {
+	public ModelAndView saveDraft(@Valid Audit audit, final BindingResult binding) {
 
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(audit);
-		} else {
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(audit);
+		else
 			try {
-				audit = auditService.reconstruct(audit, binding);
+				audit = this.auditService.reconstruct(audit, binding);
 				audit.setDraft(true);
-				audit = auditService.save(audit);
+				audit = this.auditService.save(audit);
 				result = new ModelAndView("redirect:/audit/display.do?auditId=" + audit.getId());
-			} catch (Throwable oops) {
-				result = createEditModelAndView(audit, "audit.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(audit, "audit.commit.error");
 			}
-		}
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid Audit audit, BindingResult binding) {
+	public ModelAndView delete(@Valid final Audit audit, final BindingResult binding) {
 
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(audit);
-		} else {
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(audit);
+		else
 			try {
-				auditService.delete(audit);
+				this.auditService.delete(audit);
 				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (Throwable oops) {
-				result = createEditModelAndView(audit, "audit.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(audit, "audit.commit.error");
 			}
-		}
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(Audit audit) {
+	protected ModelAndView createEditModelAndView(final Audit audit) {
 		ModelAndView result;
 
-		result = createEditModelAndView(audit, null);
+		result = this.createEditModelAndView(audit, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(Audit audit, String message) {
+	protected ModelAndView createEditModelAndView(final Audit audit, final String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("audit/edit");
 		result.addObject("audit", audit);
-		result.addObject("errorMessage", message);
+		result.addObject("message", message);
 		result.addObject("requestURI", "audit/auditor/edit.do");
 		result.addObject("cancelURI", "welcome/index.do");
 
@@ -155,10 +155,10 @@ public class AuditAuditorController extends AbstractController {
 
 		ModelAndView result;
 		Auditor auditor;
-		auditor = auditorService.findByPrincipal();
+		auditor = this.auditorService.findByPrincipal();
 		Collection<Audit> audits;
 
-		audits = auditService.findAllByAuditor(auditor.getId());
+		audits = this.auditService.findAllByAuditor(auditor.getId());
 
 		result = new ModelAndView("audit/list");
 		result.addObject("audits", audits);
