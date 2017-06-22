@@ -35,13 +35,6 @@
 	<acme:textbox code="lessor.picture" path="picture"/>
 	
 	<acme:submit name="save" code="lessor.save"/>
-		
-		
-	<jstl:if test="${user.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="lessor.delete" />"
-			onclick="return confirm('<spring:message code="lessor.confirm.delete" />')" />&nbsp;
-	</jstl:if>
 	
 	<acme:cancel url="welcome/index.do" code="lessor.cancel"/>
 	

@@ -31,11 +31,6 @@
 		value="<spring:message code="tenant.save" />" 
 		onclick="location.href = 'tenant/display.do';" />&nbsp; 
 	
-	<jstl:if test="${tenant.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="tenant.delete" />" />&nbsp; 
-	</jstl:if>
-	
 	<input type="button" name="cancel"
 		value="<spring:message code="tenant.cancel" />"
 		onclick="location.href = 'welcome/index.do';" />&nbsp;
