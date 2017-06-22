@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -42,20 +43,22 @@ public class CreditCard extends DomainEntity {
 
 
 	@NotBlank
+	@SafeHtml
 	public String getHolderName() {
-		return holderName;
+		return this.holderName;
 	}
 
-	public void setHolderName(String holderName) {
+	public void setHolderName(final String holderName) {
 		this.holderName = holderName;
 	}
 
 	@NotBlank
+	@SafeHtml
 	public String getBrandName() {
-		return brandName;
+		return this.brandName;
 	}
 
-	public void setBrandName(String brandName) {
+	public void setBrandName(final String brandName) {
 		this.brandName = brandName;
 	}
 
@@ -63,41 +66,41 @@ public class CreditCard extends DomainEntity {
 	@Column(length = 16)
 	@NotBlank
 	public String getCreditCardNumber() {
-		return creditCardNumber;
+		return this.creditCardNumber;
 	}
 
-	public void setCreditCardNumber(String creditCardNumber) {
+	public void setCreditCardNumber(final String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
 
 	@NotNull
 	@Range(min = 1, max = 12)
 	public int getExpirationMonth() {
-		return expirationMonth;
+		return this.expirationMonth;
 	}
 
-	public void setExpirationMonth(int expirationMonth) {
+	public void setExpirationMonth(final int expirationMonth) {
 		this.expirationMonth = expirationMonth;
 	}
 
 	@NotNull
 	@Range(min = 0, max = 99)
 	public int getExpirationYear() {
-		return expirationYear;
+		return this.expirationYear;
 	}
 
-	public void setExpirationYear(int expirationYear) {
+	public void setExpirationYear(final int expirationYear) {
 		this.expirationYear = expirationYear;
 	}
 
 	@NotNull
 	@Range(min = 0, max = 999)
 	public int getCVV() {
-		return CVV;
+		return this.CVV;
 	}
 
-	public void setCVV(int cVV) {
-		CVV = cVV;
+	public void setCVV(final int cVV) {
+		this.CVV = cVV;
 	}
 
 }

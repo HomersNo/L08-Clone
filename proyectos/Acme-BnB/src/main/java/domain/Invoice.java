@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -41,40 +42,43 @@ public class Invoice extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
-		return moment;
+		return this.moment;
 	}
-	public void setMoment(Date moment) {
+	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
 
 	public Double getTotalAmount() {
-		return totalAmount;
+		return this.totalAmount;
 	}
-	public void setTotalAmount(Double totalAmount) {
+	public void setTotalAmount(final Double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 
 	@NotBlank
+	@SafeHtml
 	public String getVATNumber() {
-		return VATNumber;
+		return this.VATNumber;
 	}
-	public void setVATNumber(String VATNumber) {
+	public void setVATNumber(final String VATNumber) {
 		this.VATNumber = VATNumber;
 	}
 
 	@NotBlank
+	@SafeHtml
 	public String getTenantInformation() {
-		return tenantInformation;
+		return this.tenantInformation;
 	}
-	public void setTenantInformation(String tenantInformation) {
+	public void setTenantInformation(final String tenantInformation) {
 		this.tenantInformation = tenantInformation;
 	}
 
 	@NotBlank
+	@SafeHtml
 	public String getDetails() {
-		return details;
+		return this.details;
 	}
-	public void setDetails(String details) {
+	public void setDetails(final String details) {
 		this.details = details;
 	}
 
@@ -88,18 +92,18 @@ public class Invoice extends DomainEntity {
 	@Valid
 	@OneToOne(optional = false)
 	public Request getRequest() {
-		return request;
+		return this.request;
 	}
-	public void setRequest(Request request) {
+	public void setRequest(final Request request) {
 		this.request = request;
 	}
 
 	@Valid
 	@OneToOne(optional = false)
 	public CreditCard getCreditCardCopy() {
-		return creditCardCopy;
+		return this.creditCardCopy;
 	}
-	public void setCreditCardCopy(CreditCard creditCardCopy) {
+	public void setCreditCardCopy(final CreditCard creditCardCopy) {
 		this.creditCardCopy = creditCardCopy;
 	}
 

@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -33,10 +34,11 @@ public class Attribute extends DomainEntity {
 
 
 	@NotBlank
+	@SafeHtml
 	public String getAttributeName() {
-		return attributeName;
+		return this.attributeName;
 	}
-	public void setAttributeName(String attributeName) {
+	public void setAttributeName(final String attributeName) {
 		this.attributeName = attributeName;
 	}
 
@@ -49,9 +51,9 @@ public class Attribute extends DomainEntity {
 	@Valid
 	@OneToMany(mappedBy = "attribute")
 	public Collection<Value> getValues() {
-		return values;
+		return this.values;
 	}
-	public void setValues(Collection<Value> values) {
+	public void setValues(final Collection<Value> values) {
 		this.values = values;
 	}
 

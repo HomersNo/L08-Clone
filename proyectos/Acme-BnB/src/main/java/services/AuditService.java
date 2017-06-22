@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AuditRepository;
+import domain.Actor;
 import domain.Audit;
 import domain.Auditor;
 
@@ -42,91 +43,100 @@ public class AuditService {
 	@Autowired
 	private Validator				validator;
 
+	@Autowired
+	private ActorService			actorService;
+
 
 	//CRUD
 
 	public Audit create() {
 
-		Audit result = new Audit();
-		result.setAuditor(auditorService.findByPrincipal());
-		Date moment = new Date(System.currentTimeMillis() - 100);
+		final Audit result = new Audit();
+		result.setAuditor(this.auditorService.findByPrincipal());
+		final Date moment = new Date(System.currentTimeMillis() - 100);
 		result.setMoment(moment);
 		return result;
 	}
 
-	public Audit findOneToEdit(int id) {
+	public Audit findOneToEdit(final int id) {
 		Audit result;
-		result = auditRepository.findOne(id);
+		result = this.auditRepository.findOne(id);
 		Assert.isTrue(result.getDraft());
 		return result;
 	}
 
-	public Audit findOne(int id) {
+	public Audit findOne(final int id) {
 		Audit result;
-		result = auditRepository.findOne(id);
+		result = this.auditRepository.findOne(id);
 		return result;
 	}
 
-	public Audit save(Audit audit) {
+	public Audit save(final Audit audit) {
 		Audit result;
-		auditorService.checkAuditor();
-		Date moment = new Date(System.currentTimeMillis() - 100);
+		this.auditorService.checkAuditor();
+		final Date moment = new Date(System.currentTimeMillis() - 100);
 		audit.setMoment(moment);
-		result = auditRepository.save(audit);
+		result = this.auditRepository.save(audit);
 		return result;
 	}
 
-	public void delete(Audit audit) {
+	public void delete(final Audit audit) {
 
-		auditorService.checkAuditor();
-		auditRepository.delete(audit);
+		this.auditorService.checkAuditor();
+		this.auditRepository.delete(audit);
 	}
 
-	public Collection<Audit> findAllByProperty(int propertyId) {
+	public Collection<Audit> findAllByProperty(final int propertyId) {
 
-		Collection<Audit> result = auditRepository.findAllByProperty(propertyId);
+		final Actor principal = this.actorService.findByPrincipal();
+
+		Collection<Audit> result;
+
+		if (principal instanceof Auditor)
+			result = this.auditRepository.findAllByProperty(propertyId);
+		else
+			result = this.auditRepository.findAllByPropertyNotDraft(propertyId);
 		return result;
 	}
+	public Collection<Audit> findAllByAuditor(final int auditorId) {
 
-	public Collection<Audit> findAllByAuditor(int auditorId) {
-
-		Collection<Audit> result = auditRepository.findAllByAuditor(auditorId);
+		final Collection<Audit> result = this.auditRepository.findAllByAuditor(auditorId);
 		return result;
 	}
 
 	//Business Methods
 
-	public Audit reconstruct(Audit audit, BindingResult binding) {
+	public Audit reconstruct(final Audit audit, final BindingResult binding) {
 		Audit result;
 
 		if (audit.getId() == 0) {
-			result = create();
+			result = this.create();
 			result.setProperty(audit.getProperty());
 			result.setText(audit.getText());
 			result.setAttachments(audit.getAttachments());
 			result.setMoment(audit.getMoment());
 			result.setDraft(audit.getDraft());
 		} else {
-			result = auditRepository.findOne(audit.getId());
+			result = this.auditRepository.findOne(audit.getId());
 
 			result.setText(audit.getText());
 			result.setAttachments(audit.getAttachments());
 			result.setMoment(audit.getMoment());
 			result.setDraft(audit.getDraft());
 
-			validator.validate(result, binding);
+			this.validator.validate(result, binding);
 		}
 
 		return result;
 	}
 
-	public List<String> urlsFromString(String attachments) {
+	public List<String> urlsFromString(final String attachments) {
 
-		List<String> result = new ArrayList<String>();
-		String[] parts = attachments.split(",");
+		final List<String> result = new ArrayList<String>();
+		final String[] parts = attachments.split(",");
 		for (int i = 0; i < parts.length; i++) {
 
-			String s = parts[i].trim();
+			final String s = parts[i].trim();
 			result.add(s);
 		}
 
@@ -134,37 +144,50 @@ public class AuditService {
 	}
 
 	public Double[] findAvgMinAndMaxPerProperty() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Double[] result = auditRepository.findAvgMinAndMaxPerProperty();
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Double[] result = this.auditRepository.findAvgMinAndMaxPerProperty();
 		return result;
 	}
 
-	Audit findAuditInCommon(int propertyId) {
+	Audit findAuditInCommon(final int propertyId) {
 
-		Auditor auditor = auditorService.findByPrincipal();
+		final Auditor auditor = this.auditorService.findByPrincipal();
 		Audit audit;
-		audit = auditRepository.findAuditInCommon(auditor.getId(), propertyId);
+		audit = this.auditRepository.findAuditInCommon(auditor.getId(), propertyId);
 
 		return audit;
 	}
 
-	public Boolean hasCommon(int propertyId) {
+	public Boolean hasCommon(final int propertyId) {
 
 		Audit audit;
 		Boolean result = true;
 		audit = this.findAuditInCommon(propertyId);
-		if (audit == null) {
-
+		if (audit == null)
 			result = false;
-		}
 
 		return result;
 	}
 
 	public Collection<Audit> findAll() {
 		Collection<Audit> result;
-		result = auditRepository.findAll();
+		result = this.auditRepository.findAll();
 		return result;
+	}
+
+	public boolean isAttachment(final String att) {
+
+		boolean res = true;
+		final String[] split = att.split(",");
+
+		for (int i = 0; i < split.length; i++)
+			if (!(split[i].trim().matches("\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"))) {
+
+				res = false;
+				break;
+			}
+
+		return res;
 	}
 
 }

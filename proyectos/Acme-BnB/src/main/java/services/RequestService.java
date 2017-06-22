@@ -42,10 +42,10 @@ public class RequestService {
 
 	//Basic CRUD methods-------------------
 
-	public Request create(Property property) {
+	public Request create(final Property property) {
 
 		Request created;
-		Tenant principal = tenantService.findByPrincipal();
+		final Tenant principal = this.tenantService.findByPrincipal();
 		created = new Request();
 		created.setTenant(principal);
 		created.setStatus("PENDING");
@@ -54,75 +54,75 @@ public class RequestService {
 		return created;
 	}
 
-	public Request findOne(int requestId) {
+	public Request findOne(final int requestId) {
 
 		Request retrieved;
-		retrieved = requestRepository.findOne(requestId);
-		Assert.isTrue(checkPrincipal(retrieved) || retrieved.getProperty().getLessor().equals(lessorService.findByPrincipal()));
+		retrieved = this.requestRepository.findOne(requestId);
+		Assert.isTrue(this.checkPrincipal(retrieved) || retrieved.getProperty().getLessor().equals(this.lessorService.findByPrincipal()));
 		return retrieved;
 	}
 
-	public Collection<Request> findAllByTenant(Tenant t) {
+	public Collection<Request> findAllByTenant(final Tenant t) {
 
-		return requestRepository.findAllByTenantId(t.getId());
+		return this.requestRepository.findAllByTenantId(t.getId());
 	}
 
-	public Collection<Request> findAllByLessor(Lessor l) {
+	public Collection<Request> findAllByLessor(final Lessor l) {
 
-		return requestRepository.findAllByLessorId(l.getId());
+		return this.requestRepository.findAllByLessorId(l.getId());
 	}
 
-	public Request save(Request request) {
+	public Request save(final Request request) {
 		Request saved;
-		Assert.notNull(tenantService.findByPrincipal());
-		long diff = request.getCheckOutDate().getTime() - request.getCheckInDate().getTime();
+		Assert.notNull(this.tenantService.findByPrincipal());
+		final long diff = request.getCheckOutDate().getTime() - request.getCheckInDate().getTime();
 		Assert.isTrue(request.getCheckInDate().before(request.getCheckOutDate()));
 		//Checks if there is one day of difference between the check in and the checkout
 		Assert.isTrue((diff * 1.0 / (3600 * 1000 * 24)) >= 1.0);
-		saved = requestRepository.save(request);
+		saved = this.requestRepository.save(request);
 		return saved;
 
 	}
 
-	public Request accept(Request request) {
-		Lessor lessor = lessorService.findByPrincipal();
+	public Request accept(final Request request) {
+		final Lessor lessor = this.lessorService.findByPrincipal();
 		Request result;
 		result = request;
 		result.setStatus("ACCEPTED");
-		result = requestRepository.save(request);
-		lessorService.addFee(lessor);
+		result = this.requestRepository.save(request);
+		this.lessorService.addFee(lessor);
 		return result;
 	}
 
-	public Request deny(Request request) {
+	public Request deny(final Request request) {
 
 		Request result;
 		result = request;
 		result.setStatus("DENIED");
-		result = requestRepository.save(request);
+		result = this.requestRepository.save(request);
 		return result;
 	}
 
-	public void delete(Request request) {
+	public void delete(final Request request) {
 
-		requestRepository.delete(request);
+		this.requestRepository.delete(request);
 
 	}
 
 	public Collection<Request> findAll() {
 
-		return requestRepository.findAll();
+		return this.requestRepository.findAll();
 	}
 
 	// Other business methods -------------------------------------------------
 
-	public Request reconstruct(Request request, BindingResult binding) {
+	public Request reconstruct(final Request request, final BindingResult binding) {
 		Request result;
 
-		if (request.getId() == 0) {
+		if (request.getId() == 0)
 			result = request;
-		} else {
-			result = requestRepository.findOne(request.getId());
+		else {
+			result = this.requestRepository.findOne(request.getId());
 
 			result.setCheckInDate(request.getCheckInDate());
 			result.setCheckOutDate(request.getCheckOutDate());
@@ -133,62 +133,54 @@ public class RequestService {
 			result.setStatus(request.getStatus());
 			result.setTenant(request.getTenant());
 
-			validator.validate(result, binding);
+			this.validator.validate(result, binding);
 		}
 
 		return result;
 	}
 
-	public Boolean checkPrincipal(Request e) {
+	public Boolean checkPrincipal(final Request e) {
 
 		Boolean result = false;
-		UserAccount tenantUser = e.getTenant().getUserAccount();
-		UserAccount principal = LoginService.getPrincipal();
-		if (tenantUser.equals(principal)) {
+		final UserAccount tenantUser = e.getTenant().getUserAccount();
+		final UserAccount principal = LoginService.getPrincipal();
+		if (tenantUser.equals(principal))
 			result = true;
-		}
 		return result;
 
 	}
 
 	public Double[] findAverageAcceptedDeniedPerTenant() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Double[] result = {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Double[] result = {
 			0.0, 0.0
 		};
-		result[0] = requestRepository.findAverageAcceptedPerTenant();
-		result[1] = requestRepository.findAverageDeniedPerTenant();
+		result[0] = this.requestRepository.findAverageAcceptedPerTenant();
+		result[1] = this.requestRepository.findAverageDeniedPerTenant();
 		return result;
 	}
 
 	public Double[] findAverageAcceptedDeniedPerLessor() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Double[] result = {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Double[] result = {
 			0.0, 0.0
 		};
-		result[0] = requestRepository.findAverageAcceptedPerLessor();
-		result[1] = requestRepository.findAverageDeniedPerLessor();
+		result[0] = this.requestRepository.findAverageAcceptedPerLessor();
+		result[1] = this.requestRepository.findAverageDeniedPerLessor();
 		return result;
 	}
 
 	public Double[] findAvrageByPropertyWithOverWithoutInvoice() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Double[] unprocessedAverage = requestRepository.findAverageByPropertyWithInvoice();
-		Double[] result = {
-			0.0, 0.0
+		Assert.notNull(this.administratorService.findByPrincipal());
+		Double with = 0.0;
+		final Double without = 0.0;
+		if (this.requestRepository.findAverageByPropertyWithInvoice() != null)
+			with = this.requestRepository.findAverageByPropertyWithInvoice();
+		if (this.requestRepository.findAverageByPropertyWithoutInvoice() != null)
+			with = this.requestRepository.findAverageByPropertyWithoutInvoice();
+		final Double[] result = {
+			with, without
 		};
-		Double aux = 0.0;
-		for (Double d : unprocessedAverage) {
-			aux += d;
-		}
-		result[0] = aux / unprocessedAverage.length;
-
-		unprocessedAverage = requestRepository.findAverageByPropertyWithoutInvoice();
-		aux = 0.0;
-		for (Double d : unprocessedAverage) {
-			aux += d;
-		}
-		result[1] = aux / unprocessedAverage.length;
 		return result;
 
 	}

@@ -28,5 +28,10 @@ name="invoice" requestURI="${requestURI}" id="row">
 	<spring:message code="invoice.totalAmount" var="totalAmount"/>
 	<display:column property="totalAmount" title="${totalAmount}"/>
 	
+	<spring:message code="invoice.cc" var="ccHeader"/>
+	<display:column title="${ccHeader}">
+		<jstl:out value="${cc }"/>
+	</display:column>
+	
 </display:table>
 <br/>

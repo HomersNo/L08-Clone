@@ -23,15 +23,25 @@
 	name="audits" requestURI="${requestURI}" id="row">
 	<security:authentication property="principal" var ="loggedactor"/>
 	
-	
+	<jstl:if test="${!row.draft ||(row.draft && row.auditor.userAccount == loggedactor)}">
 	
 	<security:authorize access="isAuthenticated()">
 	<display:column>
+	
+	
 		<a href="audit/display.do?auditId=${row.id}">${row.auditor.name} ${row.auditor.surname} -- ${row.property.name}</a>
 	</display:column>
+
+
 	
 	<spring:message code="audit.moment" var="momentHeader" />
-	<display:column property="moment" title="${momentHeader}" sortable="true" />
+
+	
+	<display:column title="${momentHeader}" sortable="true" >
+		<jstl:out value="${row.moment }"/>
+	</display:column>
+
+
 	</security:authorize>
 	
 	<security:authorize access="hasRole('AUDITOR')">
@@ -46,6 +56,6 @@
 
 	</security:authorize>
 	
-
+	</jstl:if>
 </display:table>
 

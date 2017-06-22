@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -41,10 +42,11 @@ public class Audit extends DomainEntity {
 
 
 	@NotBlank
+	@SafeHtml
 	public String getText() {
-		return text;
+		return this.text;
 	}
-	public void setText(String text) {
+	public void setText(final String text) {
 		this.text = text;
 	}
 
@@ -53,25 +55,26 @@ public class Audit extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
-		return moment;
+		return this.moment;
 	}
-	public void setMoment(Date moment) {
+	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
 
+	@SafeHtml
 	public String getAttachments() {
 
-		return attachments;
+		return this.attachments;
 	}
-	public void setAttachments(String attachments) {
+	public void setAttachments(final String attachments) {
 		this.attachments = attachments;
 	}
 
 	@NotNull
 	public boolean getDraft() {
-		return draft;
+		return this.draft;
 	}
-	public void setDraft(boolean draft) {
+	public void setDraft(final boolean draft) {
 		this.draft = draft;
 	}
 
@@ -85,18 +88,18 @@ public class Audit extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Auditor getAuditor() {
-		return auditor;
+		return this.auditor;
 	}
-	public void setAuditor(Auditor auditor) {
+	public void setAuditor(final Auditor auditor) {
 		this.auditor = auditor;
 	}
 
 	@Valid
 	@ManyToOne(optional = false)
 	public Property getProperty() {
-		return property;
+		return this.property;
 	}
-	public void setProperty(Property property) {
+	public void setProperty(final Property property) {
 		this.property = property;
 	}
 
