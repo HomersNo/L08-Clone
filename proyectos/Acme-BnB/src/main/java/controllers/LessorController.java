@@ -50,27 +50,26 @@ public class LessorController extends AbstractController {
 
 		lessor = new Register();
 		lessor.setAccept(false);
-		result = createEditModelAndView(lessor);
+		result = this.createEditModelAndView(lessor);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam(required = false, defaultValue = "0") int lessorId) {
+	public ModelAndView display(@RequestParam(required = false, defaultValue = "0") final int lessorId) {
 
 		ModelAndView result;
 		Lessor lessor;
 		Collection<SocialIdentity> socialIdentities;
 		Collection<Comment> comments;
 
-		if (lessorId == 0) {
-			lessor = lessorService.findByPrincipal();
-		} else {
-			lessor = lessorService.findOne(lessorId);
-		}
+		if (lessorId == 0)
+			lessor = this.lessorService.findByPrincipal();
+		else
+			lessor = this.lessorService.findOne(lessorId);
 
-		socialIdentities = socialIdentityService.findAllByActor(lessor.getId());
-		comments = commentService.allCommentsOfAnActor(lessor.getId());
+		socialIdentities = this.socialIdentityService.findAllByActor(lessor.getId());
+		comments = this.commentService.allCommentsOfAnActor(lessor.getId());
 
 		result = new ModelAndView("lessor/display");
 		result.addObject("lessor", lessor);
@@ -81,35 +80,35 @@ public class LessorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Register registerLessor, BindingResult binding) {
+	public ModelAndView save(@Valid final Register registerLessor, final BindingResult binding) {
 		ModelAndView result;
 		Lessor lessor;
 
-		lessor = lessorService.reconstruct(registerLessor, binding);
+		lessor = this.lessorService.reconstruct(registerLessor, binding);
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(registerLessor);
-		} else {
+			registerLessor.setAccept(false);
+			result = this.createEditModelAndView(registerLessor);
+		} else
 			try {
-				lessor = lessorService.register(lessor);
+				lessor = this.lessorService.register(lessor);
 				result = new ModelAndView("redirect:/lessor/display.do?lessorId=" + lessor.getId());
-			} catch (Throwable oops) {
-				result = createEditModelAndView(registerLessor, "lessor.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(registerLessor, "lessor.commit.error");
 			}
-		}
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(Register lessor) {
+	protected ModelAndView createEditModelAndView(final Register lessor) {
 		ModelAndView result;
 
-		result = createEditModelAndView(lessor, null);
+		result = this.createEditModelAndView(lessor, null);
 
 		return result;
 	}
-	protected ModelAndView createEditModelAndView(Register lessor, String message) {
+	protected ModelAndView createEditModelAndView(final Register lessor, final String message) {
 		ModelAndView result;
 
-		String requestURI = "lessor/edit.do";
+		final String requestURI = "lessor/edit.do";
 
 		result = new ModelAndView("lessor/register");
 		result.addObject("register", lessor);

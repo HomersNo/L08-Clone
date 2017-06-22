@@ -39,22 +39,21 @@ public class TenantController extends AbstractController {
 		tenant = new Register();
 		tenant.setAccept(false);
 
-		result = createEditModelAndView(tenant);
+		result = this.createEditModelAndView(tenant);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam(required = false, defaultValue = "0") int tenantId) {
+	public ModelAndView display(@RequestParam(required = false, defaultValue = "0") final int tenantId) {
 
 		ModelAndView result;
 		Tenant tenant;
 
-		if (tenantId == 0) {
-			tenant = tenantService.findByPrincipal();
-		} else {
-			tenant = tenantService.findOne(tenantId);
-		}
+		if (tenantId == 0)
+			tenant = this.tenantService.findByPrincipal();
+		else
+			tenant = this.tenantService.findOne(tenantId);
 		result = new ModelAndView("tenant/display");
 		result.addObject("tenant", tenant);
 		result.addObject("comments", tenant.getComments());
@@ -64,35 +63,35 @@ public class TenantController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Register registerTenant, BindingResult binding) {
+	public ModelAndView save(@Valid final Register registerTenant, final BindingResult binding) {
 		ModelAndView result;
 		Tenant tenant;
 
-		tenant = tenantService.reconstruct(registerTenant, binding);
+		tenant = this.tenantService.reconstruct(registerTenant, binding);
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(registerTenant);
-		} else {
+			registerTenant.setAccept(false);
+			result = this.createEditModelAndView(registerTenant);
+		} else
 			try {
-				tenant = tenantService.register(tenant);
+				tenant = this.tenantService.register(tenant);
 				result = new ModelAndView("redirect:/security/login.do");
-			} catch (Throwable oops) {
-				result = createEditModelAndView(registerTenant, "tenant.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(registerTenant, "tenant.commit.error");
 			}
-		}
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(Register tenant) {
+	protected ModelAndView createEditModelAndView(final Register tenant) {
 		ModelAndView result;
 
-		result = createEditModelAndView(tenant, null);
+		result = this.createEditModelAndView(tenant, null);
 
 		return result;
 	}
-	protected ModelAndView createEditModelAndView(Register tenant, String message) {
+	protected ModelAndView createEditModelAndView(final Register tenant, final String message) {
 		ModelAndView result;
 
-		String requestURI = "tenant/edit.do";
+		final String requestURI = "tenant/edit.do";
 
 		result = new ModelAndView("tenant/register");
 		result.addObject("register", tenant);
