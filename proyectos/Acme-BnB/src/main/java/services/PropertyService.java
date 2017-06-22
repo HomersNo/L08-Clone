@@ -56,7 +56,7 @@ public class PropertyService {
 		result = new Property();
 
 		result.setAudits(new ArrayList<Audit>());
-		result.setLessor(lessorService.findByPrincipal());
+		result.setLessor(this.lessorService.findByPrincipal());
 		result.setRequests(new ArrayList<Request>());
 		result.setValues(new ArrayList<Value>());
 		result.setDeleted(false);
@@ -67,139 +67,139 @@ public class PropertyService {
 	public Collection<Property> findAll() {
 		Collection<Property> result;
 
-		result = propertyRepository.findAll();
+		result = this.propertyRepository.findAll();
 		Assert.notNull(result);
 
 		return result;
 	}
 
-	public Collection<Property> findAllByFinderId(int finderId) {
+	public Collection<Property> findAllByFinderId(final int finderId) {
 		Collection<Property> result;
-		result = propertyRepository.findAllByFinderId(finderId);
+		result = this.propertyRepository.findAllByFinderId(finderId);
 
 		return result;
 	}
 
-	public Property findOne(int propertyId) {
+	public Property findOne(final int propertyId) {
 		Assert.isTrue(propertyId != 0);
 
 		Property result;
 
-		result = propertyRepository.findOne(propertyId);
+		result = this.propertyRepository.findOne(propertyId);
 		Assert.notNull(result);
 
 		return result;
 	}
 
-	public Property save(Property property) {
+	public Property save(final Property property) {
 		Assert.notNull(property);
-		checkPrincipal(property);
+		this.checkPrincipal(property);
 		Property result;
 
-		result = propertyRepository.save(property);
+		result = this.propertyRepository.save(property);
 
 		return result;
 	}
 
-	public void delete(Property property) {
+	public void delete(final Property property) {
 		Assert.notNull(property);
 		Assert.isTrue(property.getId() != 0);
-		Assert.isTrue(propertyRepository.exists(property.getId()));
-		checkPrincipal(property);
+		Assert.isTrue(this.propertyRepository.exists(property.getId()));
+		this.checkPrincipal(property);
 		property.setDeleted(true);
-		propertyRepository.save(property);
+		this.propertyRepository.save(property);
 	}
 
 	// Other business methods -------------------------------------------------
 
-	public Collection<Property> findAllByLessor(Lessor lessor) {
+	public Collection<Property> findAllByLessor(final Lessor lessor) {
 		Collection<Property> result;
-		result = propertyRepository.findAllByLessorId(lessor.getId());
+		result = this.propertyRepository.findAllByLessorId(lessor.getId());
 		return result;
 	}
 
-	public Property reconstruct(Property property, BindingResult binding) {
+	public Property reconstruct(final Property property, final BindingResult binding) {
 		Property result;
 
 		if (property.getId() == 0) {
-			result = create();
+			result = this.create();
 			result.setAddress(property.getAddress());
 			result.setDescription(property.getDescription());
 			result.setName(property.getName());
 			result.setRate(property.getRate());
 		} else {
-			result = propertyRepository.findOne(property.getId());
+			result = this.propertyRepository.findOne(property.getId());
 
 			result.setAddress(property.getAddress());
 			result.setDescription(property.getDescription());
 			result.setRate(property.getRate());
 			result.setName(property.getName());
 
-			validator.validate(result, binding);
+			this.validator.validate(result, binding);
 		}
 
 		return result;
 	}
 
-	Collection<Property> findAllByMinMaxRate(Double min, Double max) {
-		return propertyRepository.findAllByMinMaxRate(min, max);
+	Collection<Property> findAllByMinMaxRate(final Double min, final Double max) {
+		return this.propertyRepository.findAllByMinMaxRate(min, max);
 	}
 
-	Collection<Property> findAllByMinRate(Double min) {
-		return propertyRepository.findAllByMinRate(min);
+	Collection<Property> findAllByMinRate(final Double min) {
+		return this.propertyRepository.findAllByMinRate(min);
 	}
 
-	Collection<Property> findAllByMaxRate(Double max) {
-		return propertyRepository.findAllByMaxRate(max);
+	Collection<Property> findAllByMaxRate(final Double max) {
+		return this.propertyRepository.findAllByMaxRate(max);
 	}
 
-	Collection<Property> findAllByContainsKeyWordName(String name) {
-		return propertyRepository.findAllByContainsKeyWordName(name);
+	Collection<Property> findAllByContainsKeyWordName(final String name) {
+		return this.propertyRepository.findAllByContainsKeyWordName(name);
 	}
 
-	Collection<Property> findAllByContainsKeyWordAddress(String address) {
-		return propertyRepository.findAllByContainsKeyWordAddress(address);
+	Collection<Property> findAllByContainsKeyWordAddress(final String address) {
+		return this.propertyRepository.findAllByContainsKeyWordAddress(address);
 	}
 
-	Collection<Property> findAllByLessorOrderedByAudits(int lessorId) {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Property> result = propertyRepository.findAllByLessorOrderedByAudits(lessorId);
+	Collection<Property> findAllByLessorOrderedByAudits(final int lessorId) {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Property> result = this.propertyRepository.findAllByLessorOrderedByAudits(lessorId);
 		return result;
 	}
 
-	Collection<Property> findAllByLessorOrderedByRequests(int lessorId) {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Property> result = propertyRepository.findAllByLessorOrderedByRequests(lessorId);
+	Collection<Property> findAllByLessorOrderedByRequests(final int lessorId) {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Property> result = this.propertyRepository.findAllByLessorOrderedByRequests(lessorId);
 		return result;
 	}
 
-	Collection<Property> findAllByLessorOrderByAcceptedRequest(int lessorId) {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Property> result = propertyRepository.findAllByLessorOrderByAcceptedRequest(lessorId);
+	Collection<Property> findAllByLessorOrderByAcceptedRequest(final int lessorId) {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Property> result = this.propertyRepository.findAllByLessorOrderByAcceptedRequest(lessorId);
 		return result;
 	}
 
-	Collection<Property> findAllByLessorOrderByDeniedRequest(int lessorId) {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Property> result = propertyRepository.findAllByLessorOrderByDeniedRequest(lessorId);
+	Collection<Property> findAllByLessorOrderByDeniedRequest(final int lessorId) {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Property> result = this.propertyRepository.findAllByLessorOrderByDeniedRequest(lessorId);
 		return result;
 	}
 
-	Collection<Property> findAllByLessorOrderByPendingRequest(int lessorId) {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Property> result = propertyRepository.findAllByLessorOrderByPendingRequest(lessorId);
+	Collection<Property> findAllByLessorOrderByPendingRequest(final int lessorId) {
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Property> result = this.propertyRepository.findAllByLessorOrderByPendingRequest(lessorId);
 		return result;
 	}
 
-	public void checkPrincipal(Property property) {
-		Assert.isTrue(property.getLessor().equals(lessorService.findByPrincipal()));
+	public void checkPrincipal(final Property property) {
+		Assert.isTrue(property.getLessor().equals(this.lessorService.findByPrincipal()));
 	}
 
 	public Collection<Property> findAllAudited() {
 
-		Auditor auditor = auditorService.findByPrincipal();
+		final Auditor auditor = this.auditorService.findByPrincipal();
 		Collection<Property> result;
-		result = propertyRepository.findAllAudited(auditor.getId());
+		result = this.propertyRepository.findAllAudited(auditor.getId());
 
 		return result;
 
@@ -207,7 +207,13 @@ public class PropertyService {
 
 	public Collection<Property> findAllNotDeleted() {
 		Collection<Property> result;
-		result = propertyRepository.findAllNotDeleted();
+		result = this.propertyRepository.findAllNotDeleted();
+		return result;
+	}
+
+	public Collection<Property> search(final String destinationCity, final String string, final Double minimumPrice, final Double maximumPrice, final String keyWord) {
+		Collection<Property> result;
+		result = this.propertyRepository.search(destinationCity, string, minimumPrice, maximumPrice, keyWord);
 		return result;
 	}
 }

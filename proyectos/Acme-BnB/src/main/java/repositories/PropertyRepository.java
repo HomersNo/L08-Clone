@@ -54,4 +54,6 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
 	@Query("Select p from Property p where p.deleted = false order by p.requests.size")
 	Collection<Property> findAllNotDeleted();
 
+	@Query("select p from Value v right join v.property p where v.content like %?1% and v.attribute.attributeName like %?2% and p.deleted = false and (?3 = null OR ?3 <= p.rate) and (?4 = null OR ?4 >= p.rate) and (?5 = '' OR ?5 = null OR (p.name like %?5% AND p.address like %?5%) OR p.name like %?5% OR p.address like %?5%)")
+	Collection<Property> search(String city, String attrName, Double min, Double max, String keyword);
 }

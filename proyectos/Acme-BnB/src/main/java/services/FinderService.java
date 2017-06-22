@@ -75,62 +75,19 @@ public class FinderService {
 
 	public Finder save(final Finder finder) {
 
-		Finder saved;
-		Assert.notNull(finder);
-		Assert.isTrue(this.checkPrincipal(finder));
+		{
+			Collection<Property> filtered;
+			Finder result;
 
-		/*
-		 * Date lastUp = finder.getLastUpdate();
-		 * Calendar oneHourCal = Calendar.getInstance();
-		 * oneHourCal.add(Calendar.HOUR, -1);
-		 * Date oneHour = oneHourCal.getTime();
-		 * 
-		 * Calendar cal = Calendar.getInstance();
-		 * Calendar last = Calendar.getInstance();
-		 * Date now;
-		 * now = new Date(System.currentTimeMillis() - 3600 * 1000);
-		 * cal.setTime(now);
-		 * last.setTime(finder.getLastUpdate());
-		 * Date lastUpdateTime = last.getTime();
-		 * cal.add(Calendar.HOUR, -1);
-		 * Date dateOneHourBack = cal.getTime();
-		 */
-		//lastUpdateTime.getTime() - dateOneHourBack.getTime()<= 3600000 
+			filtered = this.propertyService.search(finder.getDestinationCity(), "City", finder.getMinimumPrice(), finder.getMaximumPrice(), finder.getKeyWord());
 
-		//inicializamos la colección filtrada de properties
-		Collection<Property> filtered;
-		filtered = new ArrayList<Property>();
-		//empezamos a añadir properties que cumplan con los requisitos
-		//primero la ciudad de destino
-		final String attribute = "City";
-		filtered.addAll(this.valueService.findAllPropertiesByValueContent(finder.getDestinationCity(), attribute));
-		//ahora el rate
-		final Double min = finder.getMinimumPrice();
-		final Double max = finder.getMaximumPrice();
-		if (finder.getMaximumPrice() != null && finder.getMinimumPrice() != null)
-			filtered.retainAll(this.propertyService.findAllByMinMaxRate(min, max));
-		if (finder.getMaximumPrice() != null && finder.getMinimumPrice() == null)
-			filtered.retainAll(this.propertyService.findAllByMinRate(min));
-		if (finder.getMaximumPrice() == null && finder.getMinimumPrice() != null)
-			filtered.retainAll(this.propertyService.findAllByMaxRate(max));
-		//por ultimo la KeyWord
-		if (finder.getKeyWord() == "") {
-			final String keyWord = finder.getKeyWord();
-			final Collection<Property> props = this.propertyService.findAllByContainsKeyWordAddress(keyWord);
-			props.addAll(this.propertyService.findAllByContainsKeyWordName(keyWord));
-			filtered.retainAll(props);
+			finder.setCache(filtered);
+			finder.setLastUpdate(new Date(System.currentTimeMillis() - 1));
+
+			result = this.finderRepository.save(finder);
+			return result;
 
 		}
-		//y ya cambiamos las properties a las filtradas
-		finder.setCache(filtered);
-
-		//actualizamos la fecha de la última búsqueda
-		final Date lastUpdate = new Date(System.currentTimeMillis() - 1);
-		finder.setLastUpdate(lastUpdate);
-
-		//guardamos
-		saved = this.finderRepository.save(finder);
-		return saved;
 	}
 
 	public void delete(final Finder finder) {
@@ -185,7 +142,7 @@ public class FinderService {
 
 	public Boolean checkCache(final Finder finder) {
 
-		Boolean res = true;
+		Boolean res = false;
 
 		final DateTime now = DateTime.now();
 
@@ -232,9 +189,9 @@ public class FinderService {
 
 			if (now.minusMillis(3600 * 1000).isBefore(last) && isEqual)
 				res = true;
-
-		} else
-			res = false;
+			else
+				res = false;
+		}
 
 		return res;
 	}
