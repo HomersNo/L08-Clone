@@ -45,94 +45,95 @@ public class CommentService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
-	public Comment create(Commentable commentable) {
+	public Comment create(final Commentable commentable) {
 		Comment created;
 		created = new Comment();
-		Date moment = new Date(System.currentTimeMillis() - 100);
-		Actor actor = actorService.findByPrincipal();
+		final Date moment = new Date(System.currentTimeMillis() - 100);
+		final Actor actor = this.actorService.findByPrincipal();
 		created.setActor(actor);
 		created.setMoment(moment);
 		created.setCommentable(commentable);
 
 		if (actor instanceof Tenant) {
 			if (commentable instanceof Lessor) {
-				Set<Lessor> commentables = lessorService.findAllCommentableLessors(actor.getId());
+				final Set<Lessor> commentables = this.lessorService.findAllCommentableLessors(actor.getId());
 				Assert.isTrue(commentables.contains(commentable));
 			}
-			if (commentable instanceof Tenant) {
+			if (commentable instanceof Tenant)
 				Assert.isTrue(actor.equals(commentable));
-			}
 		}
 		if (actor instanceof Lessor) {
 			if (commentable instanceof Tenant) {
-				Set<Lessor> commentables = lessorService.findAllCommentableLessors(commentable.getId());
+				final Set<Lessor> commentables = this.lessorService.findAllCommentableLessors(commentable.getId());
 				Assert.isTrue(commentables.contains(actor));
 			}
-			if (commentable instanceof Lessor) {
+			if (commentable instanceof Lessor)
 				Assert.isTrue(actor.equals(commentable));
-			}
 		}
 		return created;
 	}
 
-	public Comment findOne(int commentId) {
+	public Comment findOne(final int commentId) {
 		Comment retrieved;
-		retrieved = commentRepository.findOne(commentId);
+		retrieved = this.commentRepository.findOne(commentId);
 		return retrieved;
 	}
 
 	public Collection<Comment> findAll() {
-		return commentRepository.findAll();
+		return this.commentRepository.findAll();
 	}
 
-	public Comment save(Comment comment) {
+	public Comment save(final Comment comment) {
 
-		Comment saved = commentRepository.save(comment);
+		Assert.isTrue(this.actorService.findByPrincipal().getId() == comment.getActor().getId());
+		comment.setMoment(new Date(System.currentTimeMillis() - 1));
+
+		final Comment saved = this.commentRepository.save(comment);
 
 		return saved;
 	}
 
-	public void delete(Comment comment) {
-		commentRepository.delete(comment);
+	public void delete(final Comment comment) {
+		this.commentRepository.delete(comment);
 	}
 
-	public Collection<Comment> allCommentsOfAnActor(int commentableId) {
+	public Collection<Comment> allCommentsOfAnActor(final int commentableId) {
 
 		Collection<Comment> result;
-		result = commentRepository.allCommentsOfACommentable(commentableId);
+		result = this.commentRepository.allCommentsOfACommentable(commentableId);
 		return result;
 	}
 
-	public Collection<Comment> allCommentsOfAnActorDidToHimself(int actorId) {
+	public Collection<Comment> allCommentsOfAnActorDidToHimself(final int actorId) {
 
 		Collection<Comment> result;
-		result = commentRepository.allCommentsOfAnActorDidToHimself(actorId);
+		result = this.commentRepository.allCommentsOfAnActorDidToHimself(actorId);
 		return result;
 	}
 
-	public Collection<Comment> allCommentsExceptSelfComments(int actorId) {
+	public Collection<Comment> allCommentsExceptSelfComments(final int actorId) {
 
 		Collection<Comment> result;
-		result = commentRepository.allCommentsExceptSelfComments(actorId);
+		result = this.commentRepository.allCommentsExceptSelfComments(actorId);
 		return result;
 	}
 
 	// Auxiliary methods ------------------------------------------------------
 
 	// Our other bussiness methods --------------------------------------------
-	public Comment reconstruct(Comment comment, BindingResult binding) {
+	public Comment reconstruct(final Comment comment, final BindingResult binding) {
 		Comment result;
-		if (comment.getId() == 0) {
+		if (comment.getId() == 0)
 			result = comment;
-		} else {
-			result = commentRepository.findOne(comment.getId());
+		else {
+			result = this.commentRepository.findOne(comment.getId());
 
 			result.setMoment(comment.getMoment());
 			result.setText(comment.getText());
 			result.setTitle(comment.getTitle());
 			result.setStars(comment.getStars());
 
-			validator.validate(result, binding);
+			this.validator.validate(result, binding);
 		}
 		return result;
 	}

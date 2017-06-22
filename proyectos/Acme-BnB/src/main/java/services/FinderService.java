@@ -78,6 +78,7 @@ public class FinderService {
 		{
 			Collection<Property> filtered;
 			Finder result;
+			Assert.isTrue(this.tenantService.findByPrincipal().getId() == finder.getTenant().getId());
 
 			filtered = this.propertyService.search(finder.getDestinationCity(), "City", finder.getMinimumPrice(), finder.getMaximumPrice(), finder.getKeyWord());
 

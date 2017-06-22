@@ -54,10 +54,10 @@ public class TenantService {
 		created.setSocialIdentities(new ArrayList<SocialIdentity>());
 		created.setComments(new ArrayList<Comment>());
 
-		UserAccount userAccount = new UserAccount();
-		Authority authority = new Authority();
+		final UserAccount userAccount = new UserAccount();
+		final Authority authority = new Authority();
 		authority.setAuthority(Authority.TENANT);
-		Collection<Authority> authorities = new ArrayList<Authority>();
+		final Collection<Authority> authorities = new ArrayList<Authority>();
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 
@@ -69,65 +69,65 @@ public class TenantService {
 	public Collection<Tenant> findAll() {
 		Collection<Tenant> result;
 
-		result = tenantRepository.findAll();
+		result = this.tenantRepository.findAll();
 		Assert.notNull(result);
 
 		return result;
 	}
 
-	public Tenant findOne(int tenantId) {
+	public Tenant findOne(final int tenantId) {
 		Assert.isTrue(tenantId != 0);
 
 		Tenant result;
 
-		result = tenantRepository.findOne(tenantId);
+		result = this.tenantRepository.findOne(tenantId);
 		Assert.notNull(result);
 
 		return result;
 	}
 
-	public Tenant save(Tenant tenant) {
+	public Tenant save(final Tenant tenant) {
 		Assert.notNull(tenant);
-
+		Assert.isTrue(this.findByPrincipal().getId() == tenant.getId());
 		Tenant result;
 
-		result = tenantRepository.save(tenant);
+		result = this.tenantRepository.save(tenant);
 
 		return result;
 	}
 
-	public void delete(Tenant tenant) {
+	public void delete(final Tenant tenant) {
 		Assert.notNull(tenant);
 		Assert.isTrue(tenant.getId() != 0);
-		Assert.isTrue(tenantRepository.exists(tenant.getId()));
+		Assert.isTrue(this.tenantRepository.exists(tenant.getId()));
 
-		tenantRepository.delete(tenant);
+		this.tenantRepository.delete(tenant);
 
 	}
 
 	public Tenant findByPrincipal() {
 
-		Tenant tenant = tenantRepository.findOneByUserAccountId(LoginService.getPrincipal().getId());
+		final Tenant tenant = this.tenantRepository.findOneByUserAccountId(LoginService.getPrincipal().getId());
 		return tenant;
 
 	}
 
-	public Tenant findByUserAccountId(int userAccountId) {
+	public Tenant findByUserAccountId(final int userAccountId) {
 
-		Tenant user = tenantRepository.findOneByUserAccountId(userAccountId);
+		final Tenant user = this.tenantRepository.findOneByUserAccountId(userAccountId);
 		return user;
 
 	}
 
 	// Other business methods -------------------------------------------------
 
-	public Tenant reconstruct(Tenant tenant, BindingResult binding) {
+	public Tenant reconstruct(final Tenant tenant, final BindingResult binding) {
 		Tenant result;
 
-		if (tenant.getId() == 0) {
+		if (tenant.getId() == 0)
 			result = tenant;
-		} else {
-			result = tenantRepository.findOne(tenant.getId());
+		else {
+			result = this.tenantRepository.findOne(tenant.getId());
 
 			result.setEmail(tenant.getEmail());
 			result.setName(tenant.getName());
@@ -135,16 +135,16 @@ public class TenantService {
 			result.setPicture(tenant.getPicture());
 			result.setSurname(tenant.getSurname());
 
-			validator.validate(result, binding);
+			this.validator.validate(result, binding);
 		}
 
 		return result;
 	}
 
-	public Tenant reconstruct(Register registerTenant, BindingResult binding) {
+	public Tenant reconstruct(final Register registerTenant, final BindingResult binding) {
 		Tenant result;
 		Assert.isTrue(registerTenant.getAccept());
-		result = create();
+		result = this.create();
 
 		result.setEmail(registerTenant.getEmail());
 		result.setName(registerTenant.getName());
@@ -158,41 +158,41 @@ public class TenantService {
 		return result;
 	}
 
-	public Tenant register(Tenant tenant) {
+	public Tenant register(final Tenant tenant) {
 		Tenant result;
 
-		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 		// Convertimos la pass del usuario a hash.
-		String pass = encoder.encodePassword(tenant.getUserAccount().getPassword(), null);
+		final String pass = encoder.encodePassword(tenant.getUserAccount().getPassword(), null);
 		// Creamos una nueva cuenta y le pasamos los parametros.
 		tenant.getUserAccount().setPassword(pass);
 
-		result = tenantRepository.save(tenant);
+		result = this.tenantRepository.save(tenant);
 
 		return result;
 	}
 
 	public Collection<Tenant> findAllByAcceptedRequests() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Tenant> result = tenantRepository.findAllByAcceptedRequests();
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Tenant> result = this.tenantRepository.findAllByAcceptedRequests();
 		return result;
 	}
 
 	public Collection<Tenant> findAllByDeniedRequests() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Tenant> result = tenantRepository.findAllByDeniedRequests();
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Tenant> result = this.tenantRepository.findAllByDeniedRequests();
 		return result;
 	}
 
 	public Collection<Tenant> findAllByPendingRequests() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Collection<Tenant> result = tenantRepository.findAllByPendingRequests();
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Collection<Tenant> result = this.tenantRepository.findAllByPendingRequests();
 		return result;
 	}
 
 	public Tenant findByRequestedAcceptedRatio() {
-		Assert.notNull(administratorService.findByPrincipal());
-		Tenant result = tenantRepository.findByRequestedAcceptedRatio().iterator().next();
+		Assert.notNull(this.administratorService.findByPrincipal());
+		final Tenant result = this.tenantRepository.findByRequestedAcceptedRatio().iterator().next();
 		return result;
 	}
 
