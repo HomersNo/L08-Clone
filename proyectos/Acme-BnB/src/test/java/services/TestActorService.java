@@ -43,7 +43,7 @@ public class TestActorService extends AbstractTest {
 	@Test
 	public void testFindOne() {
 		final Actor actor = this.actorService.findOne(20);
-		System.out.println(actor.getName());
+		Assert.notNull(actor);
 	}
 
 	@Test

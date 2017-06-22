@@ -62,9 +62,8 @@ public class TestFinderService extends AbstractTest {
 		this.authenticate("tenant1");
 		final Finder finder = this.finderService.create();
 		finder.setDestinationCity("Sevilla");
-		finder.setKeyWord("calor");
 		finder.setMaximumPrice(120.0);
-		finder.setMinimumPrice(20.0);
+		finder.setMinimumPrice(0.0);
 
 		final Finder saved = this.finderService.save(finder);
 

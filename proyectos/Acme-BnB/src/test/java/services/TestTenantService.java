@@ -50,7 +50,7 @@ public class TestTenantService extends AbstractTest {
 		tenant.setPhone("1234");
 		tenant.setPicture("http://dfsdf.com");
 
-		final Tenant saved = this.tenantService.save(tenant);
+		final Tenant saved = this.tenantService.register(tenant);
 		Assert.isTrue(this.tenantService.findAll().contains(saved));
 	}
 

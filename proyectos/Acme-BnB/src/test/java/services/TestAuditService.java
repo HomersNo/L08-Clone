@@ -63,12 +63,14 @@ public class TestAuditService extends AbstractTest {
 
 	@Test
 	public void testSaveNegative() {
+		this.authenticate("auditor1");
 		final Audit audit = this.auditService.create();
 		try {
 			this.auditService.save(audit);
 		} catch (final Exception e) {
 			Assert.isInstanceOf(IllegalArgumentException.class, e);
 		}
+		this.unauthenticate();
 	}
 
 	@Test
