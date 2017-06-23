@@ -93,6 +93,7 @@ public class LessorController extends AbstractController {
 				lessor = this.lessorService.register(lessor);
 				result = new ModelAndView("redirect:/lessor/display.do?lessorId=" + lessor.getId());
 			} catch (final Throwable oops) {
+				registerLessor.setAccept(false);
 				result = this.createEditModelAndView(registerLessor, "lessor.commit.error");
 			}
 		return result;

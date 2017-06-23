@@ -101,7 +101,10 @@ public class AuditAuditorController extends AbstractController {
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(audit);
-		else
+		else if (!(this.auditService.isAttachment(audit.getAttachments()))) {
+			result = this.createEditModelAndView(audit);
+			result.addObject("message", "audit.error.url");
+		} else
 			try {
 				audit = this.auditService.reconstruct(audit, binding);
 				audit.setDraft(true);

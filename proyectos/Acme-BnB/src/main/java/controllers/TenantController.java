@@ -76,6 +76,7 @@ public class TenantController extends AbstractController {
 				tenant = this.tenantService.register(tenant);
 				result = new ModelAndView("redirect:/security/login.do");
 			} catch (final Throwable oops) {
+				registerTenant.setAccept(false);
 				result = this.createEditModelAndView(registerTenant, "tenant.commit.error");
 			}
 		return result;
